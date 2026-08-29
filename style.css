@@ -1,0 +1,363 @@
+/* HomeHunter — Produktseite. Keine externen Abhängigkeiten. */
+
+:root {
+  --ink:        #16181d;
+  --ink-soft:   #4a5058;
+  --ink-faint:  #767d86;
+  --rule:       #dcdfe4;
+  --rule-soft:  #ebedf0;
+  --paper:      #ffffff;
+  --paper-alt:  #f6f7f9;
+  --accent:     #1a4d7a;
+  --accent-bg:  #eef3f8;
+  --warn-bg:    #fbf7ef;
+  --warn-rule:  #e3d5b8;
+  --measure:    760px;
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+          Arial, "Noto Sans", sans-serif;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+          "Liberation Mono", monospace;
+}
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 17px;
+  line-height: 1.62;
+  overflow-x: hidden;
+  font-kerning: normal;
+}
+
+.wrap {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 0 24px 96px;
+}
+
+/* --- Sprachumschalter ---------------------------------------------- */
+
+.langbar {
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding: 20px 24px 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+#lang-toggle {
+  font: inherit;
+  font-size: 13px;
+  letter-spacing: .06em;
+  color: var(--ink-soft);
+  background: var(--paper-alt);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 5px 12px;
+  cursor: pointer;
+}
+#lang-toggle:hover { color: var(--accent); border-color: var(--accent); }
+#lang-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+html[data-lang="de"] [data-lang-block="en"],
+html[data-lang="en"] [data-lang-block="de"] { display: none; }
+
+/* --- Kopf ----------------------------------------------------------- */
+
+header.hero {
+  padding: 44px 0 8px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 44px;
+}
+
+h1 {
+  font-size: 40px;
+  line-height: 1.15;
+  letter-spacing: -.015em;
+  margin: 0 0 10px;
+  font-weight: 650;
+}
+
+.hero .claim {
+  font-size: 20px;
+  line-height: 1.45;
+  color: var(--ink-soft);
+  margin: 0 0 22px;
+  max-width: 34em;
+}
+
+.hero .byline {
+  font-size: 15px;
+  color: var(--ink-faint);
+  margin: 0 0 40px;
+}
+.hero .byline strong { color: var(--ink); font-weight: 600; }
+
+/* --- Abschnitte ----------------------------------------------------- */
+
+section { margin: 0 0 52px; }
+
+h2 {
+  font-size: 13px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 650;
+  margin: 0 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--rule);
+}
+
+h3 {
+  font-size: 17px;
+  font-weight: 640;
+  margin: 30px 0 8px;
+}
+
+p { margin: 0 0 16px; max-width: 40em; }
+p:last-child { margin-bottom: 0; }
+
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+
+code {
+  font-family: var(--mono);
+  font-size: .88em;
+  background: var(--paper-alt);
+  border: 1px solid var(--rule-soft);
+  border-radius: 3px;
+  padding: .08em .34em;
+  word-break: break-word;
+}
+
+ul { margin: 0 0 16px; padding-left: 22px; max-width: 40em; }
+li { margin-bottom: 7px; }
+li:last-child { margin-bottom: 0; }
+
+.lede { font-size: 18px; }
+
+/* --- Ablauf --------------------------------------------------------- */
+
+ol.flow {
+  list-style: none;
+  counter-reset: step;
+  margin: 0;
+  padding: 0;
+  max-width: 40em;
+}
+ol.flow > li {
+  counter-increment: step;
+  border-left: 2px solid var(--rule);
+  padding: 0 0 16px 20px;
+  margin: 0;
+  position: relative;
+}
+ol.flow > li:last-child { padding-bottom: 0; border-left-color: var(--accent); }
+ol.flow > li::before {
+  content: counter(step);
+  position: absolute;
+  left: -9px;
+  top: 3px;
+  width: 16px;
+  height: 16px;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 50%;
+  font-size: 10px;
+  line-height: 15px;
+  text-align: center;
+  color: var(--ink-faint);
+}
+ol.flow > li:last-child::before { border-color: var(--accent); color: var(--accent); }
+.flow .step {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .09em;
+  color: var(--accent);
+  display: block;
+}
+.flow .step-text { display: block; color: var(--ink-soft); }
+
+/* --- Tabellen ------------------------------------------------------- */
+
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0 0 12px;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 560px;
+  font-size: 14.5px;
+  line-height: 1.5;
+}
+caption {
+  text-align: left;
+  font-size: 15px;
+  font-weight: 640;
+  padding: 0 0 10px;
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--rule-soft);
+}
+thead th {
+  background: var(--paper-alt);
+  font-weight: 640;
+  font-size: 13px;
+  letter-spacing: .02em;
+  border-bottom: 1px solid var(--rule);
+  white-space: nowrap;
+}
+tbody tr:last-child td { border-bottom: 0; }
+td.num { white-space: nowrap; color: var(--ink-soft); }
+
+.note {
+  font-size: 14px;
+  color: var(--ink-faint);
+  max-width: 42em;
+  margin: 0 0 16px;
+}
+
+/* --- Bildplatzhalter ------------------------------------------------ */
+
+figure { margin: 0 0 30px; }
+.shot {
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background:
+    repeating-linear-gradient(135deg, #f2f4f6 0 12px, #eef0f3 12px 24px);
+  aspect-ratio: 16 / 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-faint);
+  font-family: var(--mono);
+  font-size: 12.5px;
+  text-align: center;
+  padding: 16px;
+}
+figcaption {
+  font-size: 14.5px;
+  color: var(--ink-soft);
+  padding-top: 9px;
+}
+figcaption b { color: var(--ink); font-weight: 640; }
+
+/* --- Hervorgehobener Block ------------------------------------------ */
+
+.limits {
+  background: var(--warn-bg);
+  border: 1px solid var(--warn-rule);
+  border-radius: 5px;
+  padding: 22px 24px 24px;
+}
+.limits h3 { margin-top: 22px; }
+.limits h3:first-of-type { margin-top: 0; }
+.limits p { margin-bottom: 0; max-width: 42em; }
+
+.panel {
+  background: var(--accent-bg);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 4px 4px 0;
+  padding: 16px 20px;
+  margin: 0 0 16px;
+}
+.panel p:last-child { margin-bottom: 0; }
+
+/* --- Fuß ------------------------------------------------------------ */
+
+footer {
+  border-top: 1px solid var(--rule);
+  padding-top: 22px;
+  font-size: 14px;
+  color: var(--ink-faint);
+}
+footer .impressum { margin-top: 22px; }
+footer h3 { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); margin: 0 0 8px; }
+footer p { margin-bottom: 8px; max-width: 40em; }
+
+.placeholder {
+  font-family: var(--mono);
+  font-size: .9em;
+  background: #fdf3f3;
+  border: 1px solid #e8caca;
+  border-radius: 3px;
+  padding: .08em .34em;
+}
+
+/* --- Schmale Fenster ------------------------------------------------ */
+
+@media (max-width: 560px) {
+  body { font-size: 16px; }
+  .wrap { padding: 0 18px 72px; }
+  .langbar { padding: 16px 18px 0; }
+  h1 { font-size: 32px; }
+  .hero .claim { font-size: 18px; }
+  .limits { padding: 18px 18px 20px; }
+}
+
+/* --- Druck (A4) ------------------------------------------------------ */
+/* Ziel: drei bis vier Blatt. Deshalb im Druck engere Abstände, zweispaltige
+   Bildschirmfotos und kein erzwungener Seitenumbruch vor ganzen Abschnitten. */
+
+@media print {
+  @page { margin: 14mm 13mm; }
+  html { font-size: 9.5pt; }
+  body { font-size: 9.5pt; line-height: 1.38; color: #000; background: #fff; }
+
+  .langbar, #lang-toggle { display: none !important; }
+  [data-lang-block="en"] { display: none !important; }
+
+  .wrap { max-width: none; padding: 0; }
+
+  header.hero { padding: 0 0 6pt; margin-bottom: 14pt; }
+  h1 { font-size: 21pt; margin-bottom: 4pt; }
+  .hero .claim { font-size: 11pt; margin-bottom: 6pt; }
+  .hero .byline { margin-bottom: 0; }
+
+  section { margin-bottom: 13pt; page-break-inside: auto; }
+  h2 { font-size: 9pt; margin-bottom: 7pt; padding-bottom: 4pt; }
+  h3 { font-size: 10.5pt; margin: 11pt 0 4pt; }
+  h2, h3 { page-break-after: avoid; }
+  p, ul { margin-bottom: 7pt; max-width: none; }
+  li { margin-bottom: 3pt; }
+  .lede { font-size: 10pt; }
+
+  ol.flow { max-width: none; }
+  ol.flow > li { padding-bottom: 6pt; page-break-inside: avoid; }
+
+  table { min-width: 0; font-size: 7.5pt; }
+  .table-scroll { overflow: visible; border-color: #999; }
+  th, td { padding: 2.5pt 5pt; border-bottom-color: #d4d4d4; }
+  thead th { background: #f0f0f0; font-size: 7.5pt; }
+  thead { display: table-header-group; }
+  tr { page-break-inside: avoid; }
+  caption { font-size: 9.5pt; padding-bottom: 5pt; }
+  .note { font-size: 7.5pt; margin-bottom: 8pt; }
+
+  /* Bildschirmfotos zweispaltig und klein — als Beleg, nicht als Schaustück. */
+  .shots { display: grid; grid-template-columns: 1fr 1fr; gap: 8pt 14pt; }
+  figure { margin: 0; page-break-inside: avoid; }
+  .shot { aspect-ratio: 16 / 10; background: #f2f2f2; border-color: #bbb; font-size: 7pt; }
+  figcaption { font-size: 7.5pt; padding-top: 3pt; line-height: 1.32; }
+
+  .limits { background: #fff; border: .8pt solid #999; padding: 10pt 12pt;
+           page-break-inside: avoid; }
+  .limits h3 { margin-top: 9pt; }
+  .panel { background: #fff; border-left: 1.5pt solid #333; padding: 7pt 10pt; }
+
+  a { color: #000; text-decoration: none; }
+  code { background: #f4f4f4; border-color: #ddd; }
+
+  footer { page-break-inside: avoid; padding-top: 10pt; font-size: 8pt; }
+  footer .impressum { margin-top: 10pt; }
+}

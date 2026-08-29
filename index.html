@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="de" data-lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HomeHunter — Wohnungssuche in Berlin</title>
+<meta name="description" content="HomeHunter ist eine Desktop-Anwendung, die Berliner Mietangebote aus zwanzig Quellen zusammenführt, sie gegen die schriftlichen Kriterien des Nutzers prüft und die Bewerbung vorbereitet, die der Nutzer selbst absendet.">
+<meta name="author" content="Damian Lapiha">
+<meta name="robots" content="index, follow">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="langbar">
+  <button id="lang-toggle" type="button" aria-label="Switch language to English">English</button>
+</div>
+
+<div class="wrap">
+
+<header class="hero">
+  <h1>HomeHunter</h1>
+  <p class="claim" data-lang-block="de">Eine Desktop-Anwendung für die Wohnungssuche in Berlin.</p>
+  <p class="claim" data-lang-block="en">A desktop application for finding a flat in Berlin.</p>
+  <p class="byline">
+    <strong>Damian Lapiha</strong> · Berlin ·
+    <a href="mailto:demilapkill@gmail.com">demilapkill@gmail.com</a>
+  </p>
+</header>
+
+<main>
+
+<!-- ================================================================ -->
+<!-- DEUTSCH                                                          -->
+<!-- ================================================================ -->
+<div data-lang-block="de">
+
+<section id="produkt">
+  <h2>Das Produkt</h2>
+  <p class="lede">HomeHunter sammelt Mietangebote aus zwanzig Quellen und führt dieselbe
+  Wohnung, die auf mehreren Portalen steht, zu einer Karte zusammen. Jedes Angebot
+  wird gegen die schriftlich festgelegten Kriterien des Nutzers geprüft — von einem
+  festen Regelwerk, das zu jedem Ergebnis die Gründe nennt. Passt eine Wohnung,
+  stellt die Anwendung die Bewerbungsunterlagen zusammen und verfasst ein
+  Anschreiben auf Deutsch. Die Anwendung ist in Entwicklung; eine öffentliche
+  Version gibt es noch nicht. Geplant sind Ausgaben für macOS, Windows, Linux,
+  iOS und Android.</p>
+</section>
+
+<section id="datenpartner">
+  <h2>Für Datenpartner</h2>
+
+  <h3>Was wir mit Ihren Daten tun</h3>
+  <p>Wir zeigen Ihre Angebote in der Anwendung des Nutzers an. Jede Karte nennt die
+  Quelle, aus der sie stammt. Ein Klick öffnet Ihr Exposé im Browser des Nutzers —
+  gelesen, beworben und abgeschlossen wird auf Ihrer eigenen Seite. HomeHunter ist
+  die Stelle, an der der Nutzer entscheidet, welches Angebot er ansieht; Ihre Seite
+  bleibt die Stelle, an der er handelt.</p>
+
+  <h3>Was wir nicht tun</h3>
+  <ul>
+    <li>Wir veröffentlichen Ihre Daten nicht und geben sie nicht weiter.</li>
+    <li>Wir bauen keine eigene öffentliche Ergebnisliste.</li>
+    <li>Wir legen keine wiederverwendbare Datenbank Ihres Bestands an.</li>
+    <li>Wir umgehen keine Schutzmechanismen.</li>
+    <li>Wir füllen und versenden keine fremden Formulare.</li>
+    <li>Wir nehmen nicht selbsttätig Kontakt zu Vermietern auf.</li>
+  </ul>
+
+  <h3>Was Sie davon haben</h3>
+  <p>Der Nutzer erreicht Ihr Angebot vorbereitet: die Kriterien sind abgeglichen, die
+  Unterlagen sind zusammengestellt, das Anschreiben ist verfasst. Statt vieler
+  Anfragen auf gut Glück erhalten Sie wenige, die zum Objekt passen. Wir stehen vor
+  Ihrem Angebot, nicht an seiner Stelle.</p>
+</section>
+
+<section id="integration">
+  <h2>Integrationsbereitschaft</h2>
+
+  <p>Die Anwendung ist auf einer Abstraktion namens <code>ListingSource</code> gebaut
+  (<code>src/homehunter/sources/base.py</code>). Der Grundsatz ist in ADR-007
+  festgehalten: der übrige Teil des Systems erfährt nie, <em>auf welchem Weg</em> ein
+  Angebot beschafft wurde — nur, dass es dem kanonischen Modell <code>Listing</code>
+  entspricht.</p>
+
+  <p>Unter dieser Abstraktion arbeiten heute zwanzig Adapter und drei verschiedene
+  Beschaffungswege:</p>
+  <ul>
+    <li>HTTP und HTML;</li>
+    <li>JSON-Schnittstelle — <code>ApiRecordListingSource</code>, über den Vonovia,
+        STADT UND LAND und Covivio gelesen werden;</li>
+    <li>die eigene Sitzung des Nutzers.</li>
+  </ul>
+
+  <p>Der Anschluss einer offiziellen Schnittstelle ist deshalb ein weiterer Adapter
+  gegen eine bereits bestehende Schnittstelle und kein Umbau des Systems. Zu
+  erwarten sind Tage, nicht Monate.</p>
+
+  <div class="panel">
+    <p><strong>Stand bei ImmoScout24, ohne Beschönigung:</strong> reserviert ist der
+    Platz, geschrieben ist der Code nicht. Die Kennung
+    <code>ListingSourceId.IMMOSCOUT24</code> und der Katalogeintrag in
+    <code>src/homehunter/sources/catalog.py</code> bestehen — mit den Domänen
+    <code>immobilienscout24.de</code> und <code>immoscout24.de</code> und dem Status
+    <code>ACCESS_RESTRICTED</code>. Die Registrierung in
+    <code>src/homehunter/discovery/registry.py</code> gibt diesen Status offen zurück,
+    statt Ergebnisse vorzutäuschen. Abruf und Abbildung der Antwort werden
+    geschrieben, sobald Spezifikation und Zugang vorliegen. Für die übrigen auf
+    dieser Seite genannten Häuser besteht bisher kein Schnittstellen-Adapter.</p>
+  </div>
+</section>
+
+<section id="screenshots">
+  <h2>Aus der Anwendung</h2>
+  <div class="shots">
+
+  <figure>
+    <div class="shot">img/01-liste.png</div>
+    <figcaption><b>Die Liste.</b> Alle gefundenen Wohnungen in einer Ansicht,
+    neueste zuerst, mit Quelle und Urteil auf jeder Karte.</figcaption>
+  </figure>
+
+  <figure>
+    <div class="shot">img/02-gruende.png</div>
+    <figcaption><b>Eine Karte mit den Gründen.</b> Jede geprüfte Bedingung einzeln
+    aufgeführt: erfüllt, verletzt oder vom Inserat nicht beantwortet.</figcaption>
+  </figure>
+
+  <figure>
+    <div class="shot">img/03-sichtung.png</div>
+    <figcaption><b>Der Sichtungsmodus.</b> Die ungesehenen Wohnungen einzeln und
+    bildschirmfüllend, mit Tastatur zu bearbeiten.</figcaption>
+  </figure>
+
+  <figure>
+    <div class="shot">img/04-anschreiben.png</div>
+    <figcaption><b>Das fertige Anschreiben.</b> Auf Deutsch, aus Profil und Inserat
+    gebildet — zum Lesen, Ändern und selbst Absenden.</figcaption>
+  </figure>
+  </div>
+</section>
+
+<section id="ablauf">
+  <h2>Wie es arbeitet</h2>
+  <ol class="flow">
+    <li><span class="step">LINK</span><span class="step-text">Die Suche holt bei jeder
+      registrierten Quelle die Links der neuesten Angebote.</span></li>
+    <li><span class="step">OPEN</span><span class="step-text">Jeder Link wird einmal
+      geöffnet — über HTTP oder über die JSON-Schnittstelle der Quelle.</span></li>
+    <li><span class="step">READ</span><span class="step-text">Miete, Zimmer, Fläche,
+      Adresse und Bedingungen werden gelesen und in ein einheitliches Modell
+      überführt.</span></li>
+    <li><span class="step">DEDUPE</span><span class="step-text">Dieselbe Wohnung auf
+      mehreren Portalen wird zu einer Karte zusammengeführt; jeder Link bleibt
+      erhalten.</span></li>
+    <li><span class="step">PRÜFEN</span><span class="step-text">Ein Regelwerk vergleicht
+      das Angebot mit den Kriterien des Nutzers. Ergebnis: passt, muss angesehen
+      werden, oder scheidet aus — jeweils mit den Gründen.</span></li>
+    <li><span class="step">VORBEREITEN</span><span class="step-text">Unterlagenliste und
+      Anschreiben werden für dieses eine Angebot erstellt.</span></li>
+    <li><span class="step">NUTZER</span><span class="step-text">Abgesendet wird von
+      Hand. Die Bewerbung verschickt der Mensch, nicht das Programm.</span></li>
+  </ol>
+</section>
+
+<section id="quellen">
+  <h2>Quellen</h2>
+
+  <div class="table-scroll">
+    <table>
+      <caption>Quellen, die ohne eigene Sitzung des Nutzers abrufbar sind</caption>
+      <thead>
+        <tr><th>Quelle</th><th>Art</th><th>Weg</th><th>Treffer je Durchlauf</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Gewobag</td><td>städtisch</td><td>HTTP/HTML</td><td class="num">~42</td></tr>
+        <tr><td>degewo</td><td>städtisch</td><td>HTTP/HTML</td><td class="num">~10</td></tr>
+        <tr><td>HOWOGE</td><td>städtisch</td><td>HTTP/HTML</td><td class="num">~28</td></tr>
+        <tr><td>GESOBAU</td><td>städtisch</td><td>HTTP/HTML</td><td class="num">~6</td></tr>
+        <tr><td>WBM</td><td>städtisch</td><td>HTTP/HTML</td><td class="num">~8</td></tr>
+        <tr><td>Berlinovo</td><td>städtisch</td><td>HTTP/HTML</td><td class="num">~30</td></tr>
+        <tr><td>STADT UND LAND</td><td>städtisch</td><td>JSON-Schnittstelle</td><td class="num">~15</td></tr>
+        <tr><td>Vonovia</td><td>privat</td><td>JSON-Schnittstelle</td><td class="num">~15 von 72 Datensätzen</td></tr>
+        <tr><td>Covivio</td><td>privat</td><td>JSON-Schnittstelle</td><td class="num">nicht einzeln erfasst</td></tr>
+        <tr><td>Ohne-Makler</td><td>privat</td><td>HTTP/HTML</td><td class="num">~24</td></tr>
+        <tr><td>DPF eG</td><td>Genossenschaft</td><td>HTTP/HTML</td><td class="num">0–3</td></tr>
+        <tr><td>Immowelt</td><td>Portal</td><td>HTTP/HTML, Trefferkarten</td><td class="num">~23–25</td></tr>
+        <tr><td>WG-Gesucht</td><td>Portal</td><td>HTTP/HTML</td><td class="num">~79</td></tr>
+        <tr><td>immobilien.de</td><td>Portal</td><td>HTTP/HTML</td><td class="num">20</td></tr>
+        <tr><td>Immobilie1</td><td>Portal</td><td>HTTP/HTML</td><td class="num">~15</td></tr>
+        <tr><td>markt.de</td><td>Kleinanzeigen</td><td>HTTP/HTML</td><td class="num">~13</td></tr>
+        <tr><td>Wunderflats</td><td>möbliert</td><td>HTTP/HTML</td><td class="num">~59</td></tr>
+        <tr><td>HousingAnywhere</td><td>möbliert</td><td>HTTP/HTML</td><td class="num">~46</td></tr>
+        <tr><td>Spotahome</td><td>möbliert</td><td>HTTP/HTML</td><td class="num">~96</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">Neunzehn Quellen, live geprüft am 24. und 28. August 2026. Der
+  zwanzigste Adapter läuft über die eigene Sitzung des Nutzers und ist hier nicht
+  aufgeführt. „Treffer je Durchlauf“ ist der Umfang eines begrenzten Durchlaufs,
+  nicht der Bestand der Quelle.</p>
+
+  <h3>Was ein offizieller Zugang verbessern würde</h3>
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr><th>Quelle</th><th>Heutiger Stand</th><th>Was ein offizieller Zugang bewirkt</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>ImmoScout24</td>
+          <td>Wird nicht gelesen. Die Suche antwortet ohne Partner-Schnittstelle mit
+              HTTP 401, und die Nutzungsbedingungen untersagen automatische
+              Abfragen.</td>
+          <td>Die größte Einzelquelle des Berliner Marktes, die derzeit vollständig
+              fehlt.</td>
+        </tr>
+        <tr>
+          <td>meinestadt.de</td>
+          <td>Registriert, aber nicht lesbar: Suche, Sitemap und robots.txt
+              antworten gleichermaßen mit HTTP 403.</td>
+          <td>Aus einer toten Zeile im Quellenverzeichnis wird eine lebende
+              Quelle.</td>
+        </tr>
+        <tr>
+          <td>Immowelt (AVIV Group)</td>
+          <td>Lesbar sind allein die Trefferkarten der Suche; die Exposé-Seiten
+              stehen hinter DataDome. Immonet leitet in denselben Bestand.</td>
+          <td>Vollständige Exposés statt verkürzter Karten — und Immonet über
+              denselben Zugang. Der größte Zugewinn an Datenqualität je Zugang.</td>
+        </tr>
+        <tr>
+          <td>WG-Gesucht</td>
+          <td>Funktioniert, doch je Durchlauf werden nur drei Seiten über einfaches
+              HTTP gelesen, und der Veröffentlichungszeitpunkt eines Inserats ist
+              nicht zugänglich.</td>
+          <td>Höhere Abrufgrenzen und der Veröffentlichungszeitpunkt, also eine
+              messbare Reaktionsgeschwindigkeit.</td>
+        </tr>
+        <tr>
+          <td>Wunderflats, HousingAnywhere, Spotahome</td>
+          <td>Funktionieren über das Auswerten von HTML, das bei jeder Umgestaltung
+              der Seite bricht.</td>
+          <td>Verlässlichkeit und ein stabiler Vertrag anstelle einer Auswertung
+              fremder Seitenstruktur.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="grenzen">
+  <h2>Grenzen</h2>
+  <div class="limits">
+    <h3>Kein Umgehen von Schutzmechanismen</h3>
+    <p>Quellen mit Bot-Schutz oder rein clientseitiger Darstellung werden als nicht
+    verfügbar geführt und nicht umgangen. Der Fehlertyp
+    <code>ComplianceBlockedError</code> ist im Quelltext ein regulärer Ausgang und
+    kein Sonderfall; in <code>sources/base.py</code> ist festgehalten, dass eine
+    Quelle niemals stillschweigend auf das Auswerten fremder Seiten ausweicht, wenn
+    kein zulässiger Weg besteht. Die Entscheidung zu ImmoScout24 ist in
+    <code>pocs/a_immoscout/RESULT.md</code> dokumentiert.</p>
+
+    <h3>Keine fremden Formulare</h3>
+    <p>Die Anwendung bereitet die Bewerbung vor; abgesendet wird sie vom Menschen.
+    Was umkehrbar ist, ist automatisiert. Was nicht umkehrbar ist, bleibt beim
+    Menschen.</p>
+
+    <h3>Deterministisch</h3>
+    <p>Das Urteil fällt ein Regelwerk, das jeden geprüften Punkt einzeln benennt.
+    Neuronale Netze kommen in der Anwendung nicht vor.</p>
+
+    <h3>Datenschutz</h3>
+    <p>Die Daten des Nutzers bleiben auf seinem Gerät: eine lokale SQLite-Datenbank
+    im Datenverzeichnis des Betriebssystems. Einen Server von HomeHunter, auf dem
+    Angebots- oder Nutzerdaten zusammenliefen, gibt es nicht. Die Verarbeitung
+    findet in der EU statt und richtet sich nach der DSGVO.</p>
+  </div>
+</section>
+
+<section id="technik">
+  <h2>Technik</h2>
+  <p>Python 3.13, PySide6 mit QML, SQLite, Playwright, Alembic; Version 1.0.0.
+  Der Bestand umfasst 1113 Tests, dazu durchgängige Typprüfung mit mypy und
+  Stilprüfung mit ruff.</p>
+</section>
+
+<section id="status">
+  <h2>Status und Kontakt</h2>
+  <p>HomeHunter ist in Entwicklung. Eine öffentliche Fassung gibt es noch nicht, der
+  Quelltext ist nicht offen. Hinter dem Projekt steht kein Unternehmen, sondern eine
+  Person.</p>
+  <p>Anfragen zu Daten- oder Schnittstellenzugang gern unmittelbar an:<br>
+  <strong>Damian Lapiha</strong> · <a href="mailto:demilapkill@gmail.com">demilapkill@gmail.com</a></p>
+</section>
+
+</div><!-- /de -->
+
+<!-- ================================================================ -->
+<!-- ENGLISH                                                          -->
+<!-- ================================================================ -->
+<div data-lang-block="en">
+
+<section>
+  <h2>The product</h2>
+  <p class="lede">HomeHunter collects rental adverts from twenty sources and merges the
+  same flat, listed on several portals, into a single card. Every advert is checked
+  against the criteria the user has written down — by a fixed set of rules that names
+  the reason for each outcome. Where a flat fits, the application assembles the
+  application documents and drafts a covering letter in German. The application is
+  under development; there is no public release yet. Builds for macOS, Windows,
+  Linux, iOS and Android are planned.</p>
+</section>
+
+<section>
+  <h2>For data partners</h2>
+
+  <h3>What we do with your data</h3>
+  <p>We display your adverts inside the user's application. Every card names the
+  source it came from. One click opens your own exposé in the user's browser —
+  reading, applying and closing all happen on your site. HomeHunter is where the user
+  decides which advert to look at; your site remains where they act.</p>
+
+  <h3>What we do not do</h3>
+  <ul>
+    <li>We do not publish your data and do not pass it on.</li>
+    <li>We do not build a public result list of our own.</li>
+    <li>We do not create a reusable database of your inventory.</li>
+    <li>We do not circumvent protection mechanisms.</li>
+    <li>We do not fill in or submit anyone else's forms.</li>
+    <li>We do not contact landlords automatically.</li>
+  </ul>
+
+  <h3>What you get from it</h3>
+  <p>The user reaches your advert prepared: criteria checked, documents assembled,
+  covering letter written. Instead of many enquiries sent on the off-chance you
+  receive a few that match the object. We stand in front of your offer, not in place
+  of it.</p>
+</section>
+
+<section>
+  <h2>Integration readiness</h2>
+
+  <p>The application is built on an abstraction called <code>ListingSource</code>
+  (<code>src/homehunter/sources/base.py</code>). The principle is recorded in ADR-007:
+  the rest of the system never learns <em>by which route</em> an advert was obtained —
+  only that it conforms to the canonical <code>Listing</code> model.</p>
+
+  <p>Twenty adapters and three different acquisition routes already work beneath that
+  abstraction:</p>
+  <ul>
+    <li>HTTP and HTML;</li>
+    <li>a JSON interface — <code>ApiRecordListingSource</code>, through which Vonovia,
+        STADT UND LAND and Covivio are read;</li>
+    <li>the user's own session.</li>
+  </ul>
+
+  <p>Connecting an official interface is therefore one more adapter against an
+  interface that already exists, not a rebuild of the system. Expect days, not
+  months.</p>
+
+  <div class="panel">
+    <p><strong>The state of ImmoScout24, without embellishment:</strong> the slot is
+    reserved, the code is not written. The identifier
+    <code>ListingSourceId.IMMOSCOUT24</code> and the catalogue entry in
+    <code>src/homehunter/sources/catalog.py</code> exist — with the domains
+    <code>immobilienscout24.de</code> and <code>immoscout24.de</code> and the status
+    <code>ACCESS_RESTRICTED</code>. The registration in
+    <code>src/homehunter/discovery/registry.py</code> returns that status openly
+    instead of feigning results. The request and the mapping of the response will be
+    written once a specification and access are available. For the other companies
+    named on this page no interface adapter exists yet.</p>
+  </div>
+</section>
+
+<section class="screenshots">
+  <h2>From the application</h2>
+  <div class="shots">
+
+  <figure>
+    <div class="shot">img/01-liste.png</div>
+    <figcaption><b>The list.</b> Every flat found, newest first, with its source and
+    verdict on each card.</figcaption>
+  </figure>
+
+  <figure>
+    <div class="shot">img/02-gruende.png</div>
+    <figcaption><b>A card with its reasons.</b> Each checked condition listed on its
+    own: met, broken, or left unanswered by the advert.</figcaption>
+  </figure>
+
+  <figure>
+    <div class="shot">img/03-sichtung.png</div>
+    <figcaption><b>Triage mode.</b> The unseen flats one at a time, full screen,
+    handled from the keyboard.</figcaption>
+  </figure>
+
+  <figure>
+    <div class="shot">img/04-anschreiben.png</div>
+    <figcaption><b>The finished covering letter.</b> In German, built from the profile
+    and the advert — to read, edit and send yourself.</figcaption>
+  </figure>
+  </div>
+</section>
+
+<section>
+  <h2>How it works</h2>
+  <ol class="flow">
+    <li><span class="step">LINK</span><span class="step-text">The search collects links
+      to the newest adverts from every registered source.</span></li>
+    <li><span class="step">OPEN</span><span class="step-text">Each link is opened once —
+      over HTTP or through the source's JSON interface.</span></li>
+    <li><span class="step">READ</span><span class="step-text">Rent, rooms, area, address
+      and conditions are read and converted into one common model.</span></li>
+    <li><span class="step">DEDUPE</span><span class="step-text">The same flat on several
+      portals is merged into one card; every link is kept.</span></li>
+    <li><span class="step">PRÜFEN</span><span class="step-text">A set of rules compares
+      the advert with the user's criteria. The outcome: it fits, it needs a look, or
+      it is out — with the reasons in each case.</span></li>
+    <li><span class="step">VORBEREITEN</span><span class="step-text">The document
+      checklist and the covering letter are prepared for that one advert.</span></li>
+    <li><span class="step">NUTZER</span><span class="step-text">Sending is done by hand.
+      A person submits the application, not the program.</span></li>
+  </ol>
+</section>
+
+<section>
+  <h2>Sources</h2>
+
+  <div class="table-scroll">
+    <table>
+      <caption>Sources reachable without the user's own session</caption>
+      <thead>
+        <tr><th>Source</th><th>Type</th><th>Route</th><th>Hits per run</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Gewobag</td><td>municipal</td><td>HTTP/HTML</td><td class="num">~42</td></tr>
+        <tr><td>degewo</td><td>municipal</td><td>HTTP/HTML</td><td class="num">~10</td></tr>
+        <tr><td>HOWOGE</td><td>municipal</td><td>HTTP/HTML</td><td class="num">~28</td></tr>
+        <tr><td>GESOBAU</td><td>municipal</td><td>HTTP/HTML</td><td class="num">~6</td></tr>
+        <tr><td>WBM</td><td>municipal</td><td>HTTP/HTML</td><td class="num">~8</td></tr>
+        <tr><td>Berlinovo</td><td>municipal</td><td>HTTP/HTML</td><td class="num">~30</td></tr>
+        <tr><td>STADT UND LAND</td><td>municipal</td><td>JSON interface</td><td class="num">~15</td></tr>
+        <tr><td>Vonovia</td><td>private</td><td>JSON interface</td><td class="num">~15 of 72 records</td></tr>
+        <tr><td>Covivio</td><td>private</td><td>JSON interface</td><td class="num">not recorded separately</td></tr>
+        <tr><td>Ohne-Makler</td><td>private</td><td>HTTP/HTML</td><td class="num">~24</td></tr>
+        <tr><td>DPF eG</td><td>cooperative</td><td>HTTP/HTML</td><td class="num">0–3</td></tr>
+        <tr><td>Immowelt</td><td>portal</td><td>HTTP/HTML, result cards</td><td class="num">~23–25</td></tr>
+        <tr><td>WG-Gesucht</td><td>portal</td><td>HTTP/HTML</td><td class="num">~79</td></tr>
+        <tr><td>immobilien.de</td><td>portal</td><td>HTTP/HTML</td><td class="num">20</td></tr>
+        <tr><td>Immobilie1</td><td>portal</td><td>HTTP/HTML</td><td class="num">~15</td></tr>
+        <tr><td>markt.de</td><td>classifieds</td><td>HTTP/HTML</td><td class="num">~13</td></tr>
+        <tr><td>Wunderflats</td><td>furnished</td><td>HTTP/HTML</td><td class="num">~59</td></tr>
+        <tr><td>HousingAnywhere</td><td>furnished</td><td>HTTP/HTML</td><td class="num">~46</td></tr>
+        <tr><td>Spotahome</td><td>furnished</td><td>HTTP/HTML</td><td class="num">~96</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">Nineteen sources, verified live on 24 and 28 August 2026. The
+  twentieth adapter runs through the user's own session and is not listed here.
+  "Hits per run" is the size of one bounded run, not the size of the source's
+  inventory.</p>
+
+  <h3>What official access would improve</h3>
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr><th>Source</th><th>State today</th><th>What official access achieves</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>ImmoScout24</td>
+          <td>Not read at all. Without a partner interface the search answers HTTP 401,
+              and the terms of use prohibit automated queries.</td>
+          <td>The single largest source on the Berlin market, currently missing
+              entirely.</td>
+        </tr>
+        <tr>
+          <td>meinestadt.de</td>
+          <td>Registered but not readable: search, sitemap and robots.txt all answer
+              HTTP 403.</td>
+          <td>A dead row in the source list becomes a living source.</td>
+        </tr>
+        <tr>
+          <td>Immowelt (AVIV Group)</td>
+          <td>Only the search result cards can be read; the exposé pages sit behind
+              DataDome. Immonet redirects into the same inventory.</td>
+          <td>Full exposés instead of truncated cards — and Immonet through the same
+              access. The largest gain in data quality per single key.</td>
+        </tr>
+        <tr>
+          <td>WG-Gesucht</td>
+          <td>Works, but only three pages per run are read over plain HTTP, and an
+              advert's publication time is not available.</td>
+          <td>Higher limits and the publication time, meaning a measurable speed of
+              response.</td>
+        </tr>
+        <tr>
+          <td>Wunderflats, HousingAnywhere, Spotahome</td>
+          <td>Work by parsing HTML, which breaks with every redesign of the page.</td>
+          <td>Reliability and a stable contract instead of parsing someone else's page
+              structure.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>Limits</h2>
+  <div class="limits">
+    <h3>No circumvention of protection mechanisms</h3>
+    <p>Sources with bot protection or purely client-side rendering are recorded as
+    unavailable and are not worked around. The error type
+    <code>ComplianceBlockedError</code> is a regular outcome in the source code and not
+    an exceptional case; <code>sources/base.py</code> records that a source never
+    silently falls back to scraping when no permitted route exists. The decision on
+    ImmoScout24 is documented in <code>pocs/a_immoscout/RESULT.md</code>.</p>
+
+    <h3>No third-party forms</h3>
+    <p>The application prepares the application; a person sends it. What is reversible
+    is automated. What is not reversible stays with the person.</p>
+
+    <h3>Deterministic</h3>
+    <p>The verdict comes from a set of rules that names every point it checked. There
+    are no neural networks in the application.</p>
+
+    <h3>Data protection</h3>
+    <p>The user's data stays on their device: a local SQLite database in the operating
+    system's data directory. There is no HomeHunter server on which advert or user
+    data would be collected. Processing takes place in the EU and follows the
+    GDPR.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Technology</h2>
+  <p>Python 3.13, PySide6 with QML, SQLite, Playwright, Alembic; version 1.0.0. The
+  suite holds 1113 tests, alongside type checking with mypy and linting with
+  ruff.</p>
+</section>
+
+<section>
+  <h2>Status and contact</h2>
+  <p>HomeHunter is under development. There is no public release yet and the source
+  code is not open. There is no company behind the project — one person.</p>
+  <p>Enquiries about data or interface access are welcome directly:<br>
+  <strong>Damian Lapiha</strong> · <a href="mailto:demilapkill@gmail.com">demilapkill@gmail.com</a></p>
+</section>
+
+</div><!-- /en -->
+
+</main>
+
+<footer>
+  <div data-lang-block="de">
+    <p>© 2026 Damian Lapiha. HomeHunter ist ein privates Entwicklungsvorhaben.</p>
+    <div class="impressum">
+      <h3>Impressum</h3>
+      <p>Angaben gemäß § 5 TMG</p>
+      <p>Damian Lapiha<br>
+      <span class="placeholder">[STRASSE, PLZ BERLIN]</span><br>
+      Deutschland</p>
+      <p>Kontakt: <a href="mailto:demilapkill@gmail.com">demilapkill@gmail.com</a></p>
+      <p>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV: Damian Lapiha,
+      Anschrift wie oben.</p>
+    </div>
+  </div>
+  <div data-lang-block="en">
+    <p>© 2026 Damian Lapiha. HomeHunter is a private development project.</p>
+    <div class="impressum">
+      <h3>Impressum</h3>
+      <p>Information pursuant to § 5 TMG</p>
+      <p>Damian Lapiha<br>
+      <span class="placeholder">[STRASSE, PLZ BERLIN]</span><br>
+      Germany</p>
+      <p>Contact: <a href="mailto:demilapkill@gmail.com">demilapkill@gmail.com</a></p>
+      <p>Responsible for the content under § 18 (2) MStV: Damian Lapiha, address as
+      above.</p>
+    </div>
+  </div>
+</footer>
+
+</div><!-- /wrap -->
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var button = document.getElementById('lang-toggle');
+  var LABEL = { de: 'English', en: 'Deutsch' };
+  var ARIA  = { de: 'Switch language to English', en: 'Sprache auf Deutsch umstellen' };
+
+  function apply(lang) {
+    root.setAttribute('data-lang', lang);
+    root.setAttribute('lang', lang);
+    button.textContent = LABEL[lang];
+    button.setAttribute('aria-label', ARIA[lang]);
+    try { localStorage.setItem('hh-lang', lang); } catch (e) {}
+  }
+
+  // Deutsch ist die Vorgabe; die Wahl des Besuchers bleibt erhalten.
+  var stored = null;
+  try { stored = localStorage.getItem('hh-lang'); } catch (e) {}
+  apply(stored === 'en' ? 'en' : 'de');
+
+  button.addEventListener('click', function () {
+    apply(root.getAttribute('data-lang') === 'de' ? 'en' : 'de');
+  });
+})();
+</script>
+
+</body>
+</html>
