@@ -44,10 +44,11 @@ WIDTH, HEIGHT = 1440, 900
 #: Das Suchprofil, das auf den Bildern zu sehen ist. Frei erfunden, aber an
 #: den tatsächlichen Berliner Angeboten ausgerichtet: eine Suche, die fast
 #: alles ablehnt, ergibt eine Liste aus lauter roten Karten und erklärt einem
-#: Betrachter nichts. Die neuesten Anzeigen im Bestand liegen überwiegend
-#: zwischen 1.300 und 2.000 € warm, deshalb diese Grenzen — so stehen Treffer,
-#: Prüffälle und Absagen nebeneinander, also genau das, was die Seite über das
-#: Regelwerk behauptet.
+#: Betrachter nichts — und eine, die alles annimmt, ebenso wenig. Die neuesten
+#: Anzeigen im Bestand liegen überwiegend zwischen 1.300 und 3.000 € warm; die
+#: Grenze bei 1.500 € schneidet mitten hindurch, sodass Treffer, Prüffälle und
+#: Absagen nebeneinander in der Liste stehen — genau das, was die Seite über
+#: das Regelwerk behauptet.
 DEMO_PRESET: dict = {
     "name": "Wohnungssuche Berlin",
     "cities": ["Berlin"],
@@ -56,8 +57,8 @@ DEMO_PRESET: dict = {
     "max_rooms": 4,
     "min_area_m2": 15,
     "max_area_m2": 120,
-    "max_cold_rent": 1700,
-    "max_warm_rent": 2000,
+    "max_cold_rent": 1300,
+    "max_warm_rent": 1500,
     "rent_payer": "self",
 }
 
@@ -110,15 +111,21 @@ def clone_data_dir(source: Path) -> Path:
     return scratch
 
 
-def pick_listing(scratch: Path) -> str:
-    """Ein Angebot, das die Seite gut zeigt: bestanden, vollständig, mit Adresse."""
+def pick_listing(scratch: Path, classification: str = "match") -> str:
+    """Ein Angebot, das die Seite gut zeigt: vollständig, mit Adresse und Text.
+
+    `classification` wählt das Urteil. Die Liste zeigt die Treffer; das Urteil
+    und die Herkunft werden dagegen an einem *abgelehnten* Angebot gezeigt —
+    dort stehen verletzte, erfüllte und unbeantwortete Bedingungen zugleich,
+    und genau das ist der Gegenstand des Abschnitts.
+    """
     conn = sqlite3.connect(f"file:{scratch / 'db' / 'homehunter.sqlite3'}?mode=ro", uri=True)
     row = conn.execute(
         """
         SELECT l.id
           FROM listings l
           JOIN listing_decisions d ON d.listing_id = l.id
-         WHERE d.classification = 'match'
+         WHERE d.classification = :want
            AND length(l.title) BETWEEN 12 AND 70
            AND json_extract(l.data, '$.price.rent_total') IS NOT NULL
            AND json_extract(l.data, '$.property.area_m2') IS NOT NULL
@@ -127,14 +134,13 @@ def pick_listing(scratch: Path) -> str:
            AND length(json_extract(l.data, '$.description')) > 200
          ORDER BY l.first_seen_at DESC
          LIMIT 1
-        """
+        """,
+        {"want": classification},
     ).fetchone()
     if row is None:
         row = conn.execute(
-            """
-            SELECT listing_id FROM listing_decisions
-             WHERE classification = 'match' LIMIT 1
-            """
+            "SELECT listing_id FROM listing_decisions WHERE classification = :want LIMIT 1",
+            {"want": classification},
         ).fetchone()
     conn.close()
     if row is None:
@@ -326,6 +332,17 @@ def main() -> int:
         # Kopfzeile darüber: die Aufnahme soll die Liste zeigen, nicht eine
         # angeschnittene Werkzeugleiste.
         grab("01-liste.png", cut_left_of="detailPane", cut_below_top_of="detailPane")
+
+    @step
+    def _pick_rejected():
+        # Erst nach der Neubewertung steht fest, was unter dem Demo-Suchprofil
+        # abgelehnt wird — deshalb wird hier noch einmal in die Kopie geschaut.
+        try:
+            rejected = pick_listing(scratch, "no_match")
+        except SystemExit:
+            print("  ! kein abgelehntes Angebot gefunden — bleibe beim Treffer")
+            return
+        bridge.selectListing(rejected)
 
     @step
     def _shoot_verdict():

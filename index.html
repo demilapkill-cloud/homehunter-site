@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>HomeHunter — Wohnungssuche in Berlin</title>
-<meta name="description" content="HomeHunter ist eine Desktop-Anwendung, die Berliner Mietangebote aus zwanzig Quellen zusammenführt, sie gegen die schriftlichen Kriterien des Nutzers prüft und die Bewerbung vorbereitet, die der Nutzer selbst absendet.">
+<meta name="description" content="HomeHunter ist eine Desktop-Anwendung, die Berliner Mietangebote aus neunzehn öffentlich abrufbaren Quellen zusammenführt, sie gegen die schriftlichen Kriterien des Nutzers prüft und die Bewerbung vorbereitet, die der Nutzer selbst absendet.">
 <meta name="author" content="Damian Lapiha">
 <meta name="robots" content="index, follow">
 
@@ -21,7 +21,7 @@
 <meta property="og:locale:alternate" content="en_GB">
 <meta property="og:site_name" content="HomeHunter">
 <meta property="og:title" content="HomeHunter — Wohnungssuche in Berlin">
-<meta property="og:description" content="Eine Desktop-Anwendung, die Berliner Mietangebote aus zwanzig Quellen zusammenführt, sie gegen die schriftlichen Kriterien des Nutzers prüft und die Bewerbung vorbereitet, die der Nutzer selbst absendet.">
+<meta property="og:description" content="Eine Desktop-Anwendung, die Berliner Mietangebote aus neunzehn öffentlich abrufbaren Quellen zusammenführt, sie gegen die schriftlichen Kriterien des Nutzers prüft und die Bewerbung vorbereitet, die der Nutzer selbst absendet.">
 <meta property="og:image" content="https://www.homehunter.store/img/04-quellenliste.png">
 <meta property="og:image:width" content="1440">
 <meta property="og:image:height" content="900">
@@ -57,7 +57,7 @@
 
 <section id="produkt">
   <h2>Das Produkt</h2>
-  <p class="lede">HomeHunter sammelt Mietangebote aus zwanzig Quellen und führt dieselbe
+  <p class="lede">HomeHunter sammelt Mietangebote aus neunzehn öffentlich abrufbaren Quellen und führt dieselbe
   Wohnung, die auf mehreren Portalen steht, zu einer Karte zusammen. Jedes Angebot
   wird gegen die schriftlich festgelegten Kriterien des Nutzers geprüft — von einem
   festen Regelwerk, das zu jedem Ergebnis die Gründe nennt. Passt eine Wohnung,
@@ -103,13 +103,12 @@
   Angebot beschafft wurde — nur, dass es dem kanonischen Modell <code>Listing</code>
   entspricht.</p>
 
-  <p>Unter dieser Abstraktion arbeiten heute zwanzig Adapter und drei verschiedene
+  <p>Unter dieser Abstraktion arbeiten heute neunzehn Adapter und zwei verschiedene
   Beschaffungswege:</p>
   <ul>
     <li>HTTP und HTML;</li>
     <li>JSON-Schnittstelle — <code>ApiRecordListingSource</code>, über den Vonovia,
-        STADT UND LAND und Covivio gelesen werden;</li>
-    <li>die eigene Sitzung des Nutzers.</li>
+        STADT UND LAND und Covivio gelesen werden.</li>
   </ul>
 
   <p>Der Anschluss einer offiziellen Schnittstelle ist deshalb ein weiterer Adapter
@@ -139,9 +138,9 @@
     <figcaption><b>Die Liste.</b> Alle gefundenen Wohnungen, Treffer zuerst. Jede Karte nennt die Quelle, das Urteil und die Kriterien dahinter. „2 Quellen“ heißt: dieselbe Wohnung stand auf zwei Portalen und ist zu einer Karte zusammengeführt.</figcaption>
   </figure>
   <figure>
-    <img class="shot" src="img/02-urteil.png" width="1440" height="397"
-         loading="lazy" decoding="async" alt="Das Urteil zu einer Wohnung mit der Liste jeder einzeln geprüften Bedingung.">
-    <figcaption><b>Das Urteil mit seinen Gründen.</b> Jede geprüfte Bedingung einzeln aufgeführt, dazu das Suchprofil, gegen das gemessen wurde.</figcaption>
+    <img class="shot" src="img/02-urteil.png" width="1440" height="498"
+         loading="lazy" decoding="async" alt="Das Urteil zu einer abgelehnten Wohnung: die verletzte Bedingung in Rot, darunter die erfüllten und die vom Inserat nicht beantworteten.">
+    <figcaption><b>Das Urteil mit seinen Gründen.</b> Hier eine Wohnung, die ausscheidet: die Miete liegt über der Grenze. Jede geprüfte Bedingung steht einzeln da — verletzt, erfüllt oder vom Inserat nicht beantwortet.</figcaption>
   </figure>
   <figure>
     <img class="shot" src="img/03-herkunft.png" width="1440" height="260"
@@ -221,7 +220,7 @@
 
   <div class="table-scroll">
     <table>
-      <caption>Quellen, die ohne eigene Sitzung des Nutzers abrufbar sind</caption>
+      <caption>Die gelesenen Quellen</caption>
       <thead>
         <tr><th>Quelle</th><th>Art</th><th>Weg</th><th>Treffer je Durchlauf</th></tr>
       </thead>
@@ -248,10 +247,9 @@
       </tbody>
     </table>
   </div>
-  <p class="note">Neunzehn Quellen, live geprüft am 24. und 28. August 2026. Der
-  zwanzigste Adapter läuft über die eigene Sitzung des Nutzers und ist hier nicht
-  aufgeführt. „Treffer je Durchlauf“ ist der Umfang eines begrenzten Durchlaufs,
-  nicht der Bestand der Quelle.</p>
+  <p class="note">Neunzehn Quellen, live geprüft am 24. und 28. August 2026.
+  „Treffer je Durchlauf“ ist der Umfang eines begrenzten Durchlaufs, nicht der
+  Bestand der Quelle.</p>
 
   <h3>Was ein offizieller Zugang verbessern würde</h3>
   <div class="table-scroll">
@@ -357,7 +355,7 @@
 
 <section>
   <h2>The product</h2>
-  <p class="lede">HomeHunter collects rental adverts from twenty sources and merges the
+  <p class="lede">HomeHunter collects rental adverts from nineteen publicly reachable sources and merges the
   same flat, listed on several portals, into a single card. Every advert is checked
   against the criteria the user has written down — by a fixed set of rules that names
   the reason for each outcome. Where a flat fits, one click takes the user to the
@@ -400,13 +398,12 @@
   the rest of the system never learns <em>by which route</em> an advert was obtained —
   only that it conforms to the canonical <code>Listing</code> model.</p>
 
-  <p>Twenty adapters and three different acquisition routes already work beneath that
+  <p>Nineteen adapters and two different acquisition routes already work beneath that
   abstraction:</p>
   <ul>
     <li>HTTP and HTML;</li>
     <li>a JSON interface — <code>ApiRecordListingSource</code>, through which Vonovia,
-        STADT UND LAND and Covivio are read;</li>
-    <li>the user's own session.</li>
+        STADT UND LAND and Covivio are read.</li>
   </ul>
 
   <p>Connecting an official interface is therefore one more adapter against an
@@ -436,9 +433,9 @@
     <figcaption><b>The list.</b> Every flat found, matches first. Each card names the source, the verdict and the criteria behind it. "2 Quellen" means the same flat appeared on two portals and has been merged into one card.</figcaption>
   </figure>
   <figure>
-    <img class="shot" src="img/02-urteil.png" width="1440" height="397"
-         loading="lazy" decoding="async" alt="The verdict on one flat with every checked condition listed on its own.">
-    <figcaption><b>The verdict and its reasons.</b> Every checked condition listed on its own, together with the search profile it was measured against.</figcaption>
+    <img class="shot" src="img/02-urteil.png" width="1440" height="498"
+         loading="lazy" decoding="async" alt="The verdict on a rejected flat: the broken condition in red, below it the ones met and the ones the advert left unanswered.">
+    <figcaption><b>The verdict and its reasons.</b> A flat that is ruled out: the rent is over the limit. Every checked condition stands on its own — broken, met, or left unanswered by the advert.</figcaption>
   </figure>
   <figure>
     <img class="shot" src="img/03-herkunft.png" width="1440" height="260"
@@ -515,7 +512,7 @@
 
   <div class="table-scroll">
     <table>
-      <caption>Sources reachable without the user's own session</caption>
+      <caption>The sources that are read</caption>
       <thead>
         <tr><th>Source</th><th>Type</th><th>Route</th><th>Hits per run</th></tr>
       </thead>
@@ -542,8 +539,7 @@
       </tbody>
     </table>
   </div>
-  <p class="note">Nineteen sources, verified live on 24 and 28 August 2026. The
-  twentieth adapter runs through the user's own session and is not listed here.
+  <p class="note">Nineteen sources, verified live on 24 and 28 August 2026.
   "Hits per run" is the size of one bounded run, not the size of the source's
   inventory.</p>
 
