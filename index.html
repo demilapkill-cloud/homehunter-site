@@ -183,6 +183,39 @@
   </ol>
 </section>
 
+<section id="probe">
+  <h2>Selbst ausprobieren</h2>
+  <p>Sechs Beispielangebote, geprüft gegen die Kriterien unten. Entscheiden Sie
+  zuerst selbst — ziehen Sie die Karte nach rechts, wenn Sie sich bewerben
+  würden, nach links, wenn nicht. Danach zeigt die Karte, wie das Regelwerk
+  entscheidet und aus welchen Gründen.</p>
+
+  <div class="criteria" aria-label="Suchkriterien dieses Beispiels">
+    <span class="criteria-label">Kriterien</span>
+    <ul>
+      <li>Berlin</li><li>1–3 Zimmer</li><li>30–90 m²</li>
+      <li>max. 950 € kalt</li><li>max. 1.250 € warm</li><li>kein WBS vorhanden</li>
+    </ul>
+  </div>
+
+  <div class="deck" data-deck="de">
+    <div class="deck-stage">
+      <p class="deck-done" hidden></p>
+    </div>
+    <div class="deck-bar">
+      <button type="button" class="deck-btn" data-choice="skip">Überspringen</button>
+      <p class="deck-count" aria-live="polite"></p>
+      <button type="button" class="deck-btn primary" data-choice="apply">Würde ich anschreiben</button>
+    </div>
+    <p class="deck-hint">Ziehen, Pfeiltasten ← → oder die Schaltflächen.</p>
+  </div>
+
+  <p class="note">Beispieldaten, keine echten Anzeigen. Die Art der Quelle steht
+  auf jeder Karte, damit erkennbar bleibt, aus welcher Ecke des Marktes ein
+  Angebot kommt. Das Urteil rechnet Ihr Browser aus, nach denselben Regeln, die
+  die Anwendung anwendet — es wird nichts übertragen und nichts gespeichert.</p>
+</section>
+
 <section id="quellen">
   <h2>Quellen</h2>
 
@@ -445,6 +478,38 @@
 </section>
 
 <section>
+  <h2>Try it yourself</h2>
+  <p>Six sample adverts, checked against the criteria below. Decide for yourself
+  first — drag the card to the right if you would apply, to the left if you
+  would not. The card then shows how the rules decide, and on what grounds.</p>
+
+  <div class="criteria" aria-label="Search criteria for this example">
+    <span class="criteria-label">Criteria</span>
+    <ul>
+      <li>Berlin</li><li>1–3 rooms</li><li>30–90 m²</li>
+      <li>max. €950 base rent</li><li>max. €1,250 total</li><li>no WBS held</li>
+    </ul>
+  </div>
+
+  <div class="deck" data-deck="en">
+    <div class="deck-stage">
+      <p class="deck-done" hidden></p>
+    </div>
+    <div class="deck-bar">
+      <button type="button" class="deck-btn" data-choice="skip">Skip</button>
+      <p class="deck-count" aria-live="polite"></p>
+      <button type="button" class="deck-btn primary" data-choice="apply">I would apply</button>
+    </div>
+    <p class="deck-hint">Drag, arrow keys ← →, or the buttons.</p>
+  </div>
+
+  <p class="note">Sample data, not real adverts. The kind of source is named on
+  each card so it stays clear which corner of the market an advert comes from.
+  The verdict is computed by your browser, by the same rules the application
+  applies — nothing is transmitted and nothing is stored.</p>
+</section>
+
+<section>
   <h2>Sources</h2>
 
   <div class="table-scroll">
@@ -628,6 +693,342 @@
   button.addEventListener('click', function () {
     apply(root.getAttribute('data-lang') === 'de' ? 'en' : 'de');
   });
+})();
+</script>
+
+<script>
+/* ------------------------------------------------------------------ *
+ * Der Kartenstapel: sechs Beispielangebote, im Browser gegen dieselben
+ * Kriterien geprüft, die im Abschnitt darüber stehen.
+ *
+ * Das Urteil ist nicht in die Daten geschrieben, sondern wird gerechnet —
+ * sonst wäre es eine Behauptung und keine Vorführung. Drei Regeln, die
+ * die Anwendung selbst befolgt, gelten auch hier:
+ *
+ *   1. Nur eine *bestätigte* Verletzung führt zu "Passt nicht".
+ *   2. Schweigt die Anzeige zu einem Kriterium, ist das kein Nein,
+ *      sondern "Prüfen" — Unbekannt ist nicht Falsch.
+ *   3. Jedes Ergebnis nennt jede geprüfte Bedingung einzeln.
+ * ------------------------------------------------------------------ */
+(function () {
+  'use strict';
+
+  var CRITERIA = {
+    city: 'Berlin',
+    minRooms: 1, maxRooms: 3,
+    minArea: 30, maxArea: 90,
+    maxBase: 950, maxTotal: 1250,
+    hasWbs: false
+  };
+
+  // `null` heißt: die Anzeige sagt dazu nichts.
+  var FLATS = [
+    { id: 'a', city: 'Berlin', district: { de: 'Marzahn', en: 'Marzahn' },
+      source: { de: 'Städtische Wohnungsbaugesellschaft', en: 'Municipal housing company' },
+      rooms: 3, area: 74, base: 640, total: 890, wbs: false },
+
+    { id: 'b', city: 'Berlin', district: { de: 'Mitte', en: 'Mitte' },
+      source: { de: 'Möbliert, auf Zeit', en: 'Furnished, temporary' },
+      rooms: 1, area: 34, base: null, total: 1480, wbs: false },
+
+    { id: 'c', city: 'Berlin', district: { de: 'Neukölln', en: 'Neukölln' },
+      source: { de: 'WG- und Wohnungsportal', en: 'Flatshare and rentals portal' },
+      rooms: 2, area: 61, base: 690, total: null, wbs: false },
+
+    { id: 'd', city: 'Berlin', district: { de: 'Lichtenberg', en: 'Lichtenberg' },
+      source: { de: 'Städtische Wohnungsbaugesellschaft', en: 'Municipal housing company' },
+      rooms: 2, area: 58, base: 612, total: 812, wbs: true },
+
+    { id: 'e', city: 'Berlin', district: { de: 'Treptow', en: 'Treptow' },
+      source: { de: 'Städtische Wohnungsbaugesellschaft', en: 'Municipal housing company' },
+      rooms: 2, area: 55, base: 520, total: 705, wbs: false },
+
+    { id: 'f', city: 'Berlin', district: { de: 'Charlottenburg', en: 'Charlottenburg' },
+      source: { de: 'Immobilienportal', en: 'Property portal' },
+      rooms: null, area: 46, base: 780, total: 1040, wbs: null }
+  ];
+
+  var T = {
+    de: {
+      match: 'Treffer', review: 'Prüfen', no: 'Passt nicht',
+      matchWhy: 'Erfüllt jedes Kriterium — nach dem, was die Anzeige selbst angibt.',
+      reviewWhy: 'Keine Regel verletzt, aber die Anzeige beantwortet nicht alles.',
+      noWhy: 'Verletzt mindestens eine feste Bedingung.',
+      met: 'Erfüllte Kriterien', broken: 'Kriterienverstöße', open: 'Von der Anzeige nicht beantwortet',
+      rooms: 'Zimmer', area: 'Fläche', base: 'Kaltmiete', total: 'Warmmiete', wbs: 'WBS', city: 'Stadt',
+      nostated: 'nicht angegeben',
+      rCity: function (v) { return 'Die Stadt „' + v + '“ entspricht Ihrer Suche.'; },
+      rCityNo: function (v) { return 'Die Stadt „' + v + '“ liegt außerhalb Ihrer Suche.'; },
+      rRooms: function (v) { return v + ' Zimmer entspricht Ihrer Anforderung 1–3.'; },
+      rRoomsNo: function (v) { return v + ' Zimmer liegt außerhalb Ihrer Anforderung 1–3.'; },
+      rRoomsUnk: 'Die Zimmerzahl steht nicht in der Anzeige.',
+      rArea: function (v) { return v + ' m² entspricht Ihrer Anforderung 30–90 m².'; },
+      rAreaNo: function (v) { return v + ' m² liegt außerhalb Ihrer Anforderung 30–90 m².'; },
+      rBase: function (v) { return 'Die Kaltmiete ' + v + ' liegt innerhalb Ihres Maximums von 950 €.'; },
+      rBaseNo: function (v) { return 'Die Kaltmiete ' + v + ' übersteigt Ihr Maximum von 950 €.'; },
+      rBaseUnk: 'Die Kaltmiete ist in der Anzeige nicht angegeben.',
+      rTotal: function (v) { return 'Die Warmmiete ' + v + ' liegt innerhalb Ihres Maximums von 1.250 €.'; },
+      rTotalNo: function (v) { return 'Die Warmmiete ' + v + ' übersteigt Ihr Maximum von 1.250 €.'; },
+      rTotalUnk: 'Die Warmmiete ist in der Anzeige nicht angegeben.',
+      rWbsOk: 'Die Anzeige verlangt keinen WBS.',
+      rWbsNo: 'Die Anzeige verlangt einen WBS, den Sie nicht haben.',
+      rWbsUnk: 'Ob ein WBS nötig ist, sagt die Anzeige nicht.',
+      agree: 'Ihre Einschätzung deckt sich mit dem Regelwerk.',
+      differ: 'Hier weichen Sie vom Regelwerk ab.',
+      next: 'Weiter', again: 'Noch einmal',
+      count: function (i, n) { return i + ' von ' + n; },
+      done: function (m, r) {
+        return 'Fertig. Von sechs Angeboten sind ' + m + ' Treffer und ' + r +
+               ' zur Prüfung — die übrigen hat das Regelwerk mit Begründung aussortiert.';
+      }
+    },
+    en: {
+      match: 'Match', review: 'Needs a look', no: 'No match',
+      matchWhy: 'Meets every criterion — going by what the advert itself states.',
+      reviewWhy: 'No rule broken, but the advert does not answer everything.',
+      noWhy: 'Breaks at least one firm condition.',
+      met: 'Criteria met', broken: 'Criteria broken', open: 'Left unanswered by the advert',
+      rooms: 'Rooms', area: 'Area', base: 'Base rent', total: 'Total rent', wbs: 'WBS', city: 'City',
+      nostated: 'not stated',
+      rCity: function (v) { return 'The city "' + v + '" matches your search.'; },
+      rCityNo: function (v) { return 'The city "' + v + '" is outside your search.'; },
+      rRooms: function (v) { return v + ' rooms matches your requirement of 1–3.'; },
+      rRoomsNo: function (v) { return v + ' rooms is outside your requirement of 1–3.'; },
+      rRoomsUnk: 'The advert does not state the number of rooms.',
+      rArea: function (v) { return v + ' m² matches your requirement of 30–90 m².'; },
+      rAreaNo: function (v) { return v + ' m² is outside your requirement of 30–90 m².'; },
+      rBase: function (v) { return 'The base rent ' + v + ' is within your maximum of €950.'; },
+      rBaseNo: function (v) { return 'The base rent ' + v + ' exceeds your maximum of €950.'; },
+      rBaseUnk: 'The advert does not state the base rent.',
+      rTotal: function (v) { return 'The total rent ' + v + ' is within your maximum of €1,250.'; },
+      rTotalNo: function (v) { return 'The total rent ' + v + ' exceeds your maximum of €1,250.'; },
+      rTotalUnk: 'The advert does not state the total rent.',
+      rWbsOk: 'The advert requires no WBS.',
+      rWbsNo: 'The advert requires a WBS, which you do not hold.',
+      rWbsUnk: 'The advert does not say whether a WBS is required.',
+      agree: 'Your call agrees with the rules.',
+      differ: 'Here you and the rules disagree.',
+      next: 'Next', again: 'Start over',
+      count: function (i, n) { return i + ' of ' + n; },
+      done: function (m, r) {
+        return 'Done. Of six adverts, ' + m + ' are matches and ' + r +
+               ' need a look — the rest the rules ruled out, each with its reason.';
+      }
+    }
+  };
+
+  function money(lang, v) {
+    if (v === null) return null;
+    return lang === 'de'
+      ? v.toLocaleString('de-DE') + ' €'
+      : '€' + v.toLocaleString('en-GB');
+  }
+
+  /* Das Regelwerk. Gibt jede geprüfte Bedingung zurück, nicht nur das
+     Ergebnis — die Begründung ist der eigentliche Gegenstand. */
+  function evaluate(flat, lang) {
+    var t = T[lang], reasons = [];
+    function add(state, text) { reasons.push({ state: state, text: text }); }
+
+    add(flat.city === CRITERIA.city ? 'ok' : 'bad',
+        flat.city === CRITERIA.city ? t.rCity(flat.city) : t.rCityNo(flat.city));
+
+    if (flat.rooms === null) add('unknown', t.rRoomsUnk);
+    else if (flat.rooms >= CRITERIA.minRooms && flat.rooms <= CRITERIA.maxRooms) add('ok', t.rRooms(flat.rooms));
+    else add('bad', t.rRoomsNo(flat.rooms));
+
+    if (flat.area >= CRITERIA.minArea && flat.area <= CRITERIA.maxArea) add('ok', t.rArea(flat.area));
+    else add('bad', t.rAreaNo(flat.area));
+
+    if (flat.base === null) add('unknown', t.rBaseUnk);
+    else if (flat.base <= CRITERIA.maxBase) add('ok', t.rBase(money(lang, flat.base)));
+    else add('bad', t.rBaseNo(money(lang, flat.base)));
+
+    if (flat.total === null) add('unknown', t.rTotalUnk);
+    else if (flat.total <= CRITERIA.maxTotal) add('ok', t.rTotal(money(lang, flat.total)));
+    else add('bad', t.rTotalNo(money(lang, flat.total)));
+
+    if (flat.wbs === null) add('unknown', t.rWbsUnk);
+    else if (flat.wbs && !CRITERIA.hasWbs) add('bad', t.rWbsNo);
+    else add('ok', t.rWbsOk);
+
+    var verdict = reasons.some(function (r) { return r.state === 'bad'; }) ? 'no'
+                : reasons.some(function (r) { return r.state === 'unknown'; }) ? 'review'
+                : 'match';
+    return { verdict: verdict, reasons: reasons };
+  }
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text !== undefined) n.textContent = text;
+    return n;
+  }
+
+  function Deck(root) {
+    var lang = root.getAttribute('data-deck');
+    var t = T[lang];
+    var stage = root.querySelector('.deck-stage');
+    var done = root.querySelector('.deck-done');
+    var count = root.querySelector('.deck-count');
+    var bar = root.querySelector('.deck-bar');
+    var index = 0, tally = { match: 0, review: 0, no: 0 }, card = null, busy = false;
+
+    function facts(flat) {
+      var wrap = el('dl', 'card-facts');
+      [[t.rooms, flat.rooms === null ? t.nostated : flat.rooms],
+       [t.area, flat.area + ' m²'],
+       [t.base, flat.base === null ? t.nostated : money(lang, flat.base)],
+       [t.total, flat.total === null ? t.nostated : money(lang, flat.total)]
+      ].forEach(function (pair) {
+        // Beschriftung und Wert in einem Kästchen, sonst reißt das Raster
+        // sie auseinander und die Zuordnung geht verloren.
+        var cell = el('div', 'fact');
+        cell.appendChild(el('dt', null, pair[0]));
+        cell.appendChild(el('dd', null, String(pair[1])));
+        wrap.appendChild(cell);
+      });
+      return wrap;
+    }
+
+    function build(flat) {
+      var node = el('article', 'card');
+      node.tabIndex = 0;
+      node.setAttribute('role', 'group');
+
+      var head = el('header', 'card-head');
+      head.appendChild(el('p', 'card-source', flat.source[lang]));
+      head.appendChild(el('h3', 'card-place', flat.district[lang] + ', ' + flat.city));
+      node.appendChild(head);
+      node.appendChild(facts(flat));
+
+      var veilL = el('div', 'veil left');
+      veilL.appendChild(el('span', null, lang === 'de' ? 'Überspringen' : 'Skip'));
+      var veilR = el('div', 'veil right');
+      veilR.appendChild(el('span', null, lang === 'de' ? 'Anschreiben' : 'Apply'));
+      node.appendChild(veilL);
+      node.appendChild(veilR);
+
+      node.appendChild(el('div', 'card-verdict'));
+      return node;
+    }
+
+    function reveal(flat, choice) {
+      var res = evaluate(flat, lang);
+      tally[res.verdict]++;
+      var box = card.querySelector('.card-verdict');
+      box.className = 'card-verdict shown ' + res.verdict;
+
+      var badge = el('p', 'verdict-badge', t[res.verdict === 'no' ? 'no' : res.verdict]);
+      box.appendChild(badge);
+      box.appendChild(el('p', 'verdict-why',
+        res.verdict === 'match' ? t.matchWhy : res.verdict === 'review' ? t.reviewWhy : t.noWhy));
+
+      [['bad', t.broken], ['ok', t.met], ['unknown', t.open]].forEach(function (grp) {
+        var items = res.reasons.filter(function (r) { return r.state === grp[0]; });
+        if (!items.length) return;
+        box.appendChild(el('p', 'reason-head ' + grp[0], grp[1]));
+        var ul = el('ul', 'reasons ' + grp[0]);
+        items.forEach(function (r) { ul.appendChild(el('li', null, r.text)); });
+        box.appendChild(ul);
+      });
+
+      var wouldApply = res.verdict !== 'no';
+      box.appendChild(el('p', 'verdict-agree',
+        (choice === 'apply') === wouldApply ? t.agree : t.differ));
+
+      var next = el('button', 'deck-btn primary', index + 1 < FLATS.length ? t.next : t.again);
+      next.setAttribute('data-role', 'next');
+      next.type = 'button';
+      next.addEventListener('click', function () {
+        if (index + 1 < FLATS.length) { index++; show(); }
+        else { index = 0; tally = { match: 0, review: 0, no: 0 }; done.hidden = true; show(); }
+      });
+      box.appendChild(next);
+      next.focus({ preventScroll: true });
+
+      bar.hidden = true;
+    }
+
+    function finish() {
+      done.textContent = t.done(tally.match, tally.review);
+      done.hidden = false;
+    }
+
+    function choose(choice) {
+      if (busy || !card) return;
+      busy = true;
+      var flat = FLATS[index];
+      card.classList.add('settled');
+      card.style.transform = '';
+      card.querySelectorAll('.veil').forEach(function (v) { v.style.opacity = 0; });
+      reveal(flat, choice);
+      if (index === FLATS.length - 1) finish();
+    }
+
+    function show() {
+      if (card) card.remove();
+      busy = false;
+      bar.hidden = false;
+      card = build(FLATS[index]);
+      stage.appendChild(card);
+      count.textContent = t.count(index + 1, FLATS.length);
+      drag(card);
+      card.setAttribute('aria-label', FLATS[index].district[lang] + ', ' +
+        FLATS[index].area + ' m²');
+    }
+
+    /* Ziehen mit Zeiger, genau wie auf der Karte des Autorensites: unter
+       der Schwelle federt die Karte zurück, darüber zählt die Richtung. */
+    function drag(node) {
+      var THRESHOLD = 90, startX = null, pid = null, dx = 0;
+      node.addEventListener('pointerdown', function (e) {
+        // Die Schaltfläche "Weiter" sitzt in der Karte. Ohne diese Zeile
+        // fängt setPointerCapture den Zeiger ab und der Klick kommt nie an.
+        if (busy || node.classList.contains('settled') || e.target.closest('button')) return;
+        startX = e.clientX; pid = e.pointerId;
+        node.setPointerCapture(pid);
+        node.classList.add('dragging');
+      });
+      node.addEventListener('pointermove', function (e) {
+        if (startX === null || e.pointerId !== pid) return;
+        dx = e.clientX - startX;
+        node.style.transform = 'translate3d(' + dx + 'px,0,0) rotate(' + (dx / 22) + 'deg)';
+        var t2 = Math.min(1, Math.abs(dx) / THRESHOLD);
+        node.querySelector('.veil.left').style.opacity = dx < 0 ? t2 : 0;
+        node.querySelector('.veil.right').style.opacity = dx > 0 ? t2 : 0;
+      });
+      function release(e) {
+        if (startX === null || (e && e.pointerId !== pid)) return;
+        startX = null;
+        node.classList.remove('dragging');
+        if (dx > THRESHOLD) choose('apply');
+        else if (dx < -THRESHOLD) choose('skip');
+        else {
+          node.style.transform = '';
+          node.querySelectorAll('.veil').forEach(function (v) { v.style.opacity = 0; });
+        }
+        dx = 0;
+      }
+      node.addEventListener('pointerup', release);
+      node.addEventListener('pointercancel', release);
+      node.addEventListener('keydown', function (e) {
+        if (busy || node.classList.contains('settled')) return;
+        if (e.key === 'ArrowLeft') { e.preventDefault(); choose('skip'); }
+        if (e.key === 'ArrowRight') { e.preventDefault(); choose('apply'); }
+      });
+    }
+
+    bar.querySelectorAll('[data-choice]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        choose(b.getAttribute('data-choice') === 'apply' ? 'apply' : 'skip');
+      });
+    });
+
+    show();
+  }
+
+  document.querySelectorAll('.deck').forEach(Deck);
 })();
 </script>
 

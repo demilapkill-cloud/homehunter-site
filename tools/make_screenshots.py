@@ -5,21 +5,19 @@ Aufruf (die Abhängigkeiten liegen im HomeHunter-Projekt, nicht hier):
     cd ~/Projects/HomeHunter
     uv run python ~/Projects/homehunter-site/tools/make_screenshots.py
 
-Die Datenbank wird vorher in ein Wegwerf-Verzeichnis kopiert; die laufende
-Anwendung und die Daten des Nutzers bleiben unberührt. In der Kopie wird die
-Überwachung abgeschaltet, `telegram.json` fehlt — die Aufnahme-Instanz kann
-also nichts senden — und der angezeigte Name des Suchprofils
-wird auf einen deutschen Text gesetzt, damit auf einer deutschen Seite kein
-russischer Rest steht. Der Name geht über `compute_preset_hash`
-(decision_engine.py) in die Bewertung ein, ein neuer Name macht die
-gespeicherten Urteile also veraltet — deshalb wird das gezeigte Angebot nach
-dem Start einmal neu bewertet, damit die Hashes wieder zusammenpassen und
-kein Warnstreifen erscheint.
+Alles, was auf den Bildern über den *Nutzer* zu sehen ist, steht als
+DEMO_PRESET und DEMO_PROFILE weiter unten in dieser Datei: ein erfundenes
+Suchprofil und ein erfundener Bewerber, beide eigens für die Webseite. Das
+echte Profil wird nicht gelesen und nicht angezeigt. Deshalb darf diese Datei
+öffentlich liegen, und deshalb sind die Bilder reproduzierbar: wer sie neu
+erzeugt, bekommt dieselbe Ausgangslage.
 
-Ebenfalls in der Kopie: das Bewerberprofil wird durch ein neutrales
-Beispielprofil ersetzt. Das Anschreiben auf dem Bildschirmfoto ist damit ein
-Musterbrief und gibt weder Telefonnummer noch Einkommen noch den Kostenträger
-der Miete preis.
+Echt sind allein die Wohnungsanzeigen — öffentlich ausgeschriebene Angebote,
+aus einer Kopie der Datenbank gelesen.
+
+Die Kopie liegt in einem Wegwerf-Verzeichnis: die laufende Anwendung und die
+Daten des Nutzers bleiben unberührt, die Überwachung ist darin abgeschaltet
+und `telegram.json` fehlt, die Aufnahme-Instanz kann also nichts senden.
 
 Es öffnet sich kein Fenster: QT_QPA_PLATFORM=offscreen wird hier erzwungen,
 nicht nur vorgeschlagen.
@@ -27,6 +25,7 @@ nicht nur vorgeschlagen.
 
 from __future__ import annotations
 
+import contextlib
 import os
 import shutil
 import sqlite3
@@ -41,7 +40,39 @@ SOURCE_DATA_DIR = Path.home() / "Projects" / "HomeHunter" / "var"
 OUT_DIR = Path(__file__).resolve().parent.parent / "img"
 
 WIDTH, HEIGHT = 1440, 900
-PRESET_NAME_DE = "Wohnungssuche Berlin"
+
+#: Das Suchprofil, das auf den Bildern zu sehen ist. Frei erfunden und
+#: bewusst breit gefasst: eine Suche, die fast alles ablehnt, zeigt eine Liste
+#: aus lauter roten Karten und erklärt einem Betrachter nichts. Diese Werte
+#: ergeben eine gemischte Liste — Treffer, Prüffälle und Absagen nebeneinander,
+#: also genau das, was die Seite über das Regelwerk behauptet.
+DEMO_PRESET: dict = {
+    "name": "Wohnungssuche Berlin",
+    "cities": ["Berlin"],
+    "districts": [],
+    "min_rooms": 1,
+    "max_rooms": 3,
+    "min_area_m2": 30,
+    "max_area_m2": 90,
+    "max_cold_rent": 950,
+    "max_warm_rent": 1250,
+    "rent_payer": "self",
+}
+
+#: Der Bewerber, aus dem das Anschreiben gebaut wird. Ebenfalls frei erfunden.
+#: Der Name bleibt der des Autors, weil er ohnehin im Kopf der Seite steht;
+#: alles Übrige — Beschäftigung, Einkommen, Telefonnummer — ist Beispiel und
+#: sagt nichts über die tatsächlichen Verhältnisse aus.
+DEMO_PROFILE: dict = {
+    "first_name": "Damian",
+    "last_name": "Lapiha",
+    "email": "kontakt@example.com",
+    "phone": "+49 30 12345678",
+    "household_size": 1,
+    "employment_status": "employed",
+    "monthly_net_income": 2600.0,
+    "wbs_ownership": "no_wbs",
+}
 
 
 def clone_data_dir(source: Path) -> Path:
@@ -64,28 +95,8 @@ def clone_data_dir(source: Path) -> Path:
             shutil.copy(source / name, scratch / name)
 
     conn = sqlite3.connect(str(scratch / "db" / "homehunter.sqlite3"))
-    with conn:
-        try:
-            conn.execute("UPDATE monitor_settings SET enabled = 0")
-        except sqlite3.Error:
-            pass
-        conn.execute("UPDATE search_presets SET name = ?", (PRESET_NAME_DE,))
-        # Das Anschreiben wird aus dem Bewerberprofil gebaut. Das echte
-        # Profil enthält Telefonnummer, Nettoeinkommen und die Angabe, dass
-        # das Jobcenter die Miete trägt — auf einer öffentlichen Seite, die
-        # sich an Unternehmen richtet, hat nichts davon etwas zu suchen.
-        # Für die Aufnahme steht deshalb ein neutrales Beispielprofil in der
-        # Kopie; der erzeugte Brief ist damit ein Musterbrief.
-        conn.execute(
-            """
-            UPDATE applicant_profiles
-               SET phone = '+49 30 12345678',
-                   employment_status = 'employed',
-                   monthly_net_income = 2600.0,
-                   benefit_status = NULL,
-                   rent_payer = 'self'
-            """
-        )
+    with conn, contextlib.suppress(sqlite3.Error):
+        conn.execute("UPDATE monitor_settings SET enabled = 0")
     conn.close()
     return scratch
 
@@ -134,11 +145,24 @@ def main() -> int:
     from homehunter.config.settings import Settings
     from homehunter.ui.main_window import MainWindow
 
-    listing_id = pick_listing(scratch)
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
     app = QApplication(sys.argv[:1])
     facade = HomeHunterFacade(Settings(data_dir=scratch))
+
+    # Demo-Werte über die Dienste der Anwendung setzen, nicht per SQL: so
+    # laufen sie durch dieselbe Validierung wie eine Eingabe im Programm,
+    # und jedes Feld, das hier nicht genannt ist, behält seinen Standard.
+    profile = facade.profile_service.save(DEMO_PROFILE)
+    active = facade.search_criteria_service.get_active_preset()
+    if active is None:
+        preset = facade.search_criteria_service.create_preset(DEMO_PRESET)
+        facade.search_criteria_service.activate_preset(preset.id)
+    else:
+        facade.search_criteria_service.update_preset(active.id, DEMO_PRESET)
+    print(f"  Demo-Suchprofil und -Bewerber gesetzt ({profile.first_name})")
+
+    listing_id = pick_listing(scratch)
     window = MainWindow(facade)
     window.show()
     root = window.root_window
@@ -202,13 +226,12 @@ def main() -> int:
 
     @step
     def _reanalyse():
-        # Beispielprofil und deutscher Profilname haben einen anderen Inhalt
-        # als das Gespeicherte, also auch andere Hashes — die App hielte jede
-        # gespeicherte Bewertung sonst zu Recht für veraltet und blendete
-        # einen Warnstreifen ein. Es reicht nicht, nur das ausgewählte Angebot
-        # neu zu bewerten: der Sichtungsmodus zeigt andere Karten, und die
-        # trügen weiter den alten Profilnamen und einen Hinweis, der das
-        # frühere Profil verrät. Deshalb einmal alles.
+        # Die gespeicherten Urteile stammen aus dem echten Suchprofil. Ohne
+        # Neubewertung stünde auf den Karten das Ergebnis der einen Suche und
+        # in der Kopfzeile der Name der anderen, und die App zeigte zu Recht
+        # einen Warnstreifen "Bewertung veraltet". Es reicht nicht, nur das
+        # ausgewählte Angebot zu bewerten: der Sichtungsmodus zeigt andere
+        # Karten. Deshalb einmal alles.
         bridge.reanalyzeAllListings()
 
     @step
