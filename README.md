@@ -36,19 +36,53 @@ achten.
 
 ## Noch zu ergänzen
 
-**1. Anschrift für das Impressum.** In `index.html` steht zweimal der
-Platzhalter `[STRASSE, PLZ BERLIN]` — je einmal in der deutschen und in der
-englischen Fußzeile. § 5 TMG verlangt eine ladungsfähige Anschrift; ohne sie
-sollte die Seite nicht öffentlich gehen.
+**Anschrift für das Impressum.** In `index.html` steht zweimal der Platzhalter
+`[STRASSE, PLZ BERLIN]` — je einmal in der deutschen und in der englischen
+Fußzeile. § 5 TMG verlangt eine ladungsfähige Anschrift; ohne sie sollte die
+Seite nicht öffentlich gehen.
 
-**2. Absolute Adressen für die Vorschau.** Sobald die Domäne feststeht, im
-`<head>` `og:image` auf eine absolute Adresse setzen und `og:url` ergänzen.
-Relative Pfade werten nicht alle Dienste aus, die eine Linkvorschau bauen.
+**Postadresse auf der eigenen Domäne.** Solange es kein Postfach auf
+`homehunter.store` gibt, steht die Gmail-Adresse auf der Seite: eine Adresse,
+die niemand liest, ist schlechter als eine, die schwächer aussieht. Sobald das
+Postfach läuft, sind es drei Stellen je Sprachfassung — Kopf, Abschnitt
+„Status und Kontakt“, Impressum.
 
 ## Veröffentlichen
 
-GitHub Pages, Zweig `master`, Wurzelverzeichnis. Eine eigene Domäne ist
-vorzuziehen: eine Adresse auf `github.io` liest sich in einem Geschäftsbrief
-schwach. Sobald es eine Domäne gibt, dort auch eine Postadresse einrichten und
-diese statt der Gmail-Adresse eintragen — drei Stellen je Sprachfassung: Kopf,
-Abschnitt „Status und Kontakt“, Impressum.
+Die Domäne ist `homehunter.store` (Squarespace, registriert am 29.08.2026).
+`CNAME` in diesem Verzeichnis enthält sie bereits, GitHub Pages liest die Datei
+beim Ausrollen.
+
+### DNS bei Squarespace
+
+Die vorhandenen A-Einträge zeigen auf die Parkseite von Squarespace
+(198.49.23.144/145, 198.185.159.144/145) und müssen weg. Stattdessen:
+
+| Typ | Host | Wert |
+|---|---|---|
+| A | @ | 185.199.108.153 |
+| A | @ | 185.199.109.153 |
+| A | @ | 185.199.110.153 |
+| A | @ | 185.199.111.153 |
+| AAAA | @ | 2606:50c0:8000::153 |
+| AAAA | @ | 2606:50c0:8001::153 |
+| AAAA | @ | 2606:50c0:8002::153 |
+| AAAA | @ | 2606:50c0:8003::153 |
+| CNAME | www | `<konto>.github.io.` |
+
+Danach im Repository unter Settings → Pages die Domäne eintragen und
+„Enforce HTTPS“ setzen, sobald das Zertifikat ausgestellt ist (dauert nach der
+DNS-Umstellung meist einige Minuten bis zu einer Stunde).
+
+Prüfen lässt sich das so:
+
+    dig +short A homehunter.store        # die vier 185.199.x.153
+    curl -sI https://homehunter.store/ | head -1
+
+### ICANN-Bestätigung
+
+Squarespace zeigt „Action Required“. Bei einer Domäne, die gerade erst
+registriert wurde, ist das fast immer die ICANN-Bestätigung der
+Registranten-E-Mail: Es kommt eine Mail mit einem Bestätigungslink, und wird
+er nicht innerhalb von 15 Tagen angeklickt, sperrt die Registrierungsstelle
+die Domäne. Das kann nur der Inhaber selbst erledigen.
