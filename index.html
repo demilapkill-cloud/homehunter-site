@@ -22,10 +22,10 @@
 <meta property="og:site_name" content="HomeHunter">
 <meta property="og:title" content="HomeHunter — Wohnungssuche in Berlin">
 <meta property="og:description" content="Eine Desktop-Anwendung, die Berliner Mietangebote aus zwanzig Quellen zusammenführt, sie gegen die schriftlichen Kriterien des Nutzers prüft und die Bewerbung vorbereitet, die der Nutzer selbst absendet.">
-<meta property="og:image" content="https://www.homehunter.store/img/01-liste.png">
+<meta property="og:image" content="https://www.homehunter.store/img/04-quellenliste.png">
 <meta property="og:image:width" content="1440">
 <meta property="og:image:height" content="900">
-<meta property="og:image:alt" content="Die Angebotsliste von HomeHunter mit Quelle und Urteil auf jeder Karte.">
+<meta property="og:image:alt" content="Die Quellen, die HomeHunter liest, jede mit ihrer Erreichbarkeit und ihrer Ausbeute.">
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="stylesheet" href="style.css">
@@ -61,10 +61,10 @@
   Wohnung, die auf mehreren Portalen steht, zu einer Karte zusammen. Jedes Angebot
   wird gegen die schriftlich festgelegten Kriterien des Nutzers geprüft — von einem
   festen Regelwerk, das zu jedem Ergebnis die Gründe nennt. Passt eine Wohnung,
-  stellt die Anwendung die Bewerbungsunterlagen zusammen und verfasst ein
-  Anschreiben auf Deutsch. Die Anwendung ist in Entwicklung; eine öffentliche
-  Version gibt es noch nicht. Geplant sind Ausgaben für macOS, Windows, Linux,
-  iOS und Android.</p>
+  führt ein Klick den Nutzer auf das Original beim Anbieter; dort liest er weiter
+  und bewirbt sich. Die Anwendung ist in Entwicklung; eine öffentliche Version gibt
+  es noch nicht. Geplant sind Ausgaben für macOS, Windows, Linux, iOS und
+  Android.</p>
 </section>
 
 <section id="datenpartner">
@@ -88,10 +88,10 @@
   </ul>
 
   <h3>Was Sie davon haben</h3>
-  <p>Der Nutzer erreicht Ihr Angebot vorbereitet: die Kriterien sind abgeglichen, die
-  Unterlagen sind zusammengestellt, das Anschreiben ist verfasst. Statt vieler
-  Anfragen auf gut Glück erhalten Sie wenige, die zum Objekt passen. Wir stehen vor
-  Ihrem Angebot, nicht an seiner Stelle.</p>
+  <p>Der Nutzer erreicht Ihr Angebot vorgefiltert: Stadt, Miete, Zimmerzahl, Fläche
+  und die übrigen Bedingungen sind bereits abgeglichen, und er weiß, warum dieses
+  Angebot zu ihm passt. Statt vieler Anfragen auf gut Glück erhalten Sie wenige, die
+  zum Objekt passen. Wir stehen vor Ihrem Angebot, nicht an seiner Stelle.</p>
 </section>
 
 <section id="integration">
@@ -133,29 +133,30 @@
 <section id="screenshots">
   <h2>Aus der Anwendung</h2>
   <div class="shots">
-
   <figure>
-    <img class="shot" src="img/01-liste.png" width="1440" height="900"
-         loading="eager" decoding="async" alt="Die Angebotsliste von HomeHunter: links die gefundenen Wohnungen mit Quelle und Urteil, rechts die ausgewählte Wohnung mit ihren erfüllten Kriterien.">
-    <figcaption><b>Die Liste.</b> Alle gefundenen Wohnungen in einer Ansicht, neueste zuerst. Jede Karte nennt die Quelle und die Kriterien, an denen das Angebot gescheitert ist oder die es erfüllt.</figcaption>
+    <img class="shot narrow" src="img/01-liste.png" width="582" height="836"
+         loading="lazy" decoding="async" alt="Die Angebotsliste: Karten mit Urteil, Quelle und den Kriterien, an denen das Angebot hängt.">
+    <figcaption><b>Die Liste.</b> Alle gefundenen Wohnungen, Treffer zuerst. Jede Karte nennt die Quelle, das Urteil und die Kriterien dahinter. „2 Quellen“ heißt: dieselbe Wohnung stand auf zwei Portalen und ist zu einer Karte zusammengeführt.</figcaption>
   </figure>
-
   <figure>
-    <img class="shot" src="img/02-gruende.png" width="1440" height="900"
-         loading="lazy" decoding="async" alt="Die Detailspalte einer Wohnung: jede geprüfte Bedingung einzeln aufgeführt, darunter die Vollständigkeit der Unterlagen und die Quelle mit dem Link auf das Original.">
-    <figcaption><b>Eine Karte mit den Gründen.</b> Jede geprüfte Bedingung einzeln aufgeführt — und darunter die Quelle des Angebots mit dem Link auf das ursprüngliche Exposé.</figcaption>
+    <img class="shot" src="img/02-urteil.png" width="1440" height="397"
+         loading="lazy" decoding="async" alt="Das Urteil zu einer Wohnung mit der Liste jeder einzeln geprüften Bedingung.">
+    <figcaption><b>Das Urteil mit seinen Gründen.</b> Jede geprüfte Bedingung einzeln aufgeführt, dazu das Suchprofil, gegen das gemessen wurde.</figcaption>
   </figure>
-
   <figure>
-    <img class="shot" src="img/03-sichtung.png" width="1440" height="900"
-         loading="lazy" decoding="async" alt="Der Sichtungsmodus: eine Wohnung bildschirmfüllend, unten die Tastaturbefehle für Bewerben, Als gesendet markieren und Überspringen.">
-    <figcaption><b>Der Sichtungsmodus.</b> Die ungesehenen Wohnungen einzeln und bildschirmfüllend, mit der Tastatur zu bearbeiten.</figcaption>
+    <img class="shot" src="img/03-herkunft.png" width="1440" height="260"
+         loading="lazy" decoding="async" alt="Der Abschnitt Quellen auf einem Objekt: der Name der Quelle, die Adresse des ursprünglichen Exposés und eine Schaltfläche zum Öffnen.">
+    <figcaption><b>Herkunft.</b> Auf jedem Objekt steht die Quelle, aus der es stammt, mit der Adresse des ursprünglichen Exposés. Ein Klick öffnet es im Browser des Nutzers.</figcaption>
   </figure>
-
   <figure>
-    <img class="shot" src="img/04-anschreiben.png" width="1440" height="900"
-         loading="lazy" decoding="async" alt="Das aufgeklappte Bewerbungsschreiben auf Deutsch, darunter die Schaltflächen zum Kopieren des Schreibens und zum Öffnen des Angebots.">
-    <figcaption><b>Das fertige Anschreiben.</b> Auf Deutsch, aus Profil und Inserat gebildet — zum Lesen, Ändern und selbst Absenden. Hier mit einem Beispielprofil.</figcaption>
+    <img class="shot" src="img/04-quellenliste.png" width="1440" height="900"
+         loading="lazy" decoding="async" alt="Die Liste der Quellen mit Erreichbarkeit, Prüfintervall und Ausbeute je Quelle.">
+    <figcaption><b>Die Quellen und ihr Zustand.</b> Jede Quelle mit Erreichbarkeit, Prüfintervall und Ausbeute. Was nicht gelesen werden kann, steht mit dem Grund dabei, statt einfach zu fehlen.</figcaption>
+  </figure>
+  <figure>
+    <img class="shot" src="img/05-kriterien.png" width="1440" height="900"
+         loading="lazy" decoding="async" alt="Die Seite mit den Suchkriterien: Stadt, Budgetgrenzen, Zimmerzahl, Wohnfläche und WBS-Regel.">
+    <figcaption><b>Die Suchkriterien.</b> Die Regeln, gegen die geprüft wird — harte Grenzen und bloße Präferenzen getrennt. Andere gibt es nicht: was hier nicht steht, beeinflusst kein Urteil.</figcaption>
   </figure>
   </div>
 </section>
@@ -176,10 +177,9 @@
     <li><span class="step">PRÜFEN</span><span class="step-text">Ein Regelwerk vergleicht
       das Angebot mit den Kriterien des Nutzers. Ergebnis: passt, muss angesehen
       werden, oder scheidet aus — jeweils mit den Gründen.</span></li>
-    <li><span class="step">VORBEREITEN</span><span class="step-text">Unterlagenliste und
-      Anschreiben werden für dieses eine Angebot erstellt.</span></li>
-    <li><span class="step">NUTZER</span><span class="step-text">Abgesendet wird von
-      Hand. Die Bewerbung verschickt der Mensch, nicht das Programm.</span></li>
+    <li><span class="step">NUTZER</span><span class="step-text">Hier endet die
+      Anwendung. Der Nutzer öffnet das Original beim Anbieter und bewirbt sich dort
+      selbst — das Programm tut das nie für ihn.</span></li>
   </ol>
 </section>
 
@@ -315,7 +315,8 @@
     <code>pocs/a_immoscout/RESULT.md</code> dokumentiert.</p>
 
     <h3>Keine fremden Formulare</h3>
-    <p>Die Anwendung bereitet die Bewerbung vor; abgesendet wird sie vom Menschen.
+    <p>HomeHunter füllt kein Formular auf Ihrer Seite aus und versendet nichts. Die
+    Bewerbung schreibt und verschickt der Nutzer selbst, bei Ihnen, auf Ihrem Weg.
     Was umkehrbar ist, ist automatisiert. Was nicht umkehrbar ist, bleibt beim
     Menschen.</p>
 
@@ -334,7 +335,7 @@
 <section id="technik">
   <h2>Technik</h2>
   <p>Python 3.13, PySide6 mit QML, SQLite, Playwright, Alembic; Version 1.0.0.
-  Der Bestand umfasst 1114 Tests, dazu durchgängige Typprüfung mit mypy und
+  Der Bestand umfasst 1120 Tests, dazu durchgängige Typprüfung mit mypy und
   Stilprüfung mit ruff.</p>
 </section>
 
@@ -359,9 +360,9 @@
   <p class="lede">HomeHunter collects rental adverts from twenty sources and merges the
   same flat, listed on several portals, into a single card. Every advert is checked
   against the criteria the user has written down — by a fixed set of rules that names
-  the reason for each outcome. Where a flat fits, the application assembles the
-  application documents and drafts a covering letter in German. The application is
-  under development; there is no public release yet. Builds for macOS, Windows,
+  the reason for each outcome. Where a flat fits, one click takes the user to the
+  original on the provider's own site, where they read on and apply. The application
+  is under development; there is no public release yet. Builds for macOS, Windows,
   Linux, iOS and Android are planned.</p>
 </section>
 
@@ -385,10 +386,10 @@
   </ul>
 
   <h3>What you get from it</h3>
-  <p>The user reaches your advert prepared: criteria checked, documents assembled,
-  covering letter written. Instead of many enquiries sent on the off-chance you
-  receive a few that match the object. We stand in front of your offer, not in place
-  of it.</p>
+  <p>The user reaches your advert pre-filtered: city, rent, rooms, area and the rest
+  of the conditions are already checked, and they know why this advert fits them.
+  Instead of many enquiries sent on the off-chance you receive a few that match the
+  object. We stand in front of your offer, not in place of it.</p>
 </section>
 
 <section>
@@ -429,29 +430,30 @@
 <section class="screenshots">
   <h2>From the application</h2>
   <div class="shots">
-
   <figure>
-    <img class="shot" src="img/01-liste.png" width="1440" height="900"
-         loading="eager" decoding="async" alt="HomeHunter's listing feed: the flats found on the left with source and verdict, the selected flat and its met criteria on the right.">
-    <figcaption><b>The list.</b> Every flat found in one view, newest first. Each card names the source and the criteria the advert failed or met.</figcaption>
+    <img class="shot narrow" src="img/01-liste.png" width="582" height="836"
+         loading="lazy" decoding="async" alt="The listing feed: cards with verdict, source and the criteria the advert turns on.">
+    <figcaption><b>The list.</b> Every flat found, matches first. Each card names the source, the verdict and the criteria behind it. "2 Quellen" means the same flat appeared on two portals and has been merged into one card.</figcaption>
   </figure>
-
   <figure>
-    <img class="shot" src="img/02-gruende.png" width="1440" height="900"
-         loading="lazy" decoding="async" alt="The detail column of one flat: every checked condition listed on its own, below it document readiness and the source with the link to the original.">
-    <figcaption><b>A card with its reasons.</b> Every checked condition listed on its own — and below it the source of the advert with the link to the original exposé.</figcaption>
+    <img class="shot" src="img/02-urteil.png" width="1440" height="397"
+         loading="lazy" decoding="async" alt="The verdict on one flat with every checked condition listed on its own.">
+    <figcaption><b>The verdict and its reasons.</b> Every checked condition listed on its own, together with the search profile it was measured against.</figcaption>
   </figure>
-
   <figure>
-    <img class="shot" src="img/03-sichtung.png" width="1440" height="900"
-         loading="lazy" decoding="async" alt="Triage mode: one flat filling the screen, with keyboard commands for apply, mark as sent and skip along the bottom.">
-    <figcaption><b>Triage mode.</b> The unseen flats one at a time, full screen, handled from the keyboard.</figcaption>
+    <img class="shot" src="img/03-herkunft.png" width="1440" height="260"
+         loading="lazy" decoding="async" alt="The sources section on one object: the name of the source, the address of the original exposé and a button to open it.">
+    <figcaption><b>Provenance.</b> Every object carries the source it came from and the address of the original exposé. One click opens it in the user's browser.</figcaption>
   </figure>
-
   <figure>
-    <img class="shot" src="img/04-anschreiben.png" width="1440" height="900"
-         loading="lazy" decoding="async" alt="The unfolded application letter in German, with buttons to copy the letter and to open the advert below it.">
-    <figcaption><b>The finished covering letter.</b> In German, built from the profile and the advert — to read, edit and send yourself. Shown here with a sample profile.</figcaption>
+    <img class="shot" src="img/04-quellenliste.png" width="1440" height="900"
+         loading="lazy" decoding="async" alt="The list of sources with reachability, check interval and yield per source.">
+    <figcaption><b>The sources and their state.</b> Each source with its reachability, check interval and yield. What cannot be read is listed with the reason rather than simply missing.</figcaption>
+  </figure>
+  <figure>
+    <img class="shot" src="img/05-kriterien.png" width="1440" height="900"
+         loading="lazy" decoding="async" alt="The search criteria page: city, budget limits, number of rooms, floor area and the WBS rule.">
+    <figcaption><b>The search criteria.</b> The rules everything is checked against — hard limits kept apart from mere preferences. There are no others: what is not here influences no verdict.</figcaption>
   </figure>
   </div>
 </section>
@@ -470,10 +472,9 @@
     <li><span class="step">PRÜFEN</span><span class="step-text">A set of rules compares
       the advert with the user's criteria. The outcome: it fits, it needs a look, or
       it is out — with the reasons in each case.</span></li>
-    <li><span class="step">VORBEREITEN</span><span class="step-text">The document
-      checklist and the covering letter are prepared for that one advert.</span></li>
-    <li><span class="step">NUTZER</span><span class="step-text">Sending is done by hand.
-      A person submits the application, not the program.</span></li>
+    <li><span class="step">NUTZER</span><span class="step-text">This is where the
+      application stops. The user opens the original on the provider's own site and
+      applies there — the program never does it for them.</span></li>
   </ol>
 </section>
 
@@ -603,8 +604,9 @@
     ImmoScout24 is documented in <code>pocs/a_immoscout/RESULT.md</code>.</p>
 
     <h3>No third-party forms</h3>
-    <p>The application prepares the application; a person sends it. What is reversible
-    is automated. What is not reversible stays with the person.</p>
+    <p>HomeHunter fills in no form on your site and submits nothing. The user writes
+    and sends the application themselves, with you, by your own route. What is
+    reversible is automated. What is not reversible stays with the person.</p>
 
     <h3>Deterministic</h3>
     <p>The verdict comes from a set of rules that names every point it checked. There
@@ -621,7 +623,7 @@
 <section>
   <h2>Technology</h2>
   <p>Python 3.13, PySide6 with QML, SQLite, Playwright, Alembic; version 1.0.0. The
-  suite holds 1114 tests, alongside type checking with mypy and linting with
+  suite holds 1120 tests, alongside type checking with mypy and linting with
   ruff.</p>
 </section>
 

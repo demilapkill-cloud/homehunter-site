@@ -41,21 +41,23 @@ OUT_DIR = Path(__file__).resolve().parent.parent / "img"
 
 WIDTH, HEIGHT = 1440, 900
 
-#: Das Suchprofil, das auf den Bildern zu sehen ist. Frei erfunden und
-#: bewusst breit gefasst: eine Suche, die fast alles ablehnt, zeigt eine Liste
-#: aus lauter roten Karten und erklärt einem Betrachter nichts. Diese Werte
-#: ergeben eine gemischte Liste — Treffer, Prüffälle und Absagen nebeneinander,
-#: also genau das, was die Seite über das Regelwerk behauptet.
+#: Das Suchprofil, das auf den Bildern zu sehen ist. Frei erfunden, aber an
+#: den tatsächlichen Berliner Angeboten ausgerichtet: eine Suche, die fast
+#: alles ablehnt, ergibt eine Liste aus lauter roten Karten und erklärt einem
+#: Betrachter nichts. Die neuesten Anzeigen im Bestand liegen überwiegend
+#: zwischen 1.300 und 2.000 € warm, deshalb diese Grenzen — so stehen Treffer,
+#: Prüffälle und Absagen nebeneinander, also genau das, was die Seite über das
+#: Regelwerk behauptet.
 DEMO_PRESET: dict = {
     "name": "Wohnungssuche Berlin",
     "cities": ["Berlin"],
     "districts": [],
     "min_rooms": 1,
-    "max_rooms": 3,
-    "min_area_m2": 30,
-    "max_area_m2": 90,
-    "max_cold_rent": 950,
-    "max_warm_rent": 1250,
+    "max_rooms": 4,
+    "min_area_m2": 15,
+    "max_area_m2": 120,
+    "max_cold_rent": 1700,
+    "max_warm_rent": 2000,
     "rent_payer": "self",
 }
 
@@ -97,6 +99,13 @@ def clone_data_dir(source: Path) -> Path:
     conn = sqlite3.connect(str(scratch / "db" / "homehunter.sqlite3"))
     with conn, contextlib.suppress(sqlite3.Error):
         conn.execute("UPDATE monitor_settings SET enabled = 0")
+        # Die Quelle, die über die eigene Telegram-Sitzung des Nutzers läuft,
+        # gehört nicht auf die Produktseite: sie liest einen fremden Kanal,
+        # der Anzeigen anderer Anbieter weiterveröffentlicht, und genau diese
+        # Anbieter sind die Leser der Seite. Die Seite nennt sie ebenfalls
+        # nicht — dort stehen die neunzehn ohne eigene Sitzung abrufbaren
+        # Quellen. Die Aufnahme bleibt damit deckungsgleich mit dem Text.
+        conn.execute("DELETE FROM source_monitor_states WHERE source LIKE '%telegram%'")
     conn.close()
     return scratch
 
@@ -189,25 +198,72 @@ def main() -> int:
                 return item
         return matches[0] if matches else None
 
-    def scroll_to(object_name: str, *, offset: int = -16) -> None:
-        """Die Detailspalte auf ein benanntes Element schieben."""
-        scroll = find("detailScroll")
+    def scroll_to(object_name: str, *, offset: int = -16, scroll_name: str = "detailScroll",
+                  column_name: str = "detailColumn") -> None:
+        """Eine Bildlaufspalte auf ein benanntes Element schieben."""
+        scroll = find(scroll_name)
         target = find(object_name)
         if scroll is None or target is None:
             print(f"  ! {object_name} nicht gefunden — nicht gescrollt")
             return
         flick = scroll.property("contentItem")
-        column = find("detailColumn")
+        column = find(column_name)
         if flick is None or column is None:
             return
         y = target.mapToItem(column, 0, 0).y() + offset
         max_y = max(0.0, flick.property("contentHeight") - flick.property("height"))
         flick.setProperty("contentY", max(0.0, min(y, max_y)))
 
-    def grab(name: str) -> None:
+    def grab(name: str, *, cut_above: str | None = None,
+             cut_left_of: str | None = None, cut_below_top_of: str | None = None) -> None:
+        """Aufnehmen und auf einen Ausschnitt beschneiden.
+
+        Die Seite wirbt nicht damit, dass die Anwendung Bewerbungsunterlagen
+        zusammenstellt oder ein Anschreiben verfasst. In der Detailspalte
+        stehen diese Abschnitte zwischen den Dingen, die hier gezeigt werden
+        sollen, also wird der Ausschnitt an ihnen abgeschnitten — geschnitten,
+        nicht retuschiert: zu sehen ist, was zu sehen ist, nur weniger davon.
+
+        Alle drei Kanten werden in Fensterkoordinaten bestimmt und erst danach
+        gemeinsam angewendet. Nacheinander zu schneiden ginge schief: nach dem
+        ersten Schnitt zählt das Bild anders als das Fenster.
+        """
+        image = root.grabWindow()
+        ratio = image.height() / max(1.0, float(root.height()))
+
+        def edge(object_name: str, axis: str) -> float | None:
+            marker = find(object_name)
+            if marker is None:
+                print(f"  ! {object_name} nicht gefunden — Kante entfällt")
+                return None
+            point = marker.mapToItem(None, 0.0, 0.0)
+            return point.x() if axis == "x" else point.y()
+
+        left, top = 0, 0
+        right, bottom = image.width(), image.height()
+
+        if cut_left_of is not None:
+            x = edge(cut_left_of, "x")
+            if x is not None:
+                right = min(right, int((x - 8) * ratio))
+        if cut_below_top_of is not None:
+            y = edge(cut_below_top_of, "y")
+            if y is not None:
+                top = max(top, int(y * ratio))
+        if cut_above is not None:
+            y = edge(cut_above, "y")
+            if y is not None:
+                bottom = min(bottom, int((y - 10) * ratio))
+
+        if right - left > 300 and bottom - top > 200:
+            image = image.copy(left, top, right - left, bottom - top)
+        else:
+            print(f"  ! Ausschnitt für {name} unbrauchbar — ungeschnitten")
+
         path = OUT_DIR / name
-        root.grabWindow().save(str(path))
-        print(f"  gespeichert: {path.relative_to(OUT_DIR.parent)}")
+        image.save(str(path))
+        size = f"{image.width()}x{image.height()}"
+        print(f"  gespeichert: {path.relative_to(OUT_DIR.parent)}  {size}")
 
     steps: list = []
 
@@ -215,30 +271,40 @@ def main() -> int:
         steps.append(fn)
         return fn
 
+    # Die Seite wirbt nicht damit, dass die Anwendung Bewerbungsunterlagen
+    # zusammenstellt oder ein Anschreiben schreibt. Die Aufnahmen dürfen es
+    # deshalb auch nicht zeigen: jede Ansicht wird an den Stellen der
+    # Detailspalte gegriffen, an denen es um Fund, Urteil und Herkunft geht.
+
     @step
-    def _list():
-        # Die Vorgabe ist die Registerkarte "Treffer"; die zeigt je nach
-        # Datenlage eine einzige Karte. Für ein Bild der Liste "Alle".
+    def _open_list():
         page = find("listingsPage")
         if page is not None:
             page.setProperty("filterVerdict", "ALL")
+        # Die Vorgabe "Neueste zuerst" stellt die frisch eingegangenen
+        # möblierten Angebote nach vorn, und die sprengen jedes Budget — die
+        # Liste bestünde aus lauter Absagen. "Treffer zuerst" zeigt, wonach
+        # ein Suchender die Liste tatsächlich durchgeht.
+        #
+        # Das Auswahlfeld wird mitgesetzt: `setListingsSortMode` allein ändert
+        # nur das Modell, nicht die Beschriftung, und die Aufnahme zeigte sonst
+        # eine Reihenfolge, die nicht zu ihrem eigenen Auswahlfeld passt.
+        combo = find("sortCombo")
+        if combo is not None:
+            combo.setProperty("currentIndex", 1)
+        bridge.setListingsSortMode("smart")
         bridge.selectListing(listing_id)
 
     @step
     def _reanalyse():
-        # Die gespeicherten Urteile stammen aus dem echten Suchprofil. Ohne
-        # Neubewertung stünde auf den Karten das Ergebnis der einen Suche und
-        # in der Kopfzeile der Name der anderen, und die App zeigte zu Recht
-        # einen Warnstreifen "Bewertung veraltet". Es reicht nicht, nur das
-        # ausgewählte Angebot zu bewerten: der Sichtungsmodus zeigt andere
-        # Karten. Deshalb einmal alles.
+        # Demo-Suchprofil und -Bewerber haben andere Hashes als das
+        # Gespeicherte; ohne Neubewertung stünde auf jeder Karte ein
+        # Warnstreifen "Bewertung veraltet". Der Sichtungsmodus zeigt andere
+        # Karten als die ausgewählte, deshalb einmal alles.
         bridge.reanalyzeAllListings()
 
     @step
     def _await_reanalysis():
-        # `reanalyzeAllListings` läuft im Hintergrund; ohne Warten wären die
-        # Aufnahmen ein Wettlauf. Danach noch 4,5 s, bis der Hinweisstreifen
-        # von selbst verschwindet (Toast.qml: 3,8 s).
         waited = {"ms": 0}
 
         def poll() -> None:
@@ -256,36 +322,69 @@ def main() -> int:
 
     @step
     def _shoot_list():
-        scroll_to("detailScroll", offset=0)
-        flick = find("detailScroll").property("contentItem")
-        flick.setProperty("contentY", 0.0)
-        grab("01-liste.png")
+        # Nur die Listenspalte, ohne die Detailspalte daneben und ohne die
+        # Kopfzeile darüber: die Aufnahme soll die Liste zeigen, nicht eine
+        # angeschnittene Werkzeugleiste.
+        grab("01-liste.png", cut_left_of="detailPane", cut_below_top_of="detailPane")
 
     @step
-    def _shoot_reasons():
+    def _shoot_verdict():
+        # Ein Band aus Liste und Urteil. Direkt unter dem Urteil steht in der
+        # Anwendung die Vollständigkeit der Bewerbungsunterlagen — davon ist
+        # auf dieser Seite nicht die Rede, also endet das Bild davor.
         scroll_to("decisionSection")
-        grab("02-gruende.png")
+        grab("02-urteil.png", cut_above="readinessSection")
 
     @step
-    def _open_letter():
-        expander = find("letterExpander")
-        if expander is None:
-            raise SystemExit("letterExpander nicht gefunden — objectName fehlt?")
-        expander.setProperty("expanded", True)
+    def _shoot_origin():
+        # Und ein zweites Band: Datenqualität, Originaltext und die Quelle mit
+        # dem Link auf das ursprüngliche Exposé — der Teil, der einen
+        # Datenpartner angeht. Es endet vor "Meine Bewerbung".
+        scroll_to("sourcesSection", offset=-24)
+        grab("03-herkunft.png",
+             cut_below_top_of="dataQualitySection", cut_above="myApplicationSection")
 
     @step
-    def _shoot_letter():
-        scroll_to("letterExpander")
-        grab("04-anschreiben.png")
+    def _open_overview():
+        # Die Übersicht trägt die Quellenliste mit ihrem jeweiligen Zustand —
+        # für einen Datenpartner die aussagekräftigste Ansicht der Anwendung,
+        # weil dort auch die gesperrten Quellen mit ihrem Grund stehen.
+        root.setProperty("activePage", "home")
 
     @step
-    def _open_triage():
-        find("letterExpander").setProperty("expanded", False)
-        bridge.requestTriage()
+    def _expand_sources():
+        panel = find("monitorPanel")
+        if panel is not None:
+            panel.setProperty("sourcesExpanded", True)
 
     @step
-    def _shoot_triage():
-        grab("03-sichtung.png")
+    def _scroll_past_first_source():
+        # Die erste Zeile der Quellenliste ist die, die über die eigene
+        # Telegram-Sitzung des Nutzers läuft. Sie kommt aus dem Verzeichnis
+        # der Anwendung, nicht aus der Datenbank, lässt sich also nicht
+        # herauslöschen — die Liste wird stattdessen so weit geschoben, dass
+        # sie über dem Bildrand steht. Der Kopf der Karte geht dabei mit;
+        # gezeigt werden soll ohnehin die Liste selbst.
+        scroll = find("dashboardScroll")
+        panel = find("monitorPanel")
+        if scroll is None or panel is None:
+            print("  ! Übersicht nicht gefunden — ungescrollt")
+            return
+        flick = scroll.property("contentItem")
+        top = panel.mapToItem(None, 0.0, 0.0).y()
+        flick.setProperty("contentY", float(flick.property("contentY")) + top + 305.0)
+
+    @step
+    def _shoot_sources_panel():
+        grab("04-quellenliste.png", cut_above="applicationsSection")
+
+    @step
+    def _open_criteria():
+        root.setProperty("activePage", "search")
+
+    @step
+    def _shoot_criteria():
+        grab("05-kriterien.png")
 
     state: dict = {"i": 0, "hold": False}
 

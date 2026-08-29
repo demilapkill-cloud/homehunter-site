@@ -248,10 +248,20 @@ img.shot {
   display: block;
   width: 100%;
   height: auto;
+  max-width: 100%;
   border: 1px solid var(--rule);
   border-radius: 6px;
   background: var(--paper-alt);
   box-shadow: var(--shadow-sm);
+}
+
+/* Ein Ausschnitt, der schmaler aufgenommen wurde als die Spalte breit ist.
+   Auf Spaltenbreite gezogen würde er unscharf; er bleibt bei seiner eigenen
+   Größe und steht mittig. */
+img.shot.narrow {
+  width: auto;
+  max-width: min(100%, 582px);
+  margin-inline: auto;
 }
 figcaption {
   font-size: 14.5px;
@@ -607,11 +617,18 @@ ul.reasons.unknown li::before { content: "?";      color: var(--open); }
   caption { font-size: 9.5pt; padding-bottom: 5pt; }
   .note { font-size: 7.5pt; margin-bottom: 8pt; }
 
-  /* Bildschirmfotos zweispaltig und klein — als Beleg, nicht als Schaustück. */
-  .shots { display: grid; grid-template-columns: 1fr 1fr; gap: 8pt 14pt; }
+  /* Bildschirmfotos dreispaltig und klein — als Beleg, nicht als Schaustück.
+     Zu fünft passen sie so in zwei Reihen und kosten kein weiteres Blatt. */
+  .shots {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: start;
+    gap: 7pt 10pt;
+  }
   figure { margin: 0; page-break-inside: avoid; }
   img.shot { border-color: #bbb; }
-  figcaption { font-size: 7.5pt; padding-top: 3pt; line-height: 1.32; }
+  img.shot.narrow { max-width: 100%; }
+  figcaption { font-size: 6.5pt; padding-top: 3pt; line-height: 1.3; }
 
   .limits { background: #fff; border: .8pt solid #999; padding: 10pt 12pt;
            page-break-inside: avoid; }
