@@ -7,16 +7,23 @@ keine externen Adressen.
     index.html    Seite, Deutsch und Englisch im selben Dokument
     style.css     Gesamtes Layout, einschließlich Druckfassung (A4)
     favicon.svg   Symbol der Anwendung, aus HomeHunter/assets/homehunter.svg
-    img/          vier Bildschirmfotos, 1440 x 900
+    img/          fünf Bildschirmfotos aus der Anwendung
     tools/        Skript, das die Bildschirmfotos erzeugt
     .nojekyll     GitHub Pages soll nichts verarbeiten
+    CNAME         www.homehunter.store
+
+Die Seite steht auf `noindex, nofollow`: sie wird gezielt weitergegeben und
+soll nicht über eine Suchmaschine zu finden sein. Ein `robots.txt` liegt
+bewusst nicht daneben — eine dort gesperrte Datei liest kein Crawler, und
+dann bliebe auch die `noindex`-Zeile ungelesen.
 
 ## Ansehen
 
     python3 -m http.server -d . 8000    # http://localhost:8000
 
 Die Datei lässt sich auch direkt im Browser öffnen; ein Server wird nicht
-gebraucht. Gedruckt ergibt die Seite vier Blatt A4.
+gebraucht. Gedruckt ergibt die Seite fünf Blatt A4; das letzte trägt
+Impressum und Datenschutzerklärung.
 
 ## Bildschirmfotos neu erzeugen
 
@@ -25,21 +32,26 @@ gebraucht. Gedruckt ergibt die Seite vier Blatt A4.
 
 Das Skript kopiert die Datenbank in ein Wegwerf-Verzeichnis, ersetzt dort das
 Bewerberprofil durch ein neutrales Beispielprofil, bewertet einmal neu und
-nimmt die vier Ansichten offscreen auf. Es öffnet kein Fenster, es sendet
+nimmt die fünf Ansichten offscreen auf. Es öffnet kein Fenster, es sendet
 nichts, und die Daten der laufenden Anwendung bleiben unberührt.
 
-Wichtig: das Anschreiben auf `04-anschreiben.png` entsteht aus dem
-Beispielprofil, nicht aus dem echten. Das echte Profil enthält Telefonnummer,
-Nettoeinkommen und den Kostenträger der Miete — nichts davon gehört auf eine
-öffentliche Seite. Wer die Bilder von Hand austauscht, muss darauf selbst
-achten.
+Wichtig: alles, was auf den Bildern über den *Nutzer* zu sehen ist, stammt aus
+dem Beispielprofil im Skript, nicht aus dem echten. Das echte Profil enthält
+Telefonnummer, Nettoeinkommen und den Kostenträger der Miete — nichts davon
+gehört auf eine Seite, die aus dem Haus geht. Wer die Bilder von Hand
+austauscht, muss darauf selbst achten.
+
+Echt sind allein die Wohnungsanzeigen: öffentlich ausgeschriebene Angebote aus
+einer Kopie der Datenbank. Auf `01-liste.png` stehen deshalb Überschriften
+fremder Inserate.
 
 ## Noch zu ergänzen
 
-**Anschrift für das Impressum.** In `index.html` steht zweimal der Platzhalter
-`[STRASSE, PLZ BERLIN]` — je einmal in der deutschen und in der englischen
-Fußzeile. § 5 TMG verlangt eine ladungsfähige Anschrift; ohne sie sollte die
-Seite nicht öffentlich gehen.
+**Sichtbarkeit des Repositorys.** Dieses Repository ist öffentlich, und das
+bleibt es. Die `noindex`-Zeile hält die Seite aus den Suchmaschinen heraus,
+nicht aber aus GitHub: wer das Repository findet, findet die Adresse. Alles,
+was hier steht — auch diese Datei —, ist damit öffentlich; interne Notizen
+gehören entsprechend nicht hinein.
 
 **Postadresse auf der eigenen Domäne.** Solange es kein Postfach auf
 `homehunter.store` gibt, steht die Gmail-Adresse auf der Seite: eine Adresse,

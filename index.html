@@ -4,9 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>HomeHunter — Wohnungssuche in Berlin</title>
-<meta name="description" content="HomeHunter ist eine Desktop-Anwendung, die Berliner Mietangebote aus neunzehn öffentlich abrufbaren Quellen zusammenführt, sie gegen die schriftlichen Kriterien des Nutzers prüft und die Bewerbung vorbereitet, die der Nutzer selbst absendet.">
+<meta name="description" content="HomeHunter ist eine Desktop-Anwendung, die Berliner Mietangebote aus neunzehn öffentlich abrufbaren Quellen zusammenführt, sie gegen die schriftlich festgelegten Kriterien des Nutzers prüft, ein Anschreiben dafür entwirft und ihn zum Original beim Anbieter führt, wo er sich selbst bewirbt.">
 <meta name="author" content="Damian Lapiha">
-<meta name="robots" content="index, follow">
+<!-- Die Seite wird gezielt weitergereicht, nicht gesucht: wer die Adresse
+     nicht hat, soll sie auch nicht finden. Kein robots.txt daneben — eine
+     gesperrte Datei bekäme kein Crawler zu lesen, und genau diese Zeile
+     ist es, die zählt. -->
+<meta name="robots" content="noindex, nofollow">
 
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 
@@ -21,7 +25,7 @@
 <meta property="og:locale:alternate" content="en_GB">
 <meta property="og:site_name" content="HomeHunter">
 <meta property="og:title" content="HomeHunter — Wohnungssuche in Berlin">
-<meta property="og:description" content="Eine Desktop-Anwendung, die Berliner Mietangebote aus neunzehn öffentlich abrufbaren Quellen zusammenführt, sie gegen die schriftlichen Kriterien des Nutzers prüft und die Bewerbung vorbereitet, die der Nutzer selbst absendet.">
+<meta property="og:description" content="Eine Desktop-Anwendung, die Berliner Mietangebote aus neunzehn öffentlich abrufbaren Quellen zusammenführt, sie gegen die schriftlich festgelegten Kriterien des Nutzers prüft, ein Anschreiben dafür entwirft und ihn zum Original beim Anbieter führt, wo er sich selbst bewirbt.">
 <meta property="og:image" content="https://www.homehunter.store/img/04-quellenliste.png">
 <meta property="og:image:width" content="1440">
 <meta property="og:image:height" content="900">
@@ -61,8 +65,8 @@
   Wohnung, die auf mehreren Portalen steht, zu einer Karte zusammen. Jedes Angebot
   wird gegen die schriftlich festgelegten Kriterien des Nutzers geprüft — von einem
   festen Regelwerk, das zu jedem Ergebnis die Gründe nennt. Passt eine Wohnung,
-  führt ein Klick den Nutzer auf das Original beim Anbieter; dort liest er weiter
-  und bewirbt sich. Die Anwendung ist in Entwicklung; eine öffentliche Version gibt
+  entwirft ein Klick das Anschreiben und führt den Nutzer auf das Original beim
+  Anbieter; dort liest er weiter und bewirbt sich selbst. Die Anwendung ist in Entwicklung; eine öffentliche Version gibt
   es noch nicht. Geplant sind Ausgaben für macOS, Windows, Linux, iOS und
   Android.</p>
 </section>
@@ -135,7 +139,7 @@
   <figure>
     <img class="shot narrow" src="img/01-liste.png" width="582" height="836"
          loading="lazy" decoding="async" alt="Die Angebotsliste: Karten mit Urteil, Quelle und den Kriterien, an denen das Angebot hängt.">
-    <figcaption><b>Die Liste.</b> Alle gefundenen Wohnungen, Treffer zuerst. Jede Karte nennt die Quelle, das Urteil und die Kriterien dahinter. „2 Quellen“ heißt: dieselbe Wohnung stand auf zwei Portalen und ist zu einer Karte zusammengeführt.</figcaption>
+    <figcaption><b>Die Liste.</b> Alle gefundenen Wohnungen, Treffer zuerst. Jede Karte nennt die Quelle, das Urteil und die Kriterien dahinter. „2 Quellen“ heißt: dieselbe Wohnung stand auf zwei Portalen und ist zu einer Karte zusammengeführt. „Bewerben“ legt ein Anschreiben für dieses eine Angebot in die Zwischenablage und öffnet das Original beim Anbieter; abgeschickt wird es dort vom Nutzer. „Als gesendet“ ist ein Vermerk, den er für sich selbst setzt.</figcaption>
   </figure>
   <figure>
     <img class="shot" src="img/02-urteil.png" width="1440" height="498"
@@ -177,8 +181,9 @@
       das Angebot mit den Kriterien des Nutzers. Ergebnis: passt, muss angesehen
       werden, oder scheidet aus — jeweils mit den Gründen.</span></li>
     <li><span class="step">NUTZER</span><span class="step-text">Hier endet die
-      Anwendung. Der Nutzer öffnet das Original beim Anbieter und bewirbt sich dort
-      selbst — das Programm tut das nie für ihn.</span></li>
+      Anwendung. Sie entwirft das Anschreiben, legt es in die Zwischenablage und
+      öffnet das Original beim Anbieter. Gelesen, geändert und abgeschickt wird die
+      Bewerbung dort vom Nutzer — das Programm tut das nie für ihn.</span></li>
   </ol>
 </section>
 
@@ -314,9 +319,13 @@
 
     <h3>Keine fremden Formulare</h3>
     <p>HomeHunter füllt kein Formular auf Ihrer Seite aus und versendet nichts. Die
-    Bewerbung schreibt und verschickt der Nutzer selbst, bei Ihnen, auf Ihrem Weg.
-    Was umkehrbar ist, ist automatisiert. Was nicht umkehrbar ist, bleibt beim
-    Menschen.</p>
+    Anwendung entwirft ein Anschreiben aus den Angaben, die der Nutzer selbst
+    hinterlegt hat, und legt es in die Zwischenablage; gelesen, geändert und
+    abgeschickt wird es vom Nutzer, bei Ihnen, auf Ihrem Weg. Auch der Entwurf
+    folgt festen Regeln: geschrieben wird allein, was im Profil tatsächlich steht —
+    kein Platzhalter, keine plausible Erfindung, und wo offenbleibt, wie die Miete
+    getragen wird, sagt die Anwendung es dem Nutzer, statt zu raten. Was umkehrbar
+    ist, ist automatisiert. Was nicht umkehrbar ist, bleibt beim Menschen.</p>
 
     <h3>Deterministisch</h3>
     <p>Das Urteil fällt ein Regelwerk, das jeden geprüften Punkt einzeln benennt.
@@ -358,8 +367,9 @@
   <p class="lede">HomeHunter collects rental adverts from nineteen publicly reachable sources and merges the
   same flat, listed on several portals, into a single card. Every advert is checked
   against the criteria the user has written down — by a fixed set of rules that names
-  the reason for each outcome. Where a flat fits, one click takes the user to the
-  original on the provider's own site, where they read on and apply. The application
+  the reason for each outcome. Where a flat fits, one click drafts the letter and takes
+  the user to the original on the provider's own site, where they read on and apply
+  themselves. The application
   is under development; there is no public release yet. Builds for macOS, Windows,
   Linux, iOS and Android are planned.</p>
 </section>
@@ -430,7 +440,7 @@
   <figure>
     <img class="shot narrow" src="img/01-liste.png" width="582" height="836"
          loading="lazy" decoding="async" alt="The listing feed: cards with verdict, source and the criteria the advert turns on.">
-    <figcaption><b>The list.</b> Every flat found, matches first. Each card names the source, the verdict and the criteria behind it. "2 Quellen" means the same flat appeared on two portals and has been merged into one card.</figcaption>
+    <figcaption><b>The list.</b> Every flat found, matches first. Each card names the source, the verdict and the criteria behind it. "2 Quellen" means the same flat appeared on two portals and has been merged into one card. "Bewerben" puts a draft letter for this one advert on the clipboard and opens the original at the provider; the user sends it there themselves. "Als gesendet" is a note they make for their own record.</figcaption>
   </figure>
   <figure>
     <img class="shot" src="img/02-urteil.png" width="1440" height="498"
@@ -470,8 +480,9 @@
       the advert with the user's criteria. The outcome: it fits, it needs a look, or
       it is out — with the reasons in each case.</span></li>
     <li><span class="step">NUTZER</span><span class="step-text">This is where the
-      application stops. The user opens the original on the provider's own site and
-      applies there — the program never does it for them.</span></li>
+      application stops. It drafts the letter, puts it on the clipboard and opens the
+      original on the provider's own site. Reading, editing and sending happen there
+      and are done by the user — the program never does it for them.</span></li>
   </ol>
 </section>
 
@@ -600,9 +611,14 @@
     ImmoScout24 is documented in <code>pocs/a_immoscout/RESULT.md</code>.</p>
 
     <h3>No third-party forms</h3>
-    <p>HomeHunter fills in no form on your site and submits nothing. The user writes
-    and sends the application themselves, with you, by your own route. What is
-    reversible is automated. What is not reversible stays with the person.</p>
+    <p>HomeHunter fills in no form on your site and submits nothing. The application
+    drafts a letter from what the user has entered about themselves and puts it on
+    the clipboard; reading, editing and sending are done by the user, with you, by
+    your own route. The draft follows fixed rules too: only what the profile
+    actually states gets written — no placeholder, no plausible invention, and where
+    it remains open how the rent will be covered the application says so to the user
+    rather than guessing. What is reversible is automated. What is not reversible
+    stays with the person.</p>
 
     <h3>Deterministic</h3>
     <p>The verdict comes from a set of rules that names every point it checked. There
@@ -643,11 +659,37 @@
       <h3>Impressum</h3>
       <p>Angaben gemäß § 5 TMG</p>
       <p>Damian Lapiha<br>
-      <span class="placeholder">[STRASSE, PLZ BERLIN]</span><br>
+      An der Wuhlheide 200<br>
+      12459 Berlin<br>
       Deutschland</p>
       <p>Kontakt: <a href="mailto:demilapkill@gmail.com">demilapkill@gmail.com</a></p>
       <p>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV: Damian Lapiha,
       Anschrift wie oben.</p>
+    </div>
+    <div class="impressum">
+      <h3>Datenschutz</h3>
+      <p>Verantwortlich im Sinne der DSGVO ist der oben Genannte.</p>
+      <p>Diese Seite ist statisch. Sie setzt keine Cookies, lädt keine Schriften,
+      Karten oder Skripte von fremden Adressen und misst kein Verhalten. Das
+      Einzige, was der Browser behält, ist die gewählte Sprachfassung
+      (<code>localStorage</code>, Schlüssel <code>hh-lang</code>); sie bleibt auf
+      dem Gerät. Der Kartenstapel im Abschnitt „Selbst ausprobieren“ rechnet im
+      Browser und überträgt nichts.</p>
+      <p>Gehostet wird die Seite von GitHub Pages (GitHub, Inc., 88 Colin P. Kelly
+      Jr. Street, San Francisco, CA 94107, USA). Beim Abruf verarbeitet GitHub
+      technisch notwendige Verbindungsdaten einschließlich der IP-Adresse;
+      Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO, das berechtigte Interesse an
+      einer sicheren und störungsfreien Auslieferung. Auf diese Protokolle haben
+      wir keinen Zugriff. Für die Übermittlung in die Vereinigten Staaten gelten
+      die Grundlagen, die GitHub in seiner Datenschutzerklärung ausweist
+      (EU-U.S. Data Privacy Framework beziehungsweise Standardvertragsklauseln).</p>
+      <p>Schreiben Sie uns, verarbeiten wir Ihre Angaben allein zur Beantwortung
+      (Art. 6 Abs. 1 lit. b und lit. f DSGVO) und löschen sie, sobald der Vorgang
+      abgeschlossen ist und keine Aufbewahrungsfrist entgegensteht.</p>
+      <p>Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung,
+      Datenübertragbarkeit und Widerspruch (Art. 15–21 DSGVO) sowie das Recht auf
+      Beschwerde bei einer Aufsichtsbehörde; zuständig ist die Berliner
+      Beauftragte für Datenschutz und Informationsfreiheit.</p>
     </div>
   </div>
   <div data-lang-block="en">
@@ -657,11 +699,35 @@
       <h3>Impressum</h3>
       <p>Information pursuant to § 5 TMG</p>
       <p>Damian Lapiha<br>
-      <span class="placeholder">[STRASSE, PLZ BERLIN]</span><br>
+      An der Wuhlheide 200<br>
+      12459 Berlin<br>
       Germany</p>
       <p>Contact: <a href="mailto:demilapkill@gmail.com">demilapkill@gmail.com</a></p>
       <p>Responsible for the content under § 18 (2) MStV: Damian Lapiha, address as
       above.</p>
+    </div>
+    <div class="impressum">
+      <h3>Data protection</h3>
+      <p>The controller within the meaning of the GDPR is the person named above.</p>
+      <p>This page is static. It sets no cookies, loads no fonts, maps or scripts
+      from third-party addresses, and measures no behaviour. The only thing the
+      browser keeps is the chosen language (<code>localStorage</code>, key
+      <code>hh-lang</code>); it stays on the device. The card deck in “Try it
+      yourself” runs in the browser and transmits nothing.</p>
+      <p>The page is hosted by GitHub Pages (GitHub, Inc., 88 Colin P. Kelly Jr.
+      Street, San Francisco, CA 94107, USA). On each request GitHub processes
+      technically necessary connection data including the IP address; the legal
+      basis is Art. 6(1)(f) GDPR, the legitimate interest in secure and reliable
+      delivery. We have no access to those logs. Transfers to the United States
+      rest on the grounds GitHub states in its own privacy policy (the EU-U.S.
+      Data Privacy Framework and standard contractual clauses).</p>
+      <p>If you write to us, we process what you send solely in order to reply
+      (Art. 6(1)(b) and (f) GDPR) and delete it once the matter is closed and no
+      retention period stands in the way.</p>
+      <p>You have the right of access, rectification, erasure, restriction, data
+      portability and objection (Art. 15–21 GDPR), and the right to lodge a
+      complaint with a supervisory authority; the competent one is the Berlin
+      Commissioner for Data Protection and Freedom of Information.</p>
     </div>
   </div>
 </footer>

@@ -307,15 +307,6 @@ footer p { margin-bottom: 8px; max-width: 40em; }
    bekommt, braucht die Adresse, unter der die Seite steht. */
 .print-url { display: none; }
 
-.placeholder {
-  font-family: var(--mono);
-  font-size: .9em;
-  background: #fdf3f3;
-  border: 1px solid #e8caca;
-  border-radius: 3px;
-  padding: .08em .34em;
-}
-
 /* --- Kartenstapel zum Ausprobieren ------------------------------------ */
 
 .criteria {
@@ -579,7 +570,8 @@ ul.reasons.unknown li::before { content: "?";      color: var(--open); }
 }
 
 /* --- Druck (A4) ------------------------------------------------------ */
-/* Ziel: drei bis vier Blatt. Deshalb im Druck engere Abstände, zweispaltige
+/* Ziel: fünf Blatt, das letzte Impressum und Datenschutz. Deshalb im Druck
+   engere Abstände, zweispaltige
    Bildschirmfotos und kein erzwungener Seitenumbruch vor ganzen Abschnitten. */
 
 @media print {
