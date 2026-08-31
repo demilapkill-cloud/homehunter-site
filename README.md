@@ -4,13 +4,15 @@ Statische Einzelseite für Daten- und Schnittstellenpartner. Ein HTML, ein CSS,
 ein kurzes Skript für den Sprachumschalter. Kein Build, keine Abhängigkeiten,
 keine externen Adressen.
 
-    index.html    Seite, Deutsch und Englisch im selben Dokument
-    style.css     Gesamtes Layout, einschließlich Druckfassung (A4)
-    favicon.svg   Symbol der Anwendung, aus HomeHunter/assets/homehunter.svg
-    img/          fünf Bildschirmfotos aus der Anwendung
-    tools/        Skript, das die Bildschirmfotos erzeugt
-    .nojekyll     GitHub Pages soll nichts verarbeiten
-    CNAME         www.homehunter.store
+    index.html          Seite, Deutsch und Englisch im selben Dokument
+    style.css           Gesamtes Layout, einschließlich Druckfassung (A4)
+    homehunter-de.pdf   Druckfertiges Dokument der Produktseite (Deutsch, 5 Seiten A4)
+    homehunter-en.pdf   Druckfertiges Dokument der Produktseite (Englisch, 5 Seiten A4)
+    favicon.svg         Symbol der Anwendung, aus HomeHunter/assets/homehunter.svg
+    img/                fünf Bildschirmfotos aus der Anwendung
+    tools/              Skript, das die Bildschirmfotos erzeugt
+    .nojekyll           GitHub Pages soll nichts verarbeiten
+    CNAME               www.homehunter.store
 
 Die Seite steht auf `noindex, nofollow`: sie wird gezielt weitergegeben und
 soll nicht über eine Suchmaschine zu finden sein. Ein `robots.txt` liegt

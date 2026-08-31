@@ -81,9 +81,21 @@
       </div>
     </nav>
 
-    <button id="lang-toggle" class="lang-toggle-btn" type="button" aria-label="Switch language" data-cursor="switch">
-      <span class="mono">English</span>
-    </button>
+    <div class="topbar-actions">
+      <a id="pdf-download-link" href="homehunter-de.pdf" download="HomeHunter-Produktseite.pdf" class="pdf-btn" data-cursor="pdf" aria-label="PDF-Version herunterladen" title="PDF-Version (Dokument)">
+        <svg class="pdf-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        <span class="mono" data-lang-block="de">PDF</span>
+        <span class="mono" data-lang-block="en">PDF</span>
+      </a>
+
+      <button id="lang-toggle" class="lang-toggle-btn" type="button" aria-label="Switch language" data-cursor="switch">
+        <span class="mono">English</span>
+      </button>
+    </div>
   </div>
 </div>
 
@@ -1200,6 +1212,20 @@
     if (button) {
       button.innerHTML = '<span class="mono">' + LABEL[lang] + '</span>';
       button.setAttribute('aria-label', ARIA[lang]);
+    }
+    var pdfLink = document.getElementById('pdf-download-link');
+    if (pdfLink) {
+      if (lang === 'de') {
+        pdfLink.href = 'homehunter-de.pdf';
+        pdfLink.setAttribute('download', 'HomeHunter-Produktseite.pdf');
+        pdfLink.setAttribute('aria-label', 'PDF-Version herunterladen');
+        pdfLink.setAttribute('title', 'PDF-Version herunterladen (Dokument)');
+      } else {
+        pdfLink.href = 'homehunter-en.pdf';
+        pdfLink.setAttribute('download', 'HomeHunter-ProductPage.pdf');
+        pdfLink.setAttribute('aria-label', 'Download PDF version');
+        pdfLink.setAttribute('title', 'Download PDF version (Document)');
+      }
     }
     try { localStorage.setItem('hh-lang', lang); } catch (e) {}
   }

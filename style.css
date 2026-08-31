@@ -498,6 +498,42 @@ input, textarea, select {
   background: rgba(235, 232, 225, 0.05);
 }
 
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pdf-btn {
+  font-family: var(--font-mono);
+  font-size: var(--fs-11);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ember);
+  background: rgba(232, 165, 74, 0.08);
+  border: 1px solid rgba(232, 165, 74, 0.28);
+  border-radius: var(--r-1);
+  padding: 6px 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  transition: all var(--t-hover) var(--ease);
+}
+
+.pdf-btn:hover {
+  color: var(--night-0);
+  background: var(--ember);
+  border-color: var(--ember-bright);
+  box-shadow: 0 0 14px rgba(232, 165, 74, 0.35);
+}
+
+.pdf-icon {
+  width: 13px;
+  height: 13px;
+  flex: none;
+}
+
 .lang-toggle-btn {
   font-family: var(--font-mono);
   font-size: var(--fs-11);
@@ -1738,6 +1774,10 @@ footer {
 
 @media (max-width: 560px) {
   body { font-size: var(--fs-14); }
+  .topbar { padding: 10px 12px; gap: 8px; }
+  .brand-status { display: none; }
+  .topbar-actions { gap: 6px; }
+  .pdf-btn, .lang-toggle-btn { padding: 5px 9px; font-size: 10.5px; }
   h1.hero-title { font-size: 48px; }
   .hero .claim { font-size: var(--fs-17); }
   .card-facts { grid-template-columns: repeat(2, 1fr); }
