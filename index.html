@@ -36,20 +36,101 @@
 </head>
 <body>
 
-<div class="langbar">
-  <button id="lang-toggle" type="button" aria-label="Switch language to English">English</button>
+<!-- WebGL2 Atmospheric Canvas Background -->
+<canvas id="sky-canvas" aria-hidden="true"></canvas>
+
+<!-- Interactive Custom Cursor (Fine pointer only) -->
+<div class="cur-dot" aria-hidden="true"></div>
+<div class="cur-ring" aria-hidden="true"><div class="cur-label"></div></div>
+
+<!-- Sticky Top Bar / Navigation -->
+<div class="topbar-wrapper">
+  <div class="top-progress" id="scroll-progress"></div>
+  <div class="topbar">
+    <div class="brand-badge">
+      <svg class="brand-icon" viewBox="0 0 64 64" width="20" height="20" aria-hidden="true">
+        <rect x="4" y="4" width="56" height="56" rx="14" ry="14" fill="#e8a54a"/>
+        <polygon points="32,14 52,32 12,32" fill="#07090c"/>
+        <rect x="18" y="32" width="28" height="18" fill="#07090c"/>
+      </svg>
+      <span>HomeHunter</span>
+      <div class="brand-status">
+        <span class="pulse-dot" aria-hidden="true"></span>
+        <span id="live-clock" class="mono">Berlin</span>
+      </div>
+    </div>
+
+    <nav class="nav-links" aria-label="Quick links">
+      <div data-lang-block="de">
+        <a href="#produkt" data-cursor="jump">Produkt</a>
+        <a href="#datenpartner" data-cursor="jump">Partner</a>
+        <a href="#screenshots" data-cursor="jump">Ansichten</a>
+        <a href="#ablauf" data-cursor="jump">Ablauf</a>
+        <a href="#probe" data-cursor="jump">Demo</a>
+        <a href="#quellen" data-cursor="jump">Quellen</a>
+        <a href="#grenzen" data-cursor="jump">Grenzen</a>
+      </div>
+      <div data-lang-block="en">
+        <a href="#produkt" data-cursor="jump">Product</a>
+        <a href="#datenpartner" data-cursor="jump">Partners</a>
+        <a href="#screenshots" data-cursor="jump">Views</a>
+        <a href="#ablauf" data-cursor="jump">Pipeline</a>
+        <a href="#probe" data-cursor="jump">Demo</a>
+        <a href="#quellen" data-cursor="jump">Sources</a>
+        <a href="#grenzen" data-cursor="jump">Limits</a>
+      </div>
+    </nav>
+
+    <button id="lang-toggle" class="lang-toggle-btn" type="button" aria-label="Switch language" data-cursor="switch">
+      <span class="mono">English</span>
+    </button>
+  </div>
 </div>
 
 <div class="wrap">
 
+<!-- ================================================================ -->
+<!-- HEADER / HERO                                                    -->
+<!-- ================================================================ -->
 <header class="hero">
-  <h1>HomeHunter</h1>
+  <div class="hero-status">
+    <span class="pulse-dot" aria-hidden="true"></span>
+    <p class="mono" data-lang-block="de">Produktseite · Wohnungssuche in Berlin &amp; Lübeck</p>
+    <p class="mono" data-lang-block="en">Product Page · Apartment Search in Berlin &amp; Lübeck</p>
+  </div>
+
+  <h1 class="hero-title">HomeHunter</h1>
+
   <p class="claim" data-lang-block="de">Eine Desktop-Anwendung für die Wohnungssuche in Berlin.</p>
   <p class="claim" data-lang-block="en">A desktop application for finding a flat in Berlin.</p>
+
   <p class="byline">
     <strong>Damian Lapiha</strong> · Berlin ·
-    <a href="mailto:demilapkill@gmail.com">demilapkill@gmail.com</a>
+    <a href="mailto:demilapkill@gmail.com" class="copy-mail-btn" data-cursor="mail" id="mail-link">demilapkill@gmail.com</a>
   </p>
+
+  <div class="hero-stats">
+    <div class="stat-box">
+      <div class="stat-val">19<span>+</span></div>
+      <div class="stat-lbl" data-lang-block="de">Quellen aktiv</div>
+      <div class="stat-lbl" data-lang-block="en">Active sources</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-val">100<span>%</span></div>
+      <div class="stat-lbl" data-lang-block="de">Lokal &amp; Deterministisch</div>
+      <div class="stat-lbl" data-lang-block="en">Local &amp; Deterministic</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-val">0</div>
+      <div class="stat-lbl" data-lang-block="de">Tracking &amp; Cloud</div>
+      <div class="stat-lbl" data-lang-block="en">Tracking &amp; Cloud</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-val">1<span>-Klick</span></div>
+      <div class="stat-lbl" data-lang-block="de">Anschreiben-Entwurf</div>
+      <div class="stat-lbl" data-lang-block="en">Letter Draft</div>
+    </div>
+  </div>
 </header>
 
 <main>
@@ -60,7 +141,12 @@
 <div data-lang-block="de">
 
 <section id="produkt">
-  <h2>Das Produkt</h2>
+  <div class="section-head">
+    <div>
+      <p class="mono section-kicker">01 · Übersicht</p>
+      <h2>Das Produkt</h2>
+    </div>
+  </div>
   <p class="lede">HomeHunter sammelt Mietangebote aus neunzehn öffentlich abrufbaren Quellen und führt dieselbe
   Wohnung, die auf mehreren Portalen steht, zu einer Karte zusammen. Jedes Angebot
   wird gegen die schriftlich festgelegten Kriterien des Nutzers geprüft — von einem
@@ -72,34 +158,55 @@
 </section>
 
 <section id="datenpartner">
-  <h2>Für Datenpartner</h2>
+  <div class="section-head">
+    <div>
+      <p class="mono section-kicker">02 · Kooperation</p>
+      <h2>Für Datenpartner</h2>
+    </div>
+  </div>
 
-  <h3>Was wir mit Ihren Daten tun</h3>
-  <p>Wir zeigen Ihre Angebote in der Anwendung des Nutzers an. Jede Karte nennt die
-  Quelle, aus der sie stammt. Ein Klick öffnet Ihr Exposé im Browser des Nutzers —
-  gelesen, beworben und abgeschlossen wird auf Ihrer eigenen Seite. HomeHunter ist
-  die Stelle, an der der Nutzer entscheidet, welches Angebot er ansieht; Ihre Seite
-  bleibt die Stelle, an der er handelt.</p>
+  <div class="cards-grid-2">
+    <div class="glass-card">
+      <p class="mono section-kicker">Transparenz</p>
+      <h3>Was wir mit Ihren Daten tun</h3>
+      <p>Wir zeigen Ihre Angebote in der Anwendung des Nutzers an. Jede Karte nennt die
+      Quelle, aus der sie stammt. Ein Klick öffnet Ihr Exposé im Browser des Nutzers —
+      gelesen, beworben und abgeschlossen wird auf Ihrer eigenen Seite. HomeHunter ist
+      die Stelle, an der der Nutzer entscheidet, welches Angebot er ansieht; Ihre Seite
+      bleibt die Stelle, an der er handelt.</p>
+    </div>
 
-  <h3>Was wir nicht tun</h3>
-  <ul>
-    <li>Wir veröffentlichen Ihre Daten nicht und geben sie nicht weiter.</li>
-    <li>Wir bauen keine eigene öffentliche Ergebnisliste.</li>
-    <li>Wir legen keine wiederverwendbare Datenbank Ihres Bestands an.</li>
-    <li>Wir umgehen keine Schutzmechanismen.</li>
-    <li>Wir füllen und versenden keine fremden Formulare.</li>
-    <li>Wir nehmen nicht selbsttätig Kontakt zu Vermietern auf.</li>
-  </ul>
+    <div class="glass-card">
+      <p class="mono section-kicker" style="color: var(--bad);">Garantie</p>
+      <h3>Was wir nicht tun</h3>
+      <ul class="dont-list">
+        <li>Wir veröffentlichen Ihre Daten nicht und geben sie nicht weiter.</li>
+        <li>Wir bauen keine eigene öffentliche Ergebnisliste.</li>
+        <li>Wir legen keine wiederverwendbare Datenbank Ihres Bestands an.</li>
+        <li>Wir umgehen keine Schutzmechanismen.</li>
+        <li>Wir füllen und versenden keine fremden Formulare.</li>
+        <li>Wir nehmen nicht selbsttätig Kontakt zu Vermietern auf.</li>
+      </ul>
+    </div>
+  </div>
 
-  <h3>Was Sie davon haben</h3>
-  <p>Der Nutzer erreicht Ihr Angebot vorgefiltert: Stadt, Miete, Zimmerzahl, Fläche
-  und die übrigen Bedingungen sind bereits abgeglichen, und er weiß, warum dieses
-  Angebot zu ihm passt. Statt vieler Anfragen auf gut Glück erhalten Sie wenige, die
-  zum Objekt passen. Wir stehen vor Ihrem Angebot, nicht an seiner Stelle.</p>
+  <div class="panel">
+    <p class="mono section-kicker">Vorteil für Anbieter</p>
+    <h3 style="margin-top: 4px; margin-bottom: 8px;">Was Sie davon haben</h3>
+    <p>Der Nutzer erreicht Ihr Angebot vorgefiltert: Stadt, Miete, Zimmerzahl, Fläche
+    und die übrigen Bedingungen sind bereits abgeglichen, und er weiß, warum dieses
+    Angebot zu ihm passt. Statt vieler Anfragen auf gut Glück erhalten Sie wenige, die
+    zum Objekt passen. Wir stehen vor Ihrem Angebot, nicht an seiner Stelle.</p>
+  </div>
 </section>
 
 <section id="integration">
-  <h2>Integrationsbereitschaft</h2>
+  <div class="section-head">
+    <div>
+      <p class="mono section-kicker">03 · Architektur</p>
+      <h2>Integrationsbereitschaft</h2>
+    </div>
+  </div>
 
   <p>Die Anwendung ist auf einer Abstraktion namens <code>ListingSource</code> gebaut
   (<code>src/homehunter/sources/base.py</code>). Der Grundsatz ist in ADR-007
@@ -109,9 +216,9 @@
 
   <p>Unter dieser Abstraktion arbeiten heute neunzehn Adapter und zwei verschiedene
   Beschaffungswege:</p>
-  <ul>
-    <li>HTTP und HTML;</li>
-    <li>JSON-Schnittstelle — <code>ApiRecordListingSource</code>, über den Vonovia,
+  <ul class="text-list">
+    <li><strong>HTTP und HTML</strong> — strukturierte Auswertung von Quellseiten;</li>
+    <li><strong>JSON-Schnittstelle</strong> — <code>ApiRecordListingSource</code>, über den Vonovia,
         STADT UND LAND und Covivio gelesen werden.</li>
   </ul>
 
@@ -120,7 +227,8 @@
   erwarten sind Tage, nicht Monate.</p>
 
   <div class="panel">
-    <p><strong>Stand bei ImmoScout24, ohne Beschönigung:</strong> reserviert ist der
+    <p class="mono section-kicker" style="color: var(--frost);">Transparenter Status</p>
+    <p style="margin-top: 4px;"><strong>Stand bei ImmoScout24, ohne Beschönigung:</strong> reserviert ist der
     Platz, geschrieben ist der Code nicht. Die Kennung
     <code>ListingSourceId.IMMOSCOUT24</code> und der Katalogeintrag in
     <code>src/homehunter/sources/catalog.py</code> bestehen — mit den Domänen
@@ -134,94 +242,192 @@
 </section>
 
 <section id="screenshots">
-  <h2>Aus der Anwendung</h2>
-  <div class="shots">
-  <figure>
-    <img class="shot narrow" src="img/01-liste.png" width="582" height="836"
-         loading="lazy" decoding="async" alt="Die Angebotsliste: Karten mit Urteil, Quelle und den Kriterien, an denen das Angebot hängt.">
-    <figcaption><b>Die Liste.</b> Alle gefundenen Wohnungen, Treffer zuerst. Jede Karte nennt die Quelle, das Urteil und die Kriterien dahinter. „2 Quellen“ heißt: dieselbe Wohnung stand auf zwei Portalen und ist zu einer Karte zusammengeführt. „Bewerben“ legt ein Anschreiben für dieses eine Angebot in die Zwischenablage und öffnet das Original beim Anbieter; abgeschickt wird es dort vom Nutzer. „Als gesendet“ ist ein Vermerk, den er für sich selbst setzt.</figcaption>
-  </figure>
-  <figure>
-    <img class="shot" src="img/02-urteil.png" width="1440" height="498"
-         loading="lazy" decoding="async" alt="Das Urteil zu einer abgelehnten Wohnung: die verletzte Bedingung in Rot, darunter die erfüllten und die vom Inserat nicht beantworteten.">
-    <figcaption><b>Das Urteil mit seinen Gründen.</b> Hier eine Wohnung, die ausscheidet: die Miete liegt über der Grenze. Jede geprüfte Bedingung steht einzeln da — verletzt, erfüllt oder vom Inserat nicht beantwortet.</figcaption>
-  </figure>
-  <figure>
-    <img class="shot" src="img/03-herkunft.png" width="1440" height="260"
-         loading="lazy" decoding="async" alt="Der Abschnitt Quellen auf einem Objekt: der Name der Quelle, die Adresse des ursprünglichen Exposés und eine Schaltfläche zum Öffnen.">
-    <figcaption><b>Herkunft.</b> Auf jedem Objekt steht die Quelle, aus der es stammt, mit der Adresse des ursprünglichen Exposés. Ein Klick öffnet es im Browser des Nutzers.</figcaption>
-  </figure>
-  <figure>
-    <img class="shot" src="img/04-quellenliste.png" width="1440" height="900"
-         loading="lazy" decoding="async" alt="Die Liste der Quellen mit Erreichbarkeit, Prüfintervall und Ausbeute je Quelle.">
-    <figcaption><b>Die Quellen und ihr Zustand.</b> Jede Quelle mit Erreichbarkeit, Prüfintervall und Ausbeute. Was nicht gelesen werden kann, steht mit dem Grund dabei, statt einfach zu fehlen.</figcaption>
-  </figure>
-  <figure>
-    <img class="shot" src="img/05-kriterien.png" width="1440" height="900"
-         loading="lazy" decoding="async" alt="Die Seite mit den Suchkriterien: Stadt, Budgetgrenzen, Zimmerzahl, Wohnfläche und WBS-Regel.">
-    <figcaption><b>Die Suchkriterien.</b> Die Regeln, gegen die geprüft wird — harte Grenzen und bloße Präferenzen getrennt. Andere gibt es nicht: was hier nicht steht, beeinflusst kein Urteil.</figcaption>
-  </figure>
+  <div class="section-head">
+    <div>
+      <p class="mono section-kicker">04 · Interface</p>
+      <h2>Aus der Anwendung</h2>
+    </div>
+  </div>
+
+  <div class="shots-grid">
+    <figure class="shot-figure">
+      <div class="shot-frame" data-cursor="zoom" onclick="openLightbox('img/01-liste.png', 'Die Angebotsliste')">
+        <img class="shot narrow" src="img/01-liste.png" width="582" height="836"
+             loading="lazy" decoding="async" alt="Die Angebotsliste: Karten mit Urteil, Quelle und den Kriterien, an denen das Angebot hängt.">
+      </div>
+      <figcaption><b>Die Liste.</b> Alle gefundenen Wohnungen, Treffer zuerst. Jede Karte nennt die Quelle, das Urteil und die Kriterien dahinter. „2 Quellen“ heißt: dieselbe Wohnung stand auf zwei Portalen und ist zu einer Karte zusammengeführt. „Bewerben“ legt ein Anschreiben für dieses eine Angebot in die Zwischenablage und öffnet das Original beim Anbieter; abgeschickt wird es dort vom Nutzer. „Als gesendet“ ist ein Vermerk, den er für sich selbst setzt.</figcaption>
+    </figure>
+
+    <figure class="shot-figure">
+      <div class="shot-frame" data-cursor="zoom" onclick="openLightbox('img/02-urteil.png', 'Das Urteil mit seinen Gründen')">
+        <img class="shot" src="img/02-urteil.png" width="1440" height="498"
+             loading="lazy" decoding="async" alt="Das Urteil zu einer abgelehnten Wohnung: die verletzte Bedingung in Rot, darunter die erfüllten und die vom Inserat nicht beantworteten.">
+      </div>
+      <figcaption><b>Das Urteil mit seinen Gründen.</b> Hier eine Wohnung, die ausscheidet: die Miete liegt über der Grenze. Jede geprüfte Bedingung steht einzeln da — verletzt, erfüllt oder vom Inserat nicht beantwortet.</figcaption>
+    </figure>
+
+    <figure class="shot-figure">
+      <div class="shot-frame" data-cursor="zoom" onclick="openLightbox('img/03-herkunft.png', 'Herkunft und Exposé-Link')">
+        <img class="shot" src="img/03-herkunft.png" width="1440" height="260"
+             loading="lazy" decoding="async" alt="Der Abschnitt Quellen auf einem Objekt: der Name der Quelle, die Adresse des ursprünglichen Exposés und eine Schaltfläche zum Öffnen.">
+      </div>
+      <figcaption><b>Herkunft.</b> Auf jedem Objekt steht die Quelle, aus der es stammt, mit der Adresse des ursprünglichen Exposés. Ein Klick öffnet es im Browser des Nutzers.</figcaption>
+    </figure>
+
+    <figure class="shot-figure">
+      <div class="shot-frame" data-cursor="zoom" onclick="openLightbox('img/04-quellenliste.png', 'Die Quellen und ihr Zustand')">
+        <img class="shot" src="img/04-quellenliste.png" width="1440" height="900"
+             loading="lazy" decoding="async" alt="Die Liste der Quellen mit Erreichbarkeit, Prüfintervall und Ausbeute je Quelle.">
+      </div>
+      <figcaption><b>Die Quellen und ihr Zustand.</b> Jede Quelle mit Erreichbarkeit, Prüfintervall und Ausbeute. Was nicht gelesen werden kann, steht mit dem Grund dabei, statt einfach zu fehlen.</figcaption>
+    </figure>
+
+    <figure class="shot-figure">
+      <div class="shot-frame" data-cursor="zoom" onclick="openLightbox('img/05-kriterien.png', 'Die Suchkriterien')">
+        <img class="shot" src="img/05-kriterien.png" width="1440" height="900"
+             loading="lazy" decoding="async" alt="Die Seite mit den Suchkriterien: Stadt, Budgetgrenzen, Zimmerzahl, Wohnfläche und WBS-Regel.">
+      </div>
+      <figcaption><b>Die Suchkriterien.</b> Die Regeln, gegen die geprüft wird — harte Grenzen und bloße Präferenzen getrennt. Andere gibt es nicht: was hier nicht steht, beeinflusst kein Urteil.</figcaption>
+    </figure>
   </div>
 </section>
 
 <section id="ablauf">
-  <h2>Wie es arbeitet</h2>
-  <ol class="flow">
-    <li><span class="step">LINK</span><span class="step-text">Die Suche holt bei jeder
-      registrierten Quelle die Links der neuesten Angebote.</span></li>
-    <li><span class="step">OPEN</span><span class="step-text">Jeder Link wird einmal
-      geöffnet — über HTTP oder über die JSON-Schnittstelle der Quelle.</span></li>
-    <li><span class="step">READ</span><span class="step-text">Miete, Zimmer, Fläche,
-      Adresse und Bedingungen werden gelesen und in ein einheitliches Modell
-      überführt.</span></li>
-    <li><span class="step">DEDUPE</span><span class="step-text">Dieselbe Wohnung auf
-      mehreren Portalen wird zu einer Karte zusammengeführt; jeder Link bleibt
-      erhalten.</span></li>
-    <li><span class="step">PRÜFEN</span><span class="step-text">Ein Regelwerk vergleicht
-      das Angebot mit den Kriterien des Nutzers. Ergebnis: passt, muss angesehen
-      werden, oder scheidet aus — jeweils mit den Gründen.</span></li>
-    <li><span class="step">NUTZER</span><span class="step-text">Hier endet die
-      Anwendung. Sie entwirft das Anschreiben, legt es in die Zwischenablage und
-      öffnet das Original beim Anbieter. Gelesen, geändert und abgeschickt wird die
-      Bewerbung dort vom Nutzer — das Programm tut das nie für ihn.</span></li>
+  <div class="section-head">
+    <div>
+      <p class="mono section-kicker">05 · Pipeline</p>
+      <h2>Wie es arbeitet</h2>
+    </div>
+  </div>
+
+  <ol class="hh-pipe">
+    <li>
+      <span class="mono-step"><span class="mono">01</span> LINK</span>
+      <span class="pipe-desc">Die Suche holt bei jeder registrierten Quelle die Links der neuesten Angebote.</span>
+    </li>
+    <li>
+      <span class="mono-step"><span class="mono">02</span> OPEN</span>
+      <span class="pipe-desc">Jeder Link wird einmal geöffnet — über HTTP oder über die JSON-Schnittstelle der Quelle.</span>
+    </li>
+    <li>
+      <span class="mono-step"><span class="mono">03</span> READ</span>
+      <span class="pipe-desc">Miete, Zimmer, Fläche, Adresse und Bedingungen werden gelesen und in ein einheitliches Modell überführt.</span>
+    </li>
+    <li>
+      <span class="mono-step"><span class="mono">04</span> DEDUPE</span>
+      <span class="pipe-desc">Dieselbe Wohnung auf mehreren Portalen wird zu einer Karte zusammengeführt; jeder Link bleibt erhalten.</span>
+    </li>
+    <li>
+      <span class="mono-step"><span class="mono">05</span> PRÜFEN</span>
+      <span class="pipe-desc">Ein Regelwerk vergleicht das Angebot mit den Kriterien des Nutzers. Ergebnis: passt, muss angesehen werden, oder scheidet aus — jeweils mit den Gründen.</span>
+    </li>
+    <li class="is-you">
+      <span class="mono-step"><span class="mono">06</span> NUTZER</span>
+      <span class="pipe-desc">Hier endet die Anwendung. Sie entwirft das Anschreiben, legt es in die Zwischenablage und öffnet das Original beim Anbieter. Gelesen, geändert und abgeschickt wird die Bewerbung dort vom Nutzer — <strong>das Programm tut das nie für ihn</strong>.</span>
+    </li>
   </ol>
 </section>
 
 <section id="probe">
-  <h2>Selbst ausprobieren</h2>
+  <div class="section-head">
+    <div>
+      <p class="mono section-kicker">06 · Interaktive Vorführung</p>
+      <h2>Selbst ausprobieren</h2>
+    </div>
+  </div>
+
   <p>Sechs Beispielangebote, geprüft gegen die Kriterien unten. Entscheiden Sie
   zuerst selbst — ziehen Sie die Karte nach rechts, wenn Sie sich bewerben
   würden, nach links, wenn nicht. Danach zeigt die Karte, wie das Regelwerk
   entscheidet und aus welchen Gründen.</p>
 
-  <div class="criteria" aria-label="Suchkriterien dieses Beispiels">
-    <span class="criteria-label">Kriterien</span>
-    <ul>
-      <li>Berlin</li><li>1–3 Zimmer</li><li>30–90 m²</li>
-      <li>max. 950 € kalt</li><li>max. 1.250 € warm</li><li>kein WBS vorhanden</li>
-    </ul>
-  </div>
+  <div class="deck-container">
+    <div class="criteria-bar" aria-label="Suchkriterien dieses Beispiels">
+      <span class="criteria-label">Kriterien</span>
+      <ul>
+        <li>Berlin</li>
+        <li>1–3 Zimmer</li>
+        <li>30–90 m²</li>
+        <li>max. 950 € kalt</li>
+        <li>max. 1.250 € warm</li>
+        <li>kein WBS vorhanden</li>
+      </ul>
+    </div>
 
-  <div class="deck" data-deck="de">
-    <div class="deck-stage">
-      <p class="deck-done" hidden></p>
+    <div class="deck" data-deck="de">
+      <div class="deck-stage">
+        <p class="deck-done" hidden></p>
+      </div>
+      <div class="deck-bar">
+        <button type="button" class="deck-btn bad-btn" data-choice="skip" data-cursor="skip">Überspringen</button>
+        <p class="deck-count" aria-live="polite"></p>
+        <button type="button" class="deck-btn primary" data-choice="apply" data-cursor="apply">Würde ich anschreiben</button>
+      </div>
+      <p class="deck-hint">Ziehen, Tastatur ← → oder Schaltflächen verwenden.</p>
     </div>
-    <div class="deck-bar">
-      <button type="button" class="deck-btn" data-choice="skip">Überspringen</button>
-      <p class="deck-count" aria-live="polite"></p>
-      <button type="button" class="deck-btn primary" data-choice="apply">Würde ich anschreiben</button>
-    </div>
-    <p class="deck-hint">Ziehen, Pfeiltasten ← → oder die Schaltflächen.</p>
   </div>
 
   <p class="note">Beispieldaten, keine echten Anzeigen. Die Art der Quelle steht
   auf jeder Karte, damit erkennbar bleibt, aus welcher Ecke des Marktes ein
   Angebot kommt. Das Urteil rechnet Ihr Browser aus, nach denselben Regeln, die
   die Anwendung anwendet — es wird nichts übertragen und nichts gespeichert.</p>
+
+  <!-- Live Rule Engine Playground -->
+  <div class="playground-panel">
+    <div class="playground-header">
+      <p class="mono section-kicker">Live-Regelwerk · Kriterien-Simulator</p>
+      <span class="mono" style="color: var(--ink-3);">Echtzeit-Bewertung</span>
+    </div>
+
+    <div class="play-listing">
+      <p class="mono">Beispielobjekt · Dynamische Prüfung</p>
+      <h4>2 Zimmer · Berlin Neukölln</h4>
+      <p class="play-facts mono">890 € warm · 54 m² · unbefristet · U8 4 min</p>
+    </div>
+
+    <div class="play-score-row">
+      <div id="de-play-num" class="play-num" data-verdict="high match">9.2<span>/10</span></div>
+      <p id="de-play-verdict" class="play-verdict-label" data-verdict="high match">Treffer</p>
+    </div>
+
+    <div class="play-reasons">
+      <ul id="de-play-plus" class="plus"></ul>
+      <ul id="de-play-minus" class="minus"></ul>
+      <ul id="de-play-unknown" class="unknown"></ul>
+    </div>
+
+    <div class="play-controls">
+      <p class="mono" style="color: var(--ink-3);">Verändern Sie die Kriterien — die Begründung passt sich sofort an:</p>
+      <label>
+        <span class="mono-lbl"><span>Max. Warmmiete</span><b id="de-rent-val">950 €</b></span>
+        <input type="range" id="de-rent-slider" min="600" max="1400" step="10" value="950" data-cursor="tune">
+      </label>
+      <label>
+        <span class="mono-lbl"><span>Min. Wohnfläche</span><b id="de-area-val">45 m²</b></span>
+        <input type="range" id="de-area-slider" min="25" max="90" step="1" value="45" data-cursor="tune">
+      </label>
+      <div>
+        <span class="mono-lbl" style="margin-bottom: 6px;"><span>Bevorzugte Bezirke &amp; Wünsche</span></span>
+        <div class="play-chips" id="de-chips">
+          <button type="button" class="on" data-district="Neukölln" data-cursor="toggle">Neukölln</button>
+          <button type="button" class="on" data-district="Kreuzberg" data-cursor="toggle">Kreuzberg</button>
+          <button type="button" data-district="Friedrichshain" data-cursor="toggle">Friedrichshain</button>
+          <button type="button" data-district="Mitte" data-cursor="toggle">Mitte</button>
+          <button type="button" data-district="Wedding" data-cursor="toggle">Wedding</button>
+          <button type="button" class="on" id="de-balcony-toggle" data-cursor="toggle">Balkon erwünscht</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <section id="quellen">
-  <h2>Quellen</h2>
+  <div class="section-head">
+    <div>
+      <p class="mono section-kicker">07 · Quellenverzeichnis</p>
+      <h2>Quellen</h2>
+    </div>
+  </div>
 
   <div class="table-scroll">
     <table>
@@ -230,31 +436,29 @@
         <tr><th>Quelle</th><th>Art</th><th>Weg</th><th>Treffer je Durchlauf</th></tr>
       </thead>
       <tbody>
-        <tr><td>Gewobag</td><td>städtisch</td><td>HTTP/HTML</td><td class="num">~42</td></tr>
-        <tr><td>degewo</td><td>städtisch</td><td>HTTP/HTML</td><td class="num">~10</td></tr>
-        <tr><td>HOWOGE</td><td>städtisch</td><td>HTTP/HTML</td><td class="num">~28</td></tr>
-        <tr><td>GESOBAU</td><td>städtisch</td><td>HTTP/HTML</td><td class="num">~6</td></tr>
-        <tr><td>WBM</td><td>städtisch</td><td>HTTP/HTML</td><td class="num">~8</td></tr>
-        <tr><td>Berlinovo</td><td>städtisch</td><td>HTTP/HTML</td><td class="num">~30</td></tr>
-        <tr><td>STADT UND LAND</td><td>städtisch</td><td>JSON-Schnittstelle</td><td class="num">~15</td></tr>
-        <tr><td>Vonovia</td><td>privat</td><td>JSON-Schnittstelle</td><td class="num">~15 von 72 Datensätzen</td></tr>
-        <tr><td>Covivio</td><td>privat</td><td>JSON-Schnittstelle</td><td class="num">nicht einzeln erfasst</td></tr>
-        <tr><td>Ohne-Makler</td><td>privat</td><td>HTTP/HTML</td><td class="num">~24</td></tr>
-        <tr><td>DPF eG</td><td>Genossenschaft</td><td>HTTP/HTML</td><td class="num">0–3</td></tr>
-        <tr><td>Immowelt</td><td>Portal</td><td>HTTP/HTML, Trefferkarten</td><td class="num">~23–25</td></tr>
-        <tr><td>WG-Gesucht</td><td>Portal</td><td>HTTP/HTML</td><td class="num">~79</td></tr>
-        <tr><td>immobilien.de</td><td>Portal</td><td>HTTP/HTML</td><td class="num">20</td></tr>
-        <tr><td>Immobilie1</td><td>Portal</td><td>HTTP/HTML</td><td class="num">~15</td></tr>
-        <tr><td>markt.de</td><td>Kleinanzeigen</td><td>HTTP/HTML</td><td class="num">~13</td></tr>
-        <tr><td>Wunderflats</td><td>möbliert</td><td>HTTP/HTML</td><td class="num">~59</td></tr>
-        <tr><td>HousingAnywhere</td><td>möbliert</td><td>HTTP/HTML</td><td class="num">~46</td></tr>
-        <tr><td>Spotahome</td><td>möbliert</td><td>HTTP/HTML</td><td class="num">~96</td></tr>
+        <tr><td>Gewobag</td><td><span class="type-pill">städtisch</span></td><td><span class="route-pill">HTTP/HTML</span></td><td class="num">~42</td></tr>
+        <tr><td>degewo</td><td><span class="type-pill">städtisch</span></td><td><span class="route-pill">HTTP/HTML</span></td><td class="num">~10</td></tr>
+        <tr><td>HOWOGE</td><td><span class="type-pill">städtisch</span></td><td><span class="route-pill">HTTP/HTML</span></td><td class="num">~28</td></tr>
+        <tr><td>GESOBAU</td><td><span class="type-pill">städtisch</span></td><td><span class="route-pill">HTTP/HTML</span></td><td class="num">~6</td></tr>
+        <tr><td>WBM</td><td><span class="type-pill">städtisch</span></td><td><span class="route-pill">HTTP/HTML</span></td><td class="num">~8</td></tr>
+        <tr><td>Berlinovo</td><td><span class="type-pill">städtisch</span></td><td><span class="route-pill">HTTP/HTML</span></td><td class="num">~30</td></tr>
+        <tr><td>STADT UND LAND</td><td><span class="type-pill">städtisch</span></td><td><span class="route-pill">JSON-Schnittstelle</span></td><td class="num">~15</td></tr>
+        <tr><td>Vonovia</td><td><span class="type-pill">privat</span></td><td><span class="route-pill">JSON-Schnittstelle</span></td><td class="num">~15 von 72</td></tr>
+        <tr><td>Covivio</td><td><span class="type-pill">privat</span></td><td><span class="route-pill">JSON-Schnittstelle</span></td><td class="num">nicht einzeln erfasst</td></tr>
+        <tr><td>Ohne-Makler</td><td><span class="type-pill">privat</span></td><td><span class="route-pill">HTTP/HTML</span></td><td class="num">~24</td></tr>
+        <tr><td>DPF eG</td><td><span class="type-pill">Genossenschaft</span></td><td><span class="route-pill">HTTP/HTML</span></td><td class="num">0–3</td></tr>
+        <tr><td>Immowelt</td><td><span class="type-pill">Portal</span></td><td><span class="route-pill">HTTP/HTML</span></td><td class="num">~23–25</td></tr>
+        <tr><td>WG-Gesucht</td><td><span class="type-pill">Portal</span></td><td><span class="route-pill">HTTP/HTML</span></td><td class="num">~79</td></tr>
+        <tr><td>immobilien.de</td><td><span class="type-pill">Portal</span></td><td><span class="route-pill">HTTP/HTML</span></td><td class="num">20</td></tr>
+        <tr><td>Immobilie1</td><td><span class="type-pill">Portal</span></td><td><span class="route-pill">HTTP/HTML</span></td><td class="num">~15</td></tr>
+        <tr><td>markt.de</td><td><span class="type-pill">Kleinanzeigen</span></td><td><span class="route-pill">HTTP/HTML</span></td><td class="num">~13</td></tr>
+        <tr><td>Wunderflats</td><td><span class="type-pill">möbliert</span></td><td><span class="route-pill">HTTP/HTML</span></td><td class="num">~59</td></tr>
+        <tr><td>HousingAnywhere</td><td><span class="type-pill">möbliert</span></td><td><span class="route-pill">HTTP/HTML</span></td><td class="num">~46</td></tr>
+        <tr><td>Spotahome</td><td><span class="type-pill">möbliert</span></td><td><span class="route-pill">HTTP/HTML</span></td><td class="num">~96</td></tr>
       </tbody>
     </table>
   </div>
-  <p class="note">Neunzehn Quellen, live geprüft am 24. und 28. August 2026.
-  „Treffer je Durchlauf“ ist der Umfang eines begrenzten Durchlaufs, nicht der
-  Bestand der Quelle.</p>
+  <p class="note">Neunzehn Quellen, live geprüft am 24. und 28. August 2026. „Treffer je Durchlauf“ ist der Umfang eines begrenzten Durchlaufs, nicht der Gesamtbestand der Quelle.</p>
 
   <h3>Was ein offizieller Zugang verbessern würde</h3>
   <div class="table-scroll">
@@ -264,41 +468,29 @@
       </thead>
       <tbody>
         <tr>
-          <td>ImmoScout24</td>
-          <td>Wird nicht gelesen. Die Suche antwortet ohne Partner-Schnittstelle mit
-              HTTP 401, und die Nutzungsbedingungen untersagen automatische
-              Abfragen.</td>
-          <td>Die größte Einzelquelle des Berliner Marktes, die derzeit vollständig
-              fehlt.</td>
+          <td><strong>ImmoScout24</strong></td>
+          <td>Wird nicht gelesen. Die Suche antwortet ohne Partner-Schnittstelle mit HTTP 401, und die Nutzungsbedingungen untersagen automatische Abfragen.</td>
+          <td>Die größte Einzelquelle des Berliner Marktes, die derzeit vollständig fehlt.</td>
         </tr>
         <tr>
-          <td>meinestadt.de</td>
-          <td>Registriert, aber nicht lesbar: Suche, Sitemap und robots.txt
-              antworten gleichermaßen mit HTTP 403.</td>
-          <td>Aus einer toten Zeile im Quellenverzeichnis wird eine lebende
-              Quelle.</td>
+          <td><strong>meinestadt.de</strong></td>
+          <td>Registriert, aber nicht lesbar: Suche, Sitemap und robots.txt antworten gleichermaßen mit HTTP 403.</td>
+          <td>Aus einer toten Zeile im Quellenverzeichnis wird eine lebende Quelle.</td>
         </tr>
         <tr>
-          <td>Immowelt (AVIV Group)</td>
-          <td>Lesbar sind allein die Trefferkarten der Suche; die Exposé-Seiten
-              stehen hinter DataDome. Immonet leitet in denselben Bestand.</td>
-          <td>Vollständige Exposés statt verkürzter Karten — und Immonet über
-              denselben Zugang. Der größte Zugewinn an Datenqualität je Zugang.</td>
+          <td><strong>Immowelt (AVIV Group)</strong></td>
+          <td>Lesbar sind allein die Trefferkarten der Suche; die Exposé-Seiten stehen hinter DataDome. Immonet leitet in denselben Bestand.</td>
+          <td>Vollständige Exposés statt verkürzter Karten — und Immonet über denselben Zugang. Der größte Zugewinn an Datenqualität je Zugang.</td>
         </tr>
         <tr>
-          <td>WG-Gesucht</td>
-          <td>Funktioniert, doch je Durchlauf werden nur drei Seiten über einfaches
-              HTTP gelesen, und der Veröffentlichungszeitpunkt eines Inserats ist
-              nicht zugänglich.</td>
-          <td>Höhere Abrufgrenzen und der Veröffentlichungszeitpunkt, also eine
-              messbare Reaktionsgeschwindigkeit.</td>
+          <td><strong>WG-Gesucht</strong></td>
+          <td>Funktioniert, doch je Durchlauf werden nur drei Seiten über einfaches HTTP gelesen, und der Veröffentlichungszeitpunkt eines Inserats ist nicht zugänglich.</td>
+          <td>Höhere Abrufgrenzen und der Veröffentlichungszeitpunkt, also eine messbare Reaktionsgeschwindigkeit.</td>
         </tr>
         <tr>
-          <td>Wunderflats, HousingAnywhere, Spotahome</td>
-          <td>Funktionieren über das Auswerten von HTML, das bei jeder Umgestaltung
-              der Seite bricht.</td>
-          <td>Verlässlichkeit und ein stabiler Vertrag anstelle einer Auswertung
-              fremder Seitenstruktur.</td>
+          <td><strong>Wunderflats, HousingAnywhere, Spotahome</strong></td>
+          <td>Funktionieren über das Auswerten von HTML, das bei jeder Umgestaltung der Seite bricht.</td>
+          <td>Verlässlichkeit und ein stabiler Vertrag anstelle einer Auswertung fremder Seitenstruktur.</td>
         </tr>
       </tbody>
     </table>
@@ -306,53 +498,67 @@
 </section>
 
 <section id="grenzen">
-  <h2>Grenzen</h2>
-  <div class="limits">
-    <h3>Kein Umgehen von Schutzmechanismen</h3>
-    <p>Quellen mit Bot-Schutz oder rein clientseitiger Darstellung werden als nicht
-    verfügbar geführt und nicht umgangen. Der Fehlertyp
-    <code>ComplianceBlockedError</code> ist im Quelltext ein regulärer Ausgang und
-    kein Sonderfall; in <code>sources/base.py</code> ist festgehalten, dass eine
-    Quelle niemals stillschweigend auf das Auswerten fremder Seiten ausweicht, wenn
-    kein zulässiger Weg besteht. Die Entscheidung zu ImmoScout24 ist in
-    <code>pocs/a_immoscout/RESULT.md</code> dokumentiert.</p>
+  <div class="section-head">
+    <div>
+      <p class="mono section-kicker">08 · Grundsätze</p>
+      <h2>Grenzen</h2>
+    </div>
+  </div>
 
-    <h3>Keine fremden Formulare</h3>
-    <p>HomeHunter füllt kein Formular auf Ihrer Seite aus und versendet nichts. Die
-    Anwendung entwirft ein Anschreiben aus den Angaben, die der Nutzer selbst
-    hinterlegt hat, und legt es in die Zwischenablage; gelesen, geändert und
-    abgeschickt wird es vom Nutzer, bei Ihnen, auf Ihrem Weg. Auch der Entwurf
-    folgt festen Regeln: geschrieben wird allein, was im Profil tatsächlich steht —
-    kein Platzhalter, keine plausible Erfindung, und wo offenbleibt, wie die Miete
-    getragen wird, sagt die Anwendung es dem Nutzer, statt zu raten. Was umkehrbar
-    ist, ist automatisiert. Was nicht umkehrbar ist, bleibt beim Menschen.</p>
+  <div class="limits-grid">
+    <div class="limit-card">
+      <p class="mono section-kicker">Prinzip 01</p>
+      <h3>Kein Umgehen von Schutzmechanismen</h3>
+      <p>Quellen mit Bot-Schutz oder rein clientseitiger Darstellung werden als nicht verfügbar geführt und nicht umgangen. Der Fehlertyp <code>ComplianceBlockedError</code> ist im Quelltext ein regulärer Ausgang und kein Sonderfall; in <code>sources/base.py</code> ist festgehalten, dass eine Quelle niemals stillschweigend auf das Auswerten fremder Seiten ausweicht, wenn kein zulässiger Weg besteht.</p>
+    </div>
 
-    <h3>Deterministisch</h3>
-    <p>Das Urteil fällt ein Regelwerk, das jeden geprüften Punkt einzeln benennt.
-    Neuronale Netze kommen in der Anwendung nicht vor.</p>
+    <div class="limit-card">
+      <p class="mono section-kicker">Prinzip 02</p>
+      <h3>Keine fremden Formulare</h3>
+      <p>HomeHunter füllt kein Formular auf Ihrer Seite aus und versendet nichts. Die Anwendung entwirft ein Anschreiben aus den Angaben, die der Nutzer selbst hinterlegt hat, und legt es in die Zwischenablage; gelesen, geändert und abgeschickt wird es vom Nutzer bei Ihnen. Was umkehrbar ist, ist automatisiert. Was nicht umkehrbar ist, bleibt beim Menschen.</p>
+    </div>
 
-    <h3>Datenschutz</h3>
-    <p>Die Daten des Nutzers bleiben auf seinem Gerät: eine lokale SQLite-Datenbank
-    im Datenverzeichnis des Betriebssystems. Einen Server von HomeHunter, auf dem
-    Angebots- oder Nutzerdaten zusammenliefen, gibt es nicht. Die Verarbeitung
-    findet in der EU statt und richtet sich nach der DSGVO.</p>
+    <div class="limit-card secondary">
+      <p class="mono section-kicker" style="color: var(--frost);">Prinzip 03</p>
+      <h3>Deterministisch</h3>
+      <p>Das Urteil fällt ein Regelwerk, das jeden geprüften Punkt einzeln benennt. Neuronale Netze kommen in der Bewertungslogik der Anwendung nicht vor — keine Halluzinationen, keine Willkür.</p>
+    </div>
+
+    <div class="limit-card secondary">
+      <p class="mono section-kicker" style="color: var(--frost);">Prinzip 04</p>
+      <h3>Datenschutz nach DSGVO</h3>
+      <p>Die Daten des Nutzers bleiben auf seinem Gerät: eine lokale SQLite-Datenbank im Datenverzeichnis des Betriebssystems. Einen Server von HomeHunter, auf dem Angebots- oder Nutzerdaten zusammenliefen, gibt es nicht.</p>
+    </div>
   </div>
 </section>
 
 <section id="technik">
-  <h2>Technik</h2>
-  <p>Python 3.13, PySide6 mit QML, SQLite, Playwright, Alembic; Version 1.0.0.
-  Der Bestand umfasst 1120 Tests, dazu durchgängige Typprüfung mit mypy und
-  Stilprüfung mit ruff.</p>
+  <div class="section-head">
+    <div>
+      <p class="mono section-kicker">09 · Codebase</p>
+      <h2>Technik</h2>
+    </div>
+  </div>
+  <p>Python 3.13, PySide6 mit QML, SQLite, Playwright, Alembic; Version 1.0.0. Der Bestand umfasst 1120 Tests, dazu durchgängige Typprüfung mit mypy und Stilprüfung mit ruff.</p>
 </section>
 
 <section id="status">
-  <h2>Status und Kontakt</h2>
-  <p>HomeHunter ist in Entwicklung. Eine öffentliche Fassung gibt es noch nicht, der
-  Quelltext ist nicht offen. Hinter dem Projekt steht kein Unternehmen, sondern eine
-  Person.</p>
-  <p>Anfragen zu Daten- oder Schnittstellenzugang gern unmittelbar an:<br>
-  <strong>Damian Lapiha</strong> · <a href="mailto:demilapkill@gmail.com">demilapkill@gmail.com</a></p>
+  <div class="section-head">
+    <div>
+      <p class="mono section-kicker">10 · Kontakt</p>
+      <h2>Status und Kontakt</h2>
+    </div>
+  </div>
+  <div class="contact-card">
+    <p>HomeHunter ist in Entwicklung. Eine öffentliche Fassung gibt es noch nicht, der Quelltext ist nicht offen. Hinter dem Projekt steht kein Unternehmen, sondern eine Person.</p>
+    <div class="contact-row">
+      <div class="contact-direct">
+        <span class="mono">Direkter Kontakt:</span>
+        <a href="mailto:demilapkill@gmail.com" data-cursor="mail">demilapkill@gmail.com</a>
+      </div>
+      <button type="button" class="deck-btn" onclick="copyEmail()" data-cursor="copy" id="de-copy-btn">Adresse kopieren</button>
+    </div>
+  </div>
 </section>
 
 </div><!-- /de -->
@@ -362,8 +568,13 @@
 <!-- ================================================================ -->
 <div data-lang-block="en">
 
-<section>
-  <h2>The product</h2>
+<section id="produkt-en">
+  <div class="section-head">
+    <div>
+      <p class="mono section-kicker">01 · Overview</p>
+      <h2>The product</h2>
+    </div>
+  </div>
   <p class="lede">HomeHunter collects rental adverts from nineteen publicly reachable sources and merges the
   same flat, listed on several portals, into a single card. Every advert is checked
   against the criteria the user has written down — by a fixed set of rules that names
@@ -374,34 +585,55 @@
   Linux, iOS and Android are planned.</p>
 </section>
 
-<section>
-  <h2>For data partners</h2>
+<section id="datenpartner-en">
+  <div class="section-head">
+    <div>
+      <p class="mono section-kicker">02 · Cooperation</p>
+      <h2>For data partners</h2>
+    </div>
+  </div>
 
-  <h3>What we do with your data</h3>
-  <p>We display your adverts inside the user's application. Every card names the
-  source it came from. One click opens your own exposé in the user's browser —
-  reading, applying and closing all happen on your site. HomeHunter is where the user
-  decides which advert to look at; your site remains where they act.</p>
+  <div class="cards-grid-2">
+    <div class="glass-card">
+      <p class="mono section-kicker">Transparency</p>
+      <h3>What we do with your data</h3>
+      <p>We display your adverts inside the user's application. Every card names the
+      source it came from. One click opens your own exposé in the user's browser —
+      reading, applying and closing all happen on your site. HomeHunter is where the user
+      decides which advert to look at; your site remains where they act.</p>
+    </div>
 
-  <h3>What we do not do</h3>
-  <ul>
-    <li>We do not publish your data and do not pass it on.</li>
-    <li>We do not build a public result list of our own.</li>
-    <li>We do not create a reusable database of your inventory.</li>
-    <li>We do not circumvent protection mechanisms.</li>
-    <li>We do not fill in or submit anyone else's forms.</li>
-    <li>We do not contact landlords automatically.</li>
-  </ul>
+    <div class="glass-card">
+      <p class="mono section-kicker" style="color: var(--bad);">Guarantee</p>
+      <h3>What we do not do</h3>
+      <ul class="dont-list">
+        <li>We do not publish your data and do not pass it on.</li>
+        <li>We do not build a public result list of our own.</li>
+        <li>We do not create a reusable database of your inventory.</li>
+        <li>We do not circumvent protection mechanisms.</li>
+        <li>We do not fill in or submit anyone else's forms.</li>
+        <li>We do not contact landlords automatically.</li>
+      </ul>
+    </div>
+  </div>
 
-  <h3>What you get from it</h3>
-  <p>The user reaches your advert pre-filtered: city, rent, rooms, area and the rest
-  of the conditions are already checked, and they know why this advert fits them.
-  Instead of many enquiries sent on the off-chance you receive a few that match the
-  object. We stand in front of your offer, not in place of it.</p>
+  <div class="panel">
+    <p class="mono section-kicker">Provider Value</p>
+    <h3 style="margin-top: 4px; margin-bottom: 8px;">What you get from it</h3>
+    <p>The user reaches your advert pre-filtered: city, rent, rooms, area and the rest
+    of the conditions are already checked, and they know why this advert fits them.
+    Instead of many enquiries sent on the off-chance you receive a few that match the
+    object. We stand in front of your offer, not in place of it.</p>
+  </div>
 </section>
 
-<section>
-  <h2>Integration readiness</h2>
+<section id="integration-en">
+  <div class="section-head">
+    <div>
+      <p class="mono section-kicker">03 · Architecture</p>
+      <h2>Integration readiness</h2>
+    </div>
+  </div>
 
   <p>The application is built on an abstraction called <code>ListingSource</code>
   (<code>src/homehunter/sources/base.py</code>). The principle is recorded in ADR-007:
@@ -410,9 +642,9 @@
 
   <p>Nineteen adapters and two different acquisition routes already work beneath that
   abstraction:</p>
-  <ul>
-    <li>HTTP and HTML;</li>
-    <li>a JSON interface — <code>ApiRecordListingSource</code>, through which Vonovia,
+  <ul class="text-list">
+    <li><strong>HTTP and HTML</strong> — structured parsing of source listings;</li>
+    <li><strong>JSON interface</strong> — <code>ApiRecordListingSource</code>, through which Vonovia,
         STADT UND LAND and Covivio are read.</li>
   </ul>
 
@@ -421,7 +653,8 @@
   months.</p>
 
   <div class="panel">
-    <p><strong>The state of ImmoScout24, without embellishment:</strong> the slot is
+    <p class="mono section-kicker" style="color: var(--frost);">Transparent Status</p>
+    <p style="margin-top: 4px;"><strong>The state of ImmoScout24, without embellishment:</strong> the slot is
     reserved, the code is not written. The identifier
     <code>ListingSourceId.IMMOSCOUT24</code> and the catalogue entry in
     <code>src/homehunter/sources/catalog.py</code> exist — with the domains
@@ -434,92 +667,192 @@
   </div>
 </section>
 
-<section class="screenshots">
-  <h2>From the application</h2>
-  <div class="shots">
-  <figure>
-    <img class="shot narrow" src="img/01-liste.png" width="582" height="836"
-         loading="lazy" decoding="async" alt="The listing feed: cards with verdict, source and the criteria the advert turns on.">
-    <figcaption><b>The list.</b> Every flat found, matches first. Each card names the source, the verdict and the criteria behind it. "2 Quellen" means the same flat appeared on two portals and has been merged into one card. "Bewerben" puts a draft letter for this one advert on the clipboard and opens the original at the provider; the user sends it there themselves. "Als gesendet" is a note they make for their own record.</figcaption>
-  </figure>
-  <figure>
-    <img class="shot" src="img/02-urteil.png" width="1440" height="498"
-         loading="lazy" decoding="async" alt="The verdict on a rejected flat: the broken condition in red, below it the ones met and the ones the advert left unanswered.">
-    <figcaption><b>The verdict and its reasons.</b> A flat that is ruled out: the rent is over the limit. Every checked condition stands on its own — broken, met, or left unanswered by the advert.</figcaption>
-  </figure>
-  <figure>
-    <img class="shot" src="img/03-herkunft.png" width="1440" height="260"
-         loading="lazy" decoding="async" alt="The sources section on one object: the name of the source, the address of the original exposé and a button to open it.">
-    <figcaption><b>Provenance.</b> Every object carries the source it came from and the address of the original exposé. One click opens it in the user's browser.</figcaption>
-  </figure>
-  <figure>
-    <img class="shot" src="img/04-quellenliste.png" width="1440" height="900"
-         loading="lazy" decoding="async" alt="The list of sources with reachability, check interval and yield per source.">
-    <figcaption><b>The sources and their state.</b> Each source with its reachability, check interval and yield. What cannot be read is listed with the reason rather than simply missing.</figcaption>
-  </figure>
-  <figure>
-    <img class="shot" src="img/05-kriterien.png" width="1440" height="900"
-         loading="lazy" decoding="async" alt="The search criteria page: city, budget limits, number of rooms, floor area and the WBS rule.">
-    <figcaption><b>The search criteria.</b> The rules everything is checked against — hard limits kept apart from mere preferences. There are no others: what is not here influences no verdict.</figcaption>
-  </figure>
+<section id="screenshots-en">
+  <div class="section-head">
+    <div>
+      <p class="mono section-kicker">04 · Interface</p>
+      <h2>From the application</h2>
+    </div>
+  </div>
+
+  <div class="shots-grid">
+    <figure class="shot-figure">
+      <div class="shot-frame" data-cursor="zoom" onclick="openLightbox('img/01-liste.png', 'The listing feed')">
+        <img class="shot narrow" src="img/01-liste.png" width="582" height="836"
+             loading="lazy" decoding="async" alt="The listing feed: cards with verdict, source and the criteria the advert turns on.">
+      </div>
+      <figcaption><b>The list.</b> Every flat found, matches first. Each card names the source, the verdict and the criteria behind it. "2 Quellen" means the same flat appeared on two portals and has been merged into one card. "Bewerben" puts a draft letter for this one advert on the clipboard and opens the original at the provider; the user sends it there themselves. "Als gesendet" is a note they make for their own record.</figcaption>
+    </figure>
+
+    <figure class="shot-figure">
+      <div class="shot-frame" data-cursor="zoom" onclick="openLightbox('img/02-urteil.png', 'The verdict and its reasons')">
+        <img class="shot" src="img/02-urteil.png" width="1440" height="498"
+             loading="lazy" decoding="async" alt="The verdict on a rejected flat: the broken condition in red, below it the ones met and the ones the advert left unanswered.">
+      </div>
+      <figcaption><b>The verdict and its reasons.</b> A flat that is ruled out: the rent is over the limit. Every checked condition stands on its own — broken, met, or left unanswered by the advert.</figcaption>
+    </figure>
+
+    <figure class="shot-figure">
+      <div class="shot-frame" data-cursor="zoom" onclick="openLightbox('img/03-herkunft.png', 'Provenance and exposé link')">
+        <img class="shot" src="img/03-herkunft.png" width="1440" height="260"
+             loading="lazy" decoding="async" alt="The sources section on one object: the name of the source, the address of the original exposé and a button to open it.">
+      </div>
+      <figcaption><b>Provenance.</b> Every object carries the source it came from and the address of the original exposé. One click opens it in the user's browser.</figcaption>
+    </figure>
+
+    <figure class="shot-figure">
+      <div class="shot-frame" data-cursor="zoom" onclick="openLightbox('img/04-quellenliste.png', 'The sources and their state')">
+        <img class="shot" src="img/04-quellenliste.png" width="1440" height="900"
+             loading="lazy" decoding="async" alt="The list of sources with reachability, check interval and yield per source.">
+      </div>
+      <figcaption><b>The sources and their state.</b> Each source with its reachability, check interval and yield. What cannot be read is listed with the reason rather than simply missing.</figcaption>
+    </figure>
+
+    <figure class="shot-figure">
+      <div class="shot-frame" data-cursor="zoom" onclick="openLightbox('img/05-kriterien.png', 'The search criteria')">
+        <img class="shot" src="img/05-kriterien.png" width="1440" height="900"
+             loading="lazy" decoding="async" alt="The search criteria page: city, budget limits, number of rooms, floor area and the WBS rule.">
+      </div>
+      <figcaption><b>The search criteria.</b> The rules everything is checked against — hard limits kept apart from mere preferences. There are no others: what is not here influences no verdict.</figcaption>
+    </figure>
   </div>
 </section>
 
-<section>
-  <h2>How it works</h2>
-  <ol class="flow">
-    <li><span class="step">LINK</span><span class="step-text">The search collects links
-      to the newest adverts from every registered source.</span></li>
-    <li><span class="step">OPEN</span><span class="step-text">Each link is opened once —
-      over HTTP or through the source's JSON interface.</span></li>
-    <li><span class="step">READ</span><span class="step-text">Rent, rooms, area, address
-      and conditions are read and converted into one common model.</span></li>
-    <li><span class="step">DEDUPE</span><span class="step-text">The same flat on several
-      portals is merged into one card; every link is kept.</span></li>
-    <li><span class="step">PRÜFEN</span><span class="step-text">A set of rules compares
-      the advert with the user's criteria. The outcome: it fits, it needs a look, or
-      it is out — with the reasons in each case.</span></li>
-    <li><span class="step">NUTZER</span><span class="step-text">This is where the
-      application stops. It drafts the letter, puts it on the clipboard and opens the
-      original on the provider's own site. Reading, editing and sending happen there
-      and are done by the user — the program never does it for them.</span></li>
+<section id="ablauf-en">
+  <div class="section-head">
+    <div>
+      <p class="mono section-kicker">05 · Pipeline</p>
+      <h2>How it works</h2>
+    </div>
+  </div>
+
+  <ol class="hh-pipe">
+    <li>
+      <span class="mono-step"><span class="mono">01</span> LINK</span>
+      <span class="pipe-desc">The search collects links to the newest adverts from every registered source.</span>
+    </li>
+    <li>
+      <span class="mono-step"><span class="mono">02</span> OPEN</span>
+      <span class="pipe-desc">Each link is opened once — over HTTP or through the source's JSON interface.</span>
+    </li>
+    <li>
+      <span class="mono-step"><span class="mono">03</span> READ</span>
+      <span class="pipe-desc">Rent, rooms, area, address and conditions are read and converted into one common model.</span>
+    </li>
+    <li>
+      <span class="mono-step"><span class="mono">04</span> DEDUPE</span>
+      <span class="pipe-desc">The same flat on several portals is merged into one card; every link is kept.</span>
+    </li>
+    <li>
+      <span class="mono-step"><span class="mono">05</span> SCORE</span>
+      <span class="pipe-desc">A set of rules compares the advert with the user's criteria. The outcome: it fits, it needs a look, or it is out — with the reasons in each case.</span>
+    </li>
+    <li class="is-you">
+      <span class="mono-step"><span class="mono">06</span> YOU</span>
+      <span class="pipe-desc">This is where the application stops. It drafts the letter, puts it on the clipboard and opens the original on the provider's own site. Reading, editing and sending happen there and are done by the user — <strong>the program never does it for them</strong>.</span>
+    </li>
   </ol>
 </section>
 
-<section>
-  <h2>Try it yourself</h2>
+<section id="probe-en">
+  <div class="section-head">
+    <div>
+      <p class="mono section-kicker">06 · Interactive Demonstration</p>
+      <h2>Try it yourself</h2>
+    </div>
+  </div>
+
   <p>Six sample adverts, checked against the criteria below. Decide for yourself
   first — drag the card to the right if you would apply, to the left if you
   would not. The card then shows how the rules decide, and on what grounds.</p>
 
-  <div class="criteria" aria-label="Search criteria for this example">
-    <span class="criteria-label">Criteria</span>
-    <ul>
-      <li>Berlin</li><li>1–3 rooms</li><li>30–90 m²</li>
-      <li>max. €950 base rent</li><li>max. €1,250 total</li><li>no WBS held</li>
-    </ul>
-  </div>
+  <div class="deck-container">
+    <div class="criteria-bar" aria-label="Search criteria for this example">
+      <span class="criteria-label">Criteria</span>
+      <ul>
+        <li>Berlin</li>
+        <li>1–3 rooms</li>
+        <li>30–90 m²</li>
+        <li>max. €950 base rent</li>
+        <li>max. €1,250 total</li>
+        <li>no WBS held</li>
+      </ul>
+    </div>
 
-  <div class="deck" data-deck="en">
-    <div class="deck-stage">
-      <p class="deck-done" hidden></p>
+    <div class="deck" data-deck="en">
+      <div class="deck-stage">
+        <p class="deck-done" hidden></p>
+      </div>
+      <div class="deck-bar">
+        <button type="button" class="deck-btn bad-btn" data-choice="skip" data-cursor="skip">Skip</button>
+        <p class="deck-count" aria-live="polite"></p>
+        <button type="button" class="deck-btn primary" data-choice="apply" data-cursor="apply">I would apply</button>
+      </div>
+      <p class="deck-hint">Drag, arrow keys ← →, or the buttons.</p>
     </div>
-    <div class="deck-bar">
-      <button type="button" class="deck-btn" data-choice="skip">Skip</button>
-      <p class="deck-count" aria-live="polite"></p>
-      <button type="button" class="deck-btn primary" data-choice="apply">I would apply</button>
-    </div>
-    <p class="deck-hint">Drag, arrow keys ← →, or the buttons.</p>
   </div>
 
   <p class="note">Sample data, not real adverts. The kind of source is named on
   each card so it stays clear which corner of the market an advert comes from.
   The verdict is computed by your browser, by the same rules the application
   applies — nothing is transmitted and nothing is stored.</p>
+
+  <!-- Live Rule Engine Playground EN -->
+  <div class="playground-panel">
+    <div class="playground-header">
+      <p class="mono section-kicker">Live Rule Engine · Criteria Simulator</p>
+      <span class="mono" style="color: var(--ink-3);">Real-time Scoring</span>
+    </div>
+
+    <div class="play-listing">
+      <p class="mono">Example listing · Live evaluation</p>
+      <h4>2 rooms · Berlin Neukölln</h4>
+      <p class="play-facts mono">890 € warm · 54 m² · unlimited · U8 4 min</p>
+    </div>
+
+    <div class="play-score-row">
+      <div id="en-play-num" class="play-num" data-verdict="high match">9.2<span>/10</span></div>
+      <p id="en-play-verdict" class="play-verdict-label" data-verdict="high match">High match</p>
+    </div>
+
+    <div class="play-reasons">
+      <ul id="en-play-plus" class="plus"></ul>
+      <ul id="en-play-minus" class="minus"></ul>
+      <ul id="en-play-unknown" class="unknown"></ul>
+    </div>
+
+    <div class="play-controls">
+      <p class="mono" style="color: var(--ink-3);">Tune your criteria — the reasons move live:</p>
+      <label>
+        <span class="mono-lbl"><span>Max warm rent</span><b id="en-rent-val">950 €</b></span>
+        <input type="range" id="en-rent-slider" min="600" max="1400" step="10" value="950" data-cursor="tune">
+      </label>
+      <label>
+        <span class="mono-lbl"><span>Min area</span><b id="en-area-val">45 m²</b></span>
+        <input type="range" id="en-area-slider" min="25" max="90" step="1" value="45" data-cursor="tune">
+      </label>
+      <div>
+        <span class="mono-lbl" style="margin-bottom: 6px;"><span>Preferred districts &amp; amenities</span></span>
+        <div class="play-chips" id="en-chips">
+          <button type="button" class="on" data-district="Neukölln" data-cursor="toggle">Neukölln</button>
+          <button type="button" class="on" data-district="Kreuzberg" data-cursor="toggle">Kreuzberg</button>
+          <button type="button" data-district="Friedrichshain" data-cursor="toggle">Friedrichshain</button>
+          <button type="button" data-district="Mitte" data-cursor="toggle">Mitte</button>
+          <button type="button" data-district="Wedding" data-cursor="toggle">Wedding</button>
+          <button type="button" class="on" id="en-balcony-toggle" data-cursor="toggle">Balcony</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<section>
-  <h2>Sources</h2>
+<section id="quellen-en">
+  <div class="section-head">
+    <div>
+      <p class="mono section-kicker">07 · Sources Directory</p>
+      <h2>Sources</h2>
+    </div>
+  </div>
 
   <div class="table-scroll">
     <table>
@@ -528,31 +861,29 @@
         <tr><th>Source</th><th>Type</th><th>Route</th><th>Hits per run</th></tr>
       </thead>
       <tbody>
-        <tr><td>Gewobag</td><td>municipal</td><td>HTTP/HTML</td><td class="num">~42</td></tr>
-        <tr><td>degewo</td><td>municipal</td><td>HTTP/HTML</td><td class="num">~10</td></tr>
-        <tr><td>HOWOGE</td><td>municipal</td><td>HTTP/HTML</td><td class="num">~28</td></tr>
-        <tr><td>GESOBAU</td><td>municipal</td><td>HTTP/HTML</td><td class="num">~6</td></tr>
-        <tr><td>WBM</td><td>municipal</td><td>HTTP/HTML</td><td class="num">~8</td></tr>
-        <tr><td>Berlinovo</td><td>municipal</td><td>HTTP/HTML</td><td class="num">~30</td></tr>
-        <tr><td>STADT UND LAND</td><td>municipal</td><td>JSON interface</td><td class="num">~15</td></tr>
-        <tr><td>Vonovia</td><td>private</td><td>JSON interface</td><td class="num">~15 of 72 records</td></tr>
-        <tr><td>Covivio</td><td>private</td><td>JSON interface</td><td class="num">not recorded separately</td></tr>
-        <tr><td>Ohne-Makler</td><td>private</td><td>HTTP/HTML</td><td class="num">~24</td></tr>
-        <tr><td>DPF eG</td><td>cooperative</td><td>HTTP/HTML</td><td class="num">0–3</td></tr>
-        <tr><td>Immowelt</td><td>portal</td><td>HTTP/HTML, result cards</td><td class="num">~23–25</td></tr>
-        <tr><td>WG-Gesucht</td><td>portal</td><td>HTTP/HTML</td><td class="num">~79</td></tr>
-        <tr><td>immobilien.de</td><td>portal</td><td>HTTP/HTML</td><td class="num">20</td></tr>
-        <tr><td>Immobilie1</td><td>portal</td><td>HTTP/HTML</td><td class="num">~15</td></tr>
-        <tr><td>markt.de</td><td>classifieds</td><td>HTTP/HTML</td><td class="num">~13</td></tr>
-        <tr><td>Wunderflats</td><td>furnished</td><td>HTTP/HTML</td><td class="num">~59</td></tr>
-        <tr><td>HousingAnywhere</td><td>furnished</td><td>HTTP/HTML</td><td class="num">~46</td></tr>
-        <tr><td>Spotahome</td><td>furnished</td><td>HTTP/HTML</td><td class="num">~96</td></tr>
+        <tr><td>Gewobag</td><td><span class="type-pill">municipal</span></td><td><span class="route-pill">HTTP/HTML</span></td><td class="num">~42</td></tr>
+        <tr><td>degewo</td><td><span class="type-pill">municipal</span></td><td><span class="route-pill">HTTP/HTML</span></td><td class="num">~10</td></tr>
+        <tr><td>HOWOGE</td><td><span class="type-pill">municipal</span></td><td><span class="route-pill">HTTP/HTML</span></td><td class="num">~28</td></tr>
+        <tr><td>GESOBAU</td><td><span class="type-pill">municipal</span></td><td><span class="route-pill">HTTP/HTML</span></td><td class="num">~6</td></tr>
+        <tr><td>WBM</td><td><span class="type-pill">municipal</span></td><td><span class="route-pill">HTTP/HTML</span></td><td class="num">~8</td></tr>
+        <tr><td>Berlinovo</td><td><span class="type-pill">municipal</span></td><td><span class="route-pill">HTTP/HTML</span></td><td class="num">~30</td></tr>
+        <tr><td>STADT UND LAND</td><td><span class="type-pill">municipal</span></td><td><span class="route-pill">JSON interface</span></td><td class="num">~15</td></tr>
+        <tr><td>Vonovia</td><td><span class="type-pill">private</span></td><td><span class="route-pill">JSON interface</span></td><td class="num">~15 of 72</td></tr>
+        <tr><td>Covivio</td><td><span class="type-pill">private</span></td><td><span class="route-pill">JSON interface</span></td><td class="num">not recorded separately</td></tr>
+        <tr><td>Ohne-Makler</td><td><span class="type-pill">private</span></td><td><span class="route-pill">HTTP/HTML</span></td><td class="num">~24</td></tr>
+        <tr><td>DPF eG</td><td><span class="type-pill">cooperative</span></td><td><span class="route-pill">HTTP/HTML</span></td><td class="num">0–3</td></tr>
+        <tr><td>Immowelt</td><td><span class="type-pill">portal</span></td><td><span class="route-pill">HTTP/HTML</span></td><td class="num">~23–25</td></tr>
+        <tr><td>WG-Gesucht</td><td><span class="type-pill">portal</span></td><td><span class="route-pill">HTTP/HTML</span></td><td class="num">~79</td></tr>
+        <tr><td>immobilien.de</td><td><span class="type-pill">portal</span></td><td><span class="route-pill">HTTP/HTML</span></td><td class="num">20</td></tr>
+        <tr><td>Immobilie1</td><td><span class="type-pill">portal</span></td><td><span class="route-pill">HTTP/HTML</span></td><td class="num">~15</td></tr>
+        <tr><td>markt.de</td><td><span class="type-pill">classifieds</span></td><td><span class="route-pill">HTTP/HTML</span></td><td class="num">~13</td></tr>
+        <tr><td>Wunderflats</td><td><span class="type-pill">furnished</span></td><td><span class="route-pill">HTTP/HTML</span></td><td class="num">~59</td></tr>
+        <tr><td>HousingAnywhere</td><td><span class="type-pill">furnished</span></td><td><span class="route-pill">HTTP/HTML</span></td><td class="num">~46</td></tr>
+        <tr><td>Spotahome</td><td><span class="type-pill">furnished</span></td><td><span class="route-pill">HTTP/HTML</span></td><td class="num">~96</td></tr>
       </tbody>
     </table>
   </div>
-  <p class="note">Nineteen sources, verified live on 24 and 28 August 2026.
-  "Hits per run" is the size of one bounded run, not the size of the source's
-  inventory.</p>
+  <p class="note">Nineteen sources, verified live on 24 and 28 August 2026. "Hits per run" is the size of one bounded run, not the size of the source's inventory.</p>
 
   <h3>What official access would improve</h3>
   <div class="table-scroll">
@@ -562,178 +893,300 @@
       </thead>
       <tbody>
         <tr>
-          <td>ImmoScout24</td>
-          <td>Not read at all. Without a partner interface the search answers HTTP 401,
-              and the terms of use prohibit automated queries.</td>
-          <td>The single largest source on the Berlin market, currently missing
-              entirely.</td>
+          <td><strong>ImmoScout24</strong></td>
+          <td>Not read at all. Without a partner interface the search answers HTTP 401, and the terms of use prohibit automated queries.</td>
+          <td>The single largest source on the Berlin market, currently missing entirely.</td>
         </tr>
         <tr>
-          <td>meinestadt.de</td>
-          <td>Registered but not readable: search, sitemap and robots.txt all answer
-              HTTP 403.</td>
+          <td><strong>meinestadt.de</strong></td>
+          <td>Registered but not readable: search, sitemap and robots.txt all answer HTTP 403.</td>
           <td>A dead row in the source list becomes a living source.</td>
         </tr>
         <tr>
-          <td>Immowelt (AVIV Group)</td>
-          <td>Only the search result cards can be read; the exposé pages sit behind
-              DataDome. Immonet redirects into the same inventory.</td>
-          <td>Full exposés instead of truncated cards — and Immonet through the same
-              access. The largest gain in data quality per single key.</td>
+          <td><strong>Immowelt (AVIV Group)</strong></td>
+          <td>Only the search result cards can be read; the exposé pages sit behind DataDome. Immonet redirects into the same inventory.</td>
+          <td>Full exposés instead of truncated cards — and Immonet through the same access. The largest gain in data quality per single key.</td>
         </tr>
         <tr>
-          <td>WG-Gesucht</td>
-          <td>Works, but only three pages per run are read over plain HTTP, and an
-              advert's publication time is not available.</td>
-          <td>Higher limits and the publication time, meaning a measurable speed of
-              response.</td>
+          <td><strong>WG-Gesucht</strong></td>
+          <td>Works, but only three pages per run are read over plain HTTP, and an advert's publication time is not available.</td>
+          <td>Higher limits and the publication time, meaning a measurable speed of response.</td>
         </tr>
         <tr>
-          <td>Wunderflats, HousingAnywhere, Spotahome</td>
+          <td><strong>Wunderflats, HousingAnywhere, Spotahome</strong></td>
           <td>Work by parsing HTML, which breaks with every redesign of the page.</td>
-          <td>Reliability and a stable contract instead of parsing someone else's page
-              structure.</td>
+          <td>Reliability and a stable contract instead of parsing someone else's page structure.</td>
         </tr>
       </tbody>
     </table>
   </div>
 </section>
 
-<section>
-  <h2>Limits</h2>
-  <div class="limits">
-    <h3>No circumvention of protection mechanisms</h3>
-    <p>Sources with bot protection or purely client-side rendering are recorded as
-    unavailable and are not worked around. The error type
-    <code>ComplianceBlockedError</code> is a regular outcome in the source code and not
-    an exceptional case; <code>sources/base.py</code> records that a source never
-    silently falls back to scraping when no permitted route exists. The decision on
-    ImmoScout24 is documented in <code>pocs/a_immoscout/RESULT.md</code>.</p>
+<section id="grenzen-en">
+  <div class="section-head">
+    <div>
+      <p class="mono section-kicker">08 · Core Principles</p>
+      <h2>Limits</h2>
+    </div>
+  </div>
 
-    <h3>No third-party forms</h3>
-    <p>HomeHunter fills in no form on your site and submits nothing. The application
-    drafts a letter from what the user has entered about themselves and puts it on
-    the clipboard; reading, editing and sending are done by the user, with you, by
-    your own route. The draft follows fixed rules too: only what the profile
-    actually states gets written — no placeholder, no plausible invention, and where
-    it remains open how the rent will be covered the application says so to the user
-    rather than guessing. What is reversible is automated. What is not reversible
-    stays with the person.</p>
+  <div class="limits-grid">
+    <div class="limit-card">
+      <p class="mono section-kicker">Principle 01</p>
+      <h3>No circumvention of protection mechanisms</h3>
+      <p>Sources with bot protection or purely client-side rendering are recorded as unavailable and are not worked around. The error type <code>ComplianceBlockedError</code> is a regular outcome in the source code and not an exceptional case; <code>sources/base.py</code> records that a source never silently falls back to scraping when no permitted route exists.</p>
+    </div>
 
-    <h3>Deterministic</h3>
-    <p>The verdict comes from a set of rules that names every point it checked. There
-    are no neural networks in the application.</p>
+    <div class="limit-card">
+      <p class="mono section-kicker">Principle 02</p>
+      <h3>No third-party forms</h3>
+      <p>HomeHunter fills in no form on your site and submits nothing. The application drafts a letter from what the user has entered about themselves and puts it on the clipboard; reading, editing and sending are done by the user, with you, by your own route. What is reversible is automated. What is not reversible stays with the person.</p>
+    </div>
 
-    <h3>Data protection</h3>
-    <p>The user's data stays on their device: a local SQLite database in the operating
-    system's data directory. There is no HomeHunter server on which advert or user
-    data would be collected. Processing takes place in the EU and follows the
-    GDPR.</p>
+    <div class="limit-card secondary">
+      <p class="mono section-kicker" style="color: var(--frost);">Principle 03</p>
+      <h3>Deterministic</h3>
+      <p>The verdict comes from a set of rules that names every point it checked. There are no neural networks in the evaluation engine — no hallucinations, no guesswork.</p>
+    </div>
+
+    <div class="limit-card secondary">
+      <p class="mono section-kicker" style="color: var(--frost);">Principle 04</p>
+      <h3>Data protection (GDPR)</h3>
+      <p>The user's data stays on their device: a local SQLite database in the operating system's data directory. There is no HomeHunter server on which advert or user data would be collected. Processing takes place in the EU and follows the GDPR.</p>
+    </div>
   </div>
 </section>
 
-<section>
-  <h2>Technology</h2>
-  <p>Python 3.13, PySide6 with QML, SQLite, Playwright, Alembic; version 1.0.0. The
-  suite holds 1120 tests, alongside type checking with mypy and linting with
-  ruff.</p>
+<section id="technik-en">
+  <div class="section-head">
+    <div>
+      <p class="mono section-kicker">09 · Codebase</p>
+      <h2>Technology</h2>
+    </div>
+  </div>
+  <p>Python 3.13, PySide6 with QML, SQLite, Playwright, Alembic; version 1.0.0. The suite holds 1120 tests, alongside type checking with mypy and linting with ruff.</p>
 </section>
 
-<section>
-  <h2>Status and contact</h2>
-  <p>HomeHunter is under development. There is no public release yet and the source
-  code is not open. There is no company behind the project — one person.</p>
-  <p>Enquiries about data or interface access are welcome directly:<br>
-  <strong>Damian Lapiha</strong> · <a href="mailto:demilapkill@gmail.com">demilapkill@gmail.com</a></p>
+<section id="status-en">
+  <div class="section-head">
+    <div>
+      <p class="mono section-kicker">10 · Contact</p>
+      <h2>Status and contact</h2>
+    </div>
+  </div>
+  <div class="contact-card">
+    <p>HomeHunter is under development. There is no public release yet and the source code is not open. There is no company behind the project — one person.</p>
+    <div class="contact-row">
+      <div class="contact-direct">
+        <span class="mono">Direct enquiry:</span>
+        <a href="mailto:demilapkill@gmail.com" data-cursor="mail">demilapkill@gmail.com</a>
+      </div>
+      <button type="button" class="deck-btn" onclick="copyEmail()" data-cursor="copy" id="en-copy-btn">Copy address</button>
+    </div>
+  </div>
 </section>
 
 </div><!-- /en -->
 
 </main>
 
+<!-- ================================================================ -->
+<!-- FOOTER & LEGAL                                                   -->
+<!-- ================================================================ -->
 <footer>
-  <div data-lang-block="de">
-    <p>© 2026 Damian Lapiha. HomeHunter ist ein privates Entwicklungsvorhaben.</p>
+  <div class="footer-meta">
+    <p>© 2026 Damian Lapiha · HomeHunter</p>
     <p class="print-url">www.homehunter.store</p>
-    <div class="impressum">
-      <h3>Impressum</h3>
-      <p>Angaben gemäß § 5 TMG</p>
-      <p>Damian Lapiha<br>
+  </div>
+
+  <div data-lang-block="de" class="legal-grid">
+    <div class="impressum-box">
+      <h3>Impressum (§ 5 TMG)</h3>
+      <p><strong>Damian Lapiha</strong><br>
       An der Wuhlheide 200<br>
       12459 Berlin<br>
       Deutschland</p>
       <p>Kontakt: <a href="mailto:demilapkill@gmail.com">demilapkill@gmail.com</a></p>
-      <p>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV: Damian Lapiha,
-      Anschrift wie oben.</p>
+      <p>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV: Damian Lapiha, Anschrift wie oben.</p>
     </div>
-    <div class="impressum">
-      <h3>Datenschutz</h3>
+    <div class="impressum-box">
+      <h3>Datenschutz (DSGVO)</h3>
       <p>Verantwortlich im Sinne der DSGVO ist der oben Genannte.</p>
-      <p>Diese Seite ist statisch. Sie setzt keine Cookies, lädt keine Schriften,
-      Karten oder Skripte von fremden Adressen und misst kein Verhalten. Das
-      Einzige, was der Browser behält, ist die gewählte Sprachfassung
-      (<code>localStorage</code>, Schlüssel <code>hh-lang</code>); sie bleibt auf
-      dem Gerät. Der Kartenstapel im Abschnitt „Selbst ausprobieren“ rechnet im
-      Browser und überträgt nichts.</p>
-      <p>Gehostet wird die Seite von GitHub Pages (GitHub, Inc., 88 Colin P. Kelly
-      Jr. Street, San Francisco, CA 94107, USA). Beim Abruf verarbeitet GitHub
-      technisch notwendige Verbindungsdaten einschließlich der IP-Adresse;
-      Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO, das berechtigte Interesse an
-      einer sicheren und störungsfreien Auslieferung. Auf diese Protokolle haben
-      wir keinen Zugriff. Für die Übermittlung in die Vereinigten Staaten gelten
-      die Grundlagen, die GitHub in seiner Datenschutzerklärung ausweist
-      (EU-U.S. Data Privacy Framework beziehungsweise Standardvertragsklauseln).</p>
-      <p>Schreiben Sie uns, verarbeiten wir Ihre Angaben allein zur Beantwortung
-      (Art. 6 Abs. 1 lit. b und lit. f DSGVO) und löschen sie, sobald der Vorgang
-      abgeschlossen ist und keine Aufbewahrungsfrist entgegensteht.</p>
-      <p>Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung,
-      Datenübertragbarkeit und Widerspruch (Art. 15–21 DSGVO) sowie das Recht auf
-      Beschwerde bei einer Aufsichtsbehörde; zuständig ist die Berliner
-      Beauftragte für Datenschutz und Informationsfreiheit.</p>
+      <p>Diese Seite ist statisch. Sie setzt keine Cookies, lädt keine Schriften, Karten oder Skripte von fremden Adressen und misst kein Verhalten. Das Einzige, was der Browser behält, ist die gewählte Sprachfassung (<code>localStorage</code>, Schlüssel <code>hh-lang</code>); sie bleibt auf dem Gerät. Der interaktive Kartenstapel rechnet lokal im Browser und überträgt nichts.</p>
+      <p>Gehostet wird die Seite von GitHub Pages (GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA). Beim Abruf verarbeitet GitHub technisch notwendige Verbindungsdaten einschließlich der IP-Adresse (Art. 6 Abs. 1 lit. f DSGVO). Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Beschwerde bei der Aufsichtsbehörde (Berliner Beauftragte für Datenschutz und Informationsfreiheit).</p>
     </div>
   </div>
-  <div data-lang-block="en">
-    <p>© 2026 Damian Lapiha. HomeHunter is a private development project.</p>
-    <p class="print-url">www.homehunter.store</p>
-    <div class="impressum">
-      <h3>Impressum</h3>
-      <p>Information pursuant to § 5 TMG</p>
-      <p>Damian Lapiha<br>
+
+  <div data-lang-block="en" class="legal-grid">
+    <div class="impressum-box">
+      <h3>Legal Notice (§ 5 TMG)</h3>
+      <p><strong>Damian Lapiha</strong><br>
       An der Wuhlheide 200<br>
       12459 Berlin<br>
       Germany</p>
       <p>Contact: <a href="mailto:demilapkill@gmail.com">demilapkill@gmail.com</a></p>
-      <p>Responsible for the content under § 18 (2) MStV: Damian Lapiha, address as
-      above.</p>
+      <p>Responsible for content under § 18 (2) MStV: Damian Lapiha, address as above.</p>
     </div>
-    <div class="impressum">
-      <h3>Data protection</h3>
+    <div class="impressum-box">
+      <h3>Data Privacy (GDPR)</h3>
       <p>The controller within the meaning of the GDPR is the person named above.</p>
-      <p>This page is static. It sets no cookies, loads no fonts, maps or scripts
-      from third-party addresses, and measures no behaviour. The only thing the
-      browser keeps is the chosen language (<code>localStorage</code>, key
-      <code>hh-lang</code>); it stays on the device. The card deck in “Try it
-      yourself” runs in the browser and transmits nothing.</p>
-      <p>The page is hosted by GitHub Pages (GitHub, Inc., 88 Colin P. Kelly Jr.
-      Street, San Francisco, CA 94107, USA). On each request GitHub processes
-      technically necessary connection data including the IP address; the legal
-      basis is Art. 6(1)(f) GDPR, the legitimate interest in secure and reliable
-      delivery. We have no access to those logs. Transfers to the United States
-      rest on the grounds GitHub states in its own privacy policy (the EU-U.S.
-      Data Privacy Framework and standard contractual clauses).</p>
-      <p>If you write to us, we process what you send solely in order to reply
-      (Art. 6(1)(b) and (f) GDPR) and delete it once the matter is closed and no
-      retention period stands in the way.</p>
-      <p>You have the right of access, rectification, erasure, restriction, data
-      portability and objection (Art. 15–21 GDPR), and the right to lodge a
-      complaint with a supervisory authority; the competent one is the Berlin
-      Commissioner for Data Protection and Freedom of Information.</p>
+      <p>This page is static. It sets no cookies, loads no fonts, maps or scripts from third-party addresses, and measures no behaviour. The only thing the browser keeps is the chosen language (<code>localStorage</code>, key <code>hh-lang</code>); it stays on the device. The interactive demonstration runs entirely inside your browser and transmits nothing.</p>
+      <p>Hosted by GitHub Pages (GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA). GitHub processes technically necessary connection data including IP address (Art. 6(1)(f) GDPR). You have the right of access, rectification, erasure, and to lodge a complaint with the supervisory authority (Berlin Commissioner for Data Protection and Freedom of Information).</p>
     </div>
   </div>
 </footer>
 
 </div><!-- /wrap -->
 
+<!-- Fullscreen Lightbox Modal -->
+<div id="lightbox" class="lightbox-modal" onclick="closeLightbox(event)">
+  <div class="lightbox-content">
+    <button class="lightbox-close" type="button" onclick="closeLightbox(event)" data-cursor="close">✕ Schließen</button>
+    <img id="lightbox-img" src="" alt="Große Ansicht">
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- JAVASCRIPT: Background, Cursor, Interactivity, Deck, Simulator   -->
+<!-- ================================================================ -->
+
+<!-- 1. WebGL2 Procedural Night Sky Background -->
+<script>
+(function() {
+  var canvas = document.getElementById('sky-canvas');
+  if (!canvas) return;
+  var gl = canvas.getContext('webgl2', { antialias: false, alpha: false, powerPreference: 'low-power' });
+  if (!gl) { canvas.style.display = 'none'; return; }
+
+  var VERT = '#version 300 es\nin vec2 p; out vec2 v; void main(){ v = p * 0.5 + 0.5; gl_Position = vec4(p, 0.0, 1.0); }';
+  var FRAG = '#version 300 es\nprecision highp float;\nin vec2 v; out vec4 o;\nuniform vec2 res; uniform float t; uniform vec2 cam; uniform vec3 tint;\nfloat hash(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }\nfloat noise(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3.0-2.0*f);\n  return mix(mix(hash(i), hash(i+vec2(1,0)), f.x), mix(hash(i+vec2(0,1)), hash(i+vec2(1,1)), f.x), f.y); }\nfloat fbm(vec2 p){ float s = 0.0, a = 0.5; mat2 r = mat2(0.8, 0.6, -0.6, 0.8);\n  for (int i = 0; i < 5; i++){ s += a * noise(p); p = r * p * 2.0; a *= 0.5; } return s; }\nvoid main(){\n  vec2 uv = (v * res - cam) / 850.0;\n  uv.x += t * 0.012; uv.y += t * 0.004;\n  float wx = fbm(uv * 0.7 + vec2(0.0, t * 0.01));\n  float wy = fbm(uv * 0.8 + vec2(t * 0.008, 5.3));\n  vec2 w = uv + vec2(wx - 0.5, wy - 0.5) * 2.2;\n  float cloud = fbm(w);\n  float detail = fbm(w * 2.3 + vec2(4.1, 2.3));\n  float dens = clamp(smoothstep(0.32, 0.72, cloud) * 0.75 + smoothstep(0.4, 0.8, detail) * 0.25, 0.0, 1.0);\n  vec2 sun = vec2(0.85, 0.15);\n  float glow = exp(-distance(v, sun) * 2.5);\n  float rim = smoothstep(0.35, 0.7, cloud) * (1.0 - smoothstep(0.6, 0.95, cloud));\n  vec3 night = vec3(0.027, 0.035, 0.047);\n  vec3 cloudCol = mix(vec3(0.05, 0.062, 0.078), vec3(0.09, 0.105, 0.125), dens);\n  vec3 col = mix(night, cloudCol, dens * 0.9);\n  col += tint * glow * (0.16 + rim * 0.55);\n  col += vec3(0.62, 0.7, 0.78) * exp(-distance(v, vec2(0.12, 0.85)) * 3.0) * 0.05 * (1.0 - dens);\n  float vig = smoothstep(1.35, 0.35, distance(v, vec2(0.5)));\n  col *= 0.75 + 0.25 * vig;\n  col += (hash(v * res + t) - 0.5) / 255.0 * 2.0;\n  o = vec4(col, 1.0);\n}';
+
+  var compile = function(type, src) {
+    var s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+    return s;
+  };
+  var prog = gl.createProgram();
+  gl.attachShader(prog, compile(gl.VERTEX_SHADER, VERT));
+  gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, FRAG));
+  gl.linkProgram(prog); gl.useProgram(prog);
+
+  var buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+  var loc = gl.getAttribLocation(prog, 'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+  var uRes = gl.getUniformLocation(prog, 'res');
+  var uT = gl.getUniformLocation(prog, 't');
+  var uCam = gl.getUniformLocation(prog, 'cam');
+  var uTint = gl.getUniformLocation(prog, 'tint');
+
+  var w = 0, h = 0;
+  var resize = function() {
+    var dpr = Math.min(window.devicePixelRatio || 1, 1.5) * 0.5;
+    w = Math.max(1, Math.floor(window.innerWidth * dpr));
+    h = Math.max(1, Math.floor(window.innerHeight * dpr));
+    canvas.width = w; canvas.height = h; gl.viewport(0, 0, w, h);
+  };
+  resize();
+  window.addEventListener('resize', resize, { passive: true });
+
+  var camX = 0, camY = 0, targetCamY = 0;
+  window.addEventListener('scroll', function() {
+    targetCamY = window.scrollY * 0.15;
+  }, { passive: true });
+
+  var lastFrame = 0;
+  var draw = function(now) {
+    requestAnimationFrame(draw);
+    if (now - lastFrame < 33) return; // ~30fps
+    lastFrame = now;
+    camY += (targetCamY - camY) * 0.08;
+    gl.uniform2f(uRes, w, h);
+    gl.uniform1f(uT, now * 0.001);
+    gl.uniform2f(uCam, camX, camY);
+    gl.uniform3f(uTint, 0.91, 0.65, 0.29); // warm ember
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  };
+  requestAnimationFrame(draw);
+})();
+</script>
+
+<!-- 2. Interactive Custom Cursor -->
+<script>
+(function() {
+  if (!window.matchMedia('(pointer: fine)').matches) return;
+  var root = document.documentElement;
+  root.classList.add('has-cursor');
+
+  var dot = document.querySelector('.cur-dot');
+  var ring = document.querySelector('.cur-ring');
+  var label = document.querySelector('.cur-label');
+  if (!dot || !ring) return;
+
+  var x = -100, y = -100, rx = -100, ry = -100, raf = 0, visible = false;
+  var hoverEl = null;
+
+  var tick = function() {
+    raf = 0;
+    rx += (x - rx) * 0.22;
+    ry += (y - ry) * 0.22;
+    dot.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0)';
+    ring.style.transform = 'translate3d(' + rx + 'px,' + ry + 'px,0)';
+    if (Math.abs(rx - x) > 0.2 || Math.abs(ry - y) > 0.2) {
+      raf = requestAnimationFrame(tick);
+    }
+  };
+
+  var move = function(e) {
+    x = e.clientX; y = e.clientY;
+    if (!visible) { visible = true; root.classList.add('cursor-visible'); }
+    var t = e.target ? e.target.closest('[data-cursor]') : null;
+    if (t !== hoverEl) {
+      hoverEl = t;
+      var txt = t ? (t.getAttribute('data-cursor') || '') : '';
+      if (label) label.textContent = (txt === 'true' || txt === '') ? '' : txt;
+      ring.classList.toggle('is-hover', !!t);
+      ring.classList.toggle('has-label', !!txt && txt !== 'true');
+    }
+    if (!raf) raf = requestAnimationFrame(tick);
+  };
+
+  window.addEventListener('pointermove', move, { passive: true });
+  window.addEventListener('pointerdown', function() { ring.classList.add('is-down'); });
+  window.addEventListener('pointerup', function() { ring.classList.remove('is-down'); });
+  document.documentElement.addEventListener('mouseleave', function() {
+    visible = false; root.classList.remove('cursor-visible');
+  });
+  document.documentElement.addEventListener('mouseenter', function() {
+    visible = true; root.classList.add('cursor-visible');
+  });
+})();
+</script>
+
+<!-- 3. Top Progress Bar & Live Berlin Clock -->
+<script>
+(function() {
+  var bar = document.getElementById('scroll-progress');
+  var onScroll = function() {
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    var p = max > 0 ? (window.scrollY / max) * 100 : 0;
+    if (bar) bar.style.width = p.toFixed(2) + '%';
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  var clock = document.getElementById('live-clock');
+  var updateClock = function() {
+    try {
+      var t = new Intl.DateTimeFormat('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' }).format(new Date());
+      if (clock) clock.textContent = t + ' Berlin';
+    } catch(e) {}
+  };
+  updateClock();
+  setInterval(updateClock, 15000);
+})();
+</script>
+
+<!-- 4. Language Switcher -->
 <script>
 (function () {
   var root = document.documentElement;
@@ -744,36 +1197,65 @@
   function apply(lang) {
     root.setAttribute('data-lang', lang);
     root.setAttribute('lang', lang);
-    button.textContent = LABEL[lang];
-    button.setAttribute('aria-label', ARIA[lang]);
+    if (button) {
+      button.textContent = LABEL[lang];
+      button.setAttribute('aria-label', ARIA[lang]);
+    }
     try { localStorage.setItem('hh-lang', lang); } catch (e) {}
   }
 
-  // Deutsch ist die Vorgabe; die Wahl des Besuchers bleibt erhalten.
   var stored = null;
   try { stored = localStorage.getItem('hh-lang'); } catch (e) {}
   apply(stored === 'en' ? 'en' : 'de');
 
-  button.addEventListener('click', function () {
-    apply(root.getAttribute('data-lang') === 'de' ? 'en' : 'de');
-  });
+  if (button) {
+    button.addEventListener('click', function () {
+      apply(root.getAttribute('data-lang') === 'de' ? 'en' : 'de');
+    });
+  }
 })();
 </script>
 
+<!-- 5. Copy Email Helper -->
 <script>
-/* ------------------------------------------------------------------ *
- * Der Kartenstapel: sechs Beispielangebote, im Browser gegen dieselben
- * Kriterien geprüft, die im Abschnitt darüber stehen.
- *
- * Das Urteil ist nicht in die Daten geschrieben, sondern wird gerechnet —
- * sonst wäre es eine Behauptung und keine Vorführung. Drei Regeln, die
- * die Anwendung selbst befolgt, gelten auch hier:
- *
- *   1. Nur eine *bestätigte* Verletzung führt zu "Passt nicht".
- *   2. Schweigt die Anzeige zu einem Kriterium, ist das kein Nein,
- *      sondern "Prüfen" — Unbekannt ist nicht Falsch.
- *   3. Jedes Ergebnis nennt jede geprüfte Bedingung einzeln.
- * ------------------------------------------------------------------ */
+function copyEmail() {
+  var email = 'demilapkill@gmail.com';
+  navigator.clipboard.writeText(email).then(function() {
+    var btnDe = document.getElementById('de-copy-btn');
+    var btnEn = document.getElementById('en-copy-btn');
+    if (btnDe) { btnDe.textContent = 'Kopiert! ✓'; setTimeout(function(){ btnDe.textContent = 'Adresse kopieren'; }, 2000); }
+    if (btnEn) { btnEn.textContent = 'Copied! ✓'; setTimeout(function(){ btnEn.textContent = 'Copy address'; }, 2000); }
+  }).catch(function() {});
+}
+</script>
+
+<!-- 6. Lightbox Modal -->
+<script>
+function openLightbox(src, alt) {
+  var modal = document.getElementById('lightbox');
+  var img = document.getElementById('lightbox-img');
+  if (modal && img) {
+    img.src = src;
+    img.alt = alt || '';
+    modal.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+}
+function closeLightbox(e) {
+  if (e && e.target && e.target.tagName === 'IMG') return;
+  var modal = document.getElementById('lightbox');
+  if (modal) {
+    modal.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+}
+window.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+});
+</script>
+
+<!-- 7. Interactive Card Deck -->
+<script>
 (function () {
   'use strict';
 
@@ -785,7 +1267,6 @@
     hasWbs: false
   };
 
-  // `null` heißt: die Anzeige sagt dazu nichts.
   var FLATS = [
     { id: 'a', city: 'Berlin', district: { de: 'Marzahn', en: 'Marzahn' },
       source: { de: 'Städtische Wohnungsbaugesellschaft', en: 'Municipal housing company' },
@@ -839,7 +1320,7 @@
       rWbsUnk: 'Ob ein WBS nötig ist, sagt die Anzeige nicht.',
       agree: 'Ihre Einschätzung deckt sich mit dem Regelwerk.',
       differ: 'Hier weichen Sie vom Regelwerk ab.',
-      next: 'Weiter', again: 'Noch einmal',
+      next: 'Weiter →', again: 'Noch einmal ↺',
       count: function (i, n) { return i + ' von ' + n; },
       done: function (m, r) {
         return 'Fertig. Von sechs Angeboten sind ' + m + ' Treffer und ' + r +
@@ -872,7 +1353,7 @@
       rWbsUnk: 'The advert does not say whether a WBS is required.',
       agree: 'Your call agrees with the rules.',
       differ: 'Here you and the rules disagree.',
-      next: 'Next', again: 'Start over',
+      next: 'Next →', again: 'Start over ↺',
       count: function (i, n) { return i + ' of ' + n; },
       done: function (m, r) {
         return 'Done. Of six adverts, ' + m + ' are matches and ' + r +
@@ -888,8 +1369,6 @@
       : '€' + v.toLocaleString('en-GB');
   }
 
-  /* Das Regelwerk. Gibt jede geprüfte Bedingung zurück, nicht nur das
-     Ergebnis — die Begründung ist der eigentliche Gegenstand. */
   function evaluate(flat, lang) {
     var t = T[lang], reasons = [];
     function add(state, text) { reasons.push({ state: state, text: text }); }
@@ -945,8 +1424,6 @@
        [t.base, flat.base === null ? t.nostated : money(lang, flat.base)],
        [t.total, flat.total === null ? t.nostated : money(lang, flat.total)]
       ].forEach(function (pair) {
-        // Beschriftung und Wert in einem Kästchen, sonst reißt das Raster
-        // sie auseinander und die Zuordnung geht verloren.
         var cell = el('div', 'fact');
         cell.appendChild(el('dt', null, pair[0]));
         cell.appendChild(el('dd', null, String(pair[1])));
@@ -967,9 +1444,9 @@
       node.appendChild(facts(flat));
 
       var veilL = el('div', 'veil left');
-      veilL.appendChild(el('span', null, lang === 'de' ? 'Überspringen' : 'Skip'));
+      veilL.appendChild(el('span', null, lang === 'de' ? '✕ Überspringen' : '✕ Skip'));
       var veilR = el('div', 'veil right');
-      veilR.appendChild(el('span', null, lang === 'de' ? 'Anschreiben' : 'Apply'));
+      veilR.appendChild(el('span', null, lang === 'de' ? '✓ Anschreiben' : '✓ Apply'));
       node.appendChild(veilL);
       node.appendChild(veilR);
 
@@ -983,18 +1460,23 @@
       var box = card.querySelector('.card-verdict');
       box.className = 'card-verdict shown ' + res.verdict;
 
-      var badge = el('p', 'verdict-badge', t[res.verdict === 'no' ? 'no' : res.verdict]);
-      box.appendChild(badge);
+      var header = el('div', 'verdict-header');
+      var badge = el('span', 'verdict-badge', t[res.verdict === 'no' ? 'no' : res.verdict]);
+      header.appendChild(badge);
+      box.appendChild(header);
+
       box.appendChild(el('p', 'verdict-why',
         res.verdict === 'match' ? t.matchWhy : res.verdict === 'review' ? t.reviewWhy : t.noWhy));
 
       [['bad', t.broken], ['ok', t.met], ['unknown', t.open]].forEach(function (grp) {
         var items = res.reasons.filter(function (r) { return r.state === grp[0]; });
         if (!items.length) return;
-        box.appendChild(el('p', 'reason-head ' + grp[0], grp[1]));
+        var rGroup = el('div', 'reason-group');
+        rGroup.appendChild(el('p', 'reason-head ' + grp[0], grp[1]));
         var ul = el('ul', 'reasons ' + grp[0]);
         items.forEach(function (r) { ul.appendChild(el('li', null, r.text)); });
-        box.appendChild(ul);
+        rGroup.appendChild(ul);
+        box.appendChild(rGroup);
       });
 
       var wouldApply = res.verdict !== 'no';
@@ -1042,13 +1524,9 @@
         FLATS[index].area + ' m²');
     }
 
-    /* Ziehen mit Zeiger, genau wie auf der Karte des Autorensites: unter
-       der Schwelle federt die Karte zurück, darüber zählt die Richtung. */
     function drag(node) {
       var THRESHOLD = 90, startX = null, pid = null, dx = 0;
       node.addEventListener('pointerdown', function (e) {
-        // Die Schaltfläche "Weiter" sitzt in der Karte. Ohne diese Zeile
-        // fängt setPointerCapture den Zeiger ab und der Klick kommt nie an.
         if (busy || node.classList.contains('settled') || e.target.closest('button')) return;
         startX = e.clientX; pid = e.pointerId;
         node.setPointerCapture(pid);
@@ -1093,6 +1571,121 @@
   }
 
   document.querySelectorAll('.deck').forEach(Deck);
+})();
+</script>
+
+<!-- 8. Live Rule Simulator (Interactive Playground) -->
+<script>
+(function() {
+  var SAMPLE = { rent: 890, area: 54, rooms: 2, district: 'Neukölln', contract: 'unlimited', transit: 'U8 · 4 min', balcony: false };
+
+  function setupSimulator(prefix, lang) {
+    var rentSlider = document.getElementById(prefix + '-rent-slider');
+    var areaSlider = document.getElementById(prefix + '-area-slider');
+    var rentVal = document.getElementById(prefix + '-rent-val');
+    var areaVal = document.getElementById(prefix + '-area-val');
+    var numEl = document.getElementById(prefix + '-play-num');
+    var verdictEl = document.getElementById(prefix + '-play-verdict');
+    var plusList = document.getElementById(prefix + '-play-plus');
+    var minusList = document.getElementById(prefix + '-play-minus');
+    var unkList = document.getElementById(prefix + '-play-unknown');
+    var balconyBtn = document.getElementById(prefix + '-balcony-toggle');
+    var chipContainer = document.getElementById(prefix + '-chips');
+
+    if (!rentSlider || !areaSlider) return;
+
+    var wantBalcony = true;
+    var districts = ['Neukölln', 'Kreuzberg'];
+
+    function update() {
+      var maxRent = parseInt(rentSlider.value, 10);
+      var minArea = parseInt(areaSlider.value, 10);
+      rentVal.textContent = maxRent + ' €';
+      areaVal.textContent = minArea + ' m²';
+
+      var plus = [], minus = [], unk = [];
+      var s = 10;
+
+      if (SAMPLE.rent <= maxRent) {
+        plus.push(lang === 'de' ? 'Warmmiete ' + SAMPLE.rent + ' € passt ins Budget (≤ ' + maxRent + ' €)' : 'Rent ' + SAMPLE.rent + ' € fits the budget (≤ ' + maxRent + ' €)');
+      } else {
+        var over = SAMPLE.rent - maxRent;
+        s -= Math.min(6, 1 + over / 60);
+        minus.push(lang === 'de' ? 'Miete liegt ' + over + ' € über dem Budget' : 'Rent is ' + over + ' € over budget');
+      }
+
+      if (SAMPLE.area >= minArea) {
+        plus.push(lang === 'de' ? SAMPLE.area + ' m² sind ausreichend' : SAMPLE.area + ' m² is enough');
+      } else {
+        s -= 1.5;
+        minus.push(lang === 'de' ? 'Nur ' + SAMPLE.area + ' m² (gewünscht: ' + minArea + ' m²)' : 'Only ' + SAMPLE.area + ' m², wanted ' + minArea + ' m²');
+      }
+
+      plus.push(lang === 'de' ? SAMPLE.rooms + ' Zimmer' : SAMPLE.rooms + ' rooms');
+
+      if (districts.indexOf(SAMPLE.district) !== -1) {
+        plus.push(lang === 'de' ? 'In ' + SAMPLE.district + ' (bevorzugt)' : 'In ' + SAMPLE.district + ' (preferred zone)');
+      } else {
+        s -= 1.2;
+        minus.push(lang === 'de' ? SAMPLE.district + ' liegt außerhalb der bevorzugten Bezirke' : SAMPLE.district + ' is outside the preferred zone');
+      }
+
+      plus.push(lang === 'de' ? 'Unbefristeter Mietvertrag' : 'Unlimited contract');
+      plus.push(lang === 'de' ? 'Gute Anbindung (' + SAMPLE.transit + ')' : 'Near transit (' + SAMPLE.transit + ')');
+
+      if (wantBalcony && !SAMPLE.balcony) {
+        s -= 0.6;
+        minus.push(lang === 'de' ? 'Kein Balkon vorhanden' : 'No balcony');
+      }
+
+      unk.push(lang === 'de' ? 'Einkommensnachweis im Inserat nicht näher beziffert' : 'Income requirement is not stated');
+      unk.push(lang === 'de' ? 'WBS-Erfordernis nicht angegeben' : 'WBS requirement is not stated');
+
+      s = Math.max(0, Math.min(10, s));
+      var verdictKey = s >= 8.5 ? 'high match' : s >= 7 ? 'match' : s >= 5 ? 'review' : 'rejected';
+      var verdictText = lang === 'de'
+        ? (s >= 8.5 ? 'Treffer (sehr hoch)' : s >= 7 ? 'Treffer' : s >= 5 ? 'Prüfen' : 'Aussortiert')
+        : (s >= 8.5 ? 'High match' : s >= 7 ? 'Match' : s >= 5 ? 'Needs review' : 'Rejected');
+
+      numEl.innerHTML = s.toFixed(1) + '<span>/10</span>';
+      numEl.setAttribute('data-verdict', verdictKey);
+      verdictEl.textContent = verdictText;
+      verdictEl.setAttribute('data-verdict', verdictKey);
+
+      plusList.innerHTML = plus.map(function(x){ return '<li>' + x + '</li>'; }).join('');
+      minusList.innerHTML = minus.map(function(x){ return '<li>' + x + '</li>'; }).join('');
+      unkList.innerHTML = unk.map(function(x){ return '<li>' + x + '</li>'; }).join('');
+    }
+
+    rentSlider.addEventListener('input', update);
+    areaSlider.addEventListener('input', update);
+
+    if (balconyBtn) {
+      balconyBtn.addEventListener('click', function() {
+        wantBalcony = !wantBalcony;
+        balconyBtn.classList.toggle('on', wantBalcony);
+        update();
+      });
+    }
+
+    if (chipContainer) {
+      chipContainer.querySelectorAll('button[data-district]').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var d = btn.getAttribute('data-district');
+          var idx = districts.indexOf(d);
+          if (idx !== -1) districts.splice(idx, 1);
+          else districts.push(d);
+          btn.classList.toggle('on', idx === -1);
+          update();
+        });
+      });
+    }
+
+    update();
+  }
+
+  setupSimulator('de', 'de');
+  setupSimulator('en', 'en');
 })();
 </script>
 
