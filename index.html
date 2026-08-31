@@ -1198,7 +1198,7 @@
     root.setAttribute('data-lang', lang);
     root.setAttribute('lang', lang);
     if (button) {
-      button.textContent = LABEL[lang];
+      button.innerHTML = '<span class="mono">' + LABEL[lang] + '</span>';
       button.setAttribute('aria-label', ARIA[lang]);
     }
     try { localStorage.setItem('hh-lang', lang); } catch (e) {}

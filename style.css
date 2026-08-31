@@ -303,11 +303,7 @@ input, textarea, select {
               var(--night-0);
 }
 
-/* --- Interactive Custom Cursor ------------------------------------------- */
-
-.has-cursor, .has-cursor * {
-  cursor: none !important;
-}
+/* --- Interactive Custom Cursor (Subtle Ring, OS Cursor Preserved) ------- */
 
 .cur-dot, .cur-ring {
   position: fixed;
@@ -328,7 +324,7 @@ input, textarea, select {
   height: 4px;
   margin: -2px 0 0 -2px;
   border-radius: 50%;
-  background: var(--ink);
+  background: var(--ember);
 }
 
 .cur-ring {
@@ -349,15 +345,15 @@ input, textarea, select {
 }
 
 .cursor-visible .cur-ring {
-  opacity: 0.75;
+  opacity: 0.65;
 }
 
 .cur-ring.is-hover {
-  width: 44px;
-  height: 44px;
-  margin: -22px 0 0 -22px;
+  width: 42px;
+  height: 42px;
+  margin: -21px 0 0 -21px;
   opacity: 1;
-  background: rgba(232, 165, 74, 0.10);
+  background: rgba(232, 165, 74, 0.12);
   border-color: var(--ember-bright);
 }
 
@@ -402,7 +398,7 @@ input, textarea, select {
   top: 0;
   z-index: 100;
   width: 100%;
-  background: rgba(7, 9, 12, 0.82);
+  background: rgba(7, 9, 12, 0.86);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--line);
@@ -413,7 +409,7 @@ input, textarea, select {
   position: absolute;
   left: 0;
   bottom: -1px;
-  height: 1px;
+  height: 2px;
   width: 0%;
   background: linear-gradient(90deg, var(--ember) 0%, var(--ember-bright) 50%, var(--frost) 100%);
   transition: width 80ms linear;
@@ -440,6 +436,7 @@ input, textarea, select {
   text-transform: uppercase;
   color: var(--ink);
   font-weight: 500;
+  flex: none;
 }
 
 .brand-icon {
@@ -474,7 +471,12 @@ input, textarea, select {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 18px;
+}
+
+.nav-links [data-lang-block] {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .nav-links a {
@@ -483,10 +485,13 @@ input, textarea, select {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-3);
-  transition: color var(--t-hover) var(--ease);
+  padding: 4px 6px;
+  border-radius: var(--r-1);
+  transition: all var(--t-hover) var(--ease);
 }
 .nav-links a:hover {
   color: var(--ink);
+  background: rgba(235, 232, 225, 0.05);
 }
 
 .lang-toggle-btn {
