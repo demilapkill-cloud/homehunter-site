@@ -303,7 +303,11 @@ input, textarea, select {
               var(--night-0);
 }
 
-/* --- Interactive Custom Cursor (Subtle Ring, OS Cursor Preserved) ------- */
+/* --- Interactive Custom Cursor ------------------------------------------- */
+
+.has-cursor, .has-cursor * {
+  cursor: none !important;
+}
 
 .cur-dot, .cur-ring {
   position: fixed;
