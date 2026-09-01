@@ -1,0 +1,34 @@
+name: deploy
+
+# Каждый пуш в master уезжает на сервер сам. Ключ в секретах репозитория
+# шелла не даёт: на той стороне он прибит к одной команде, которая умеет
+# только принять этот проект и перезапустить его (см. vps-infra,
+# scripts/ci-deploy.sh).
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Ключ и отпечаток сервера
+        run: |
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          printf '%s\n' "${{ secrets.VPS_HOST_KEY }}" > ~/.ssh/known_hosts
+
+      - name: Отправить на сервер
+        run: |
+          tar czf - --exclude=.git --exclude=.github  . \
+            | ssh -i ~/.ssh/id_deploy -o IdentitiesOnly=yes \
+                  "root@${{ secrets.VPS_HOST }}" 'site homehunter-site'
