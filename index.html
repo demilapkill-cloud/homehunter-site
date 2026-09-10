@@ -75,7 +75,7 @@
 
 <header class="hero">
   <div>
-    <p class="eyebrow"><span class="dot" aria-hidden="true"></span> Работает · 16 городов Германии</p>
+    <p class="eyebrow"><span class="dot" aria-hidden="true"></span> Работает · вся Германия</p>
     <h1>Квартира приходит <em>вам в Telegram</em></h1>
     <p class="lede">HomeHunter смотрит сайты жилья в вашем городе и пишет через считанные
     минуты после того, как появилось подходящее объявление.</p>
@@ -109,7 +109,7 @@
 </header>
 
 <div class="stats">
-  <div class="stat"><div class="val">16</div><div class="lbl">городов Германии</div></div>
+  <div class="stat"><div class="val">10 943</div><div class="lbl">общины Германии на выбор</div></div>
   <div class="stat"><div class="val">39</div><div class="lbl">сайтов жилья читается</div></div>
   <div class="stat"><div class="val">1–30<small> мин</small></div><div class="lbl">между двумя обходами одного сайта</div></div>
   <div class="stat"><div class="val">0</div><div class="lbl">искусственного интеллекта</div></div>
@@ -282,23 +282,48 @@
 
 <section id="cities-ru">
   <div class="sec-head">
-    <p class="kicker">Города</p>
-    <h2>Шестнадцать городов</h2>
-    <p>Поиск наводится на один город или сразу на несколько, и каждый обходится
-    отдельно. Сайт, написанный для одного города, продолжает работать, а
-    арендодатель, который сдаёт только в своём, так и говорит — вместо того чтобы
-    его спрашивали про остальные.</p>
+    <p class="kicker">Где искать</p>
+    <h2>Вся Германия, а не список городов</h2>
+    <p>В официальном реестре Destatis 10 943 общины, и списком их не показать — это не
+    список, а стена. Поэтому «где вы ищете» — это дорога из четырёх экранов, и на
+    каждом не больше восьми кнопок: земля, крупные города этой земли, «какой крупный
+    город к вам ближе» и городки вокруг него. Землю человек знает про себя всегда,
+    даже когда не помнит, как называется ближайший город с вокзалом.</p>
   </div>
-  <ul class="chips">
-    <li class="lead">Берлин</li><li class="lead">Мюнхен</li><li class="lead">Любек</li>
-    <li>Гамбург</li><li>Кёльн</li><li>Франкфурт-на-Майне</li><li>Штутгарт</li>
-    <li>Дюссельдорф</li><li>Лейпциг</li><li>Дортмунд</li><li>Эссен</li><li>Бремен</li>
-    <li>Дрезден</li><li>Ганновер</li><li>Нюрнберг</li><li>Дуйсбург</li>
+
+  <p class="note"><strong>Городки считаются по расстоянию, а не по земле.</strong> Все сто
+  один городок вокруг Берлина лежат в Бранденбурге, и список, ограниченный землёй, у
+  берлинца оказался бы пуст. Земля — способ войти в меню, а не забор вокруг ответа;
+  чужая земля подписана прямо на кнопке, чтобы никто не решил, что мы перепутали.</p>
+
+  <p class="note" style="margin-top:12px">Круг вокруг ближайшего крупного города накрывает <strong>7 912 городков из
+  10 669</strong> — это 45,6 млн жителей из 56,7. Остальным бот пишет, что здесь искать
+  нечем, вместо того чтобы делать вид, будто ищет.</p>
+
+  <ul class="chips" style="margin-top:22px">
+    <li>Берлин <b>12</b></li>
+    <li>Любек <b>6</b></li>
+    <li>Кёльн <b>4</b></li>
+    <li>Дюссельдорф <b>4</b></li>
+    <li>Эссен <b>4</b></li>
+    <li>Дуйсбург <b>4</b></li>
+    <li>Мюнхен <b>3</b></li>
+    <li>Лейпциг <b>3</b></li>
+    <li>Дортмунд <b>3</b></li>
+    <li>Гамбург <b>2</b></li>
+    <li>Бремен <b>2</b></li>
+    <li>Дрезден <b>2</b></li>
+    <li>Ганновер <b>2</b></li>
+    <li>Франкфурт-на-Майне <b>1</b></li>
+    <li>Штутгарт <b>1</b></li>
+    <li>Нюрнберг <b>1</b></li>
   </ul>
-  <p class="note" style="margin-top:18px">Розовым отмечены города, где кроме порталов
-  читаются ещё и сами арендодатели: в Берлине это семь городских компаний, в Любеке —
-  пять жилищных обществ из справочника самого города, в Мюнхене — два жилищных
-  объединения. Именно там появляются квартиры, до порталов не доходящие вовсе.</p>
+
+  <p class="note" style="margin-top:18px">В шестнадцати городах, кроме порталов, читаются и сами арендодатели — число
+  на кнопке говорит, сколько их. Двенадцать в Берлине: семь городских компаний, два
+  кооператива и трое крупных. Один в Нюрнберге, Штутгарте и Франкфурте — Vonovia,
+  которая сдаёт в шестидесяти четырёх городах. Именно у арендодателей появляются
+  квартиры, до порталов не доходящие вовсе.</p>
 </section>
 
 <section id="sources-ru">
@@ -388,7 +413,9 @@
       <h3>Не обходит защиту</h3>
       <p>Сайт, закрытый от роботов, отмечается недоступным с указанием причины. В коде
       это обычный, предусмотренный исход, а не исключение, которое кто-то однажды
-      «обошёл по-тихому».</p>
+      «обошёл по-тихому». И к живому сайту бот не частит: к одному домену не чаще
+      раза в десять секунд, сколько бы городов его ни спрашивали — счётчик один
+      на всех.</p>
     </li>
     <li>
       <h3>Не показывает одно и то же дважды</h3>
@@ -457,7 +484,7 @@
 
 <header class="hero">
   <div>
-    <p class="eyebrow"><span class="dot" aria-hidden="true"></span> Працює · 16 міст Німеччини</p>
+    <p class="eyebrow"><span class="dot" aria-hidden="true"></span> Працює · уся Німеччина</p>
     <h1>Квартира приходить <em>вам у Telegram</em></h1>
     <p class="lede">HomeHunter дивиться сайти житла у вашому місті й пише за лічені
     хвилини після того, як з’явилося придатне оголошення.</p>
@@ -491,7 +518,7 @@
 </header>
 
 <div class="stats">
-  <div class="stat"><div class="val">16</div><div class="lbl">міст Німеччини</div></div>
+  <div class="stat"><div class="val">10 943</div><div class="lbl">громади Німеччини на вибір</div></div>
   <div class="stat"><div class="val">39</div><div class="lbl">сайтів житла читається</div></div>
   <div class="stat"><div class="val">1–30<small> хв</small></div><div class="lbl">між двома обходами одного сайту</div></div>
   <div class="stat"><div class="val">0</div><div class="lbl">штучного інтелекту</div></div>
@@ -665,22 +692,49 @@
 
 <section id="cities-uk">
   <div class="sec-head">
-    <p class="kicker">Міста</p>
-    <h2>Шістнадцять міст</h2>
-    <p>Пошук наводиться на одне місто або одразу на кілька, і кожне обходиться окремо.
-    Сайт, написаний для одного міста, працює далі без змін, а орендодавець, який здає
-    лише у своєму, так і каже — замість того щоб його питали про решту.</p>
+    <p class="kicker">Де шукати</p>
+    <h2>Уся Німеччина, а не список міст</h2>
+    <p>В офіційному реєстрі Destatis 10 943 громади, і списком їх не показати — це не
+    список, а стіна. Тому «де ви шукаєте» — це дорога з чотирьох екранів, і на
+    кожному не більше восьми кнопок: земля, великі міста цієї землі, «яке велике
+    місто до вас ближче» і містечка навколо нього. Землю людина знає про себе
+    завжди, навіть коли не пам’ятає назви найближчого міста з вокзалом.</p>
   </div>
-  <ul class="chips">
-    <li class="lead">Берлін</li><li class="lead">Мюнхен</li><li class="lead">Любек</li>
-    <li>Гамбург</li><li>Кельн</li><li>Франкфурт-на-Майні</li><li>Штутгарт</li>
-    <li>Дюссельдорф</li><li>Лейпциг</li><li>Дортмунд</li><li>Ессен</li><li>Бремен</li>
-    <li>Дрезден</li><li>Ганновер</li><li>Нюрнберг</li><li>Дуйсбург</li>
+
+  <p class="note"><strong>Містечка рахуються за відстанню, а не за землею.</strong> Усі сто
+  одне містечко навколо Берліна лежать у Бранденбурзі, і список, обмежений землею, у
+  берлінця виявився б порожнім. Земля — спосіб увійти в меню, а не паркан навколо
+  відповіді; чужа земля підписана просто на кнопці, щоб ніхто не вирішив, що ми
+  переплутали.</p>
+
+  <p class="note" style="margin-top:12px">Коло навколо найближчого великого міста накриває <strong>7 912 містечок із
+  10 669</strong> — це 45,6 млн жителів із 56,7. Решті бот пише, що тут шукати нічим,
+  замість того щоб удавати, ніби шукає.</p>
+
+  <ul class="chips" style="margin-top:22px">
+    <li>Берлін <b>12</b></li>
+    <li>Любек <b>6</b></li>
+    <li>Кельн <b>4</b></li>
+    <li>Дюссельдорф <b>4</b></li>
+    <li>Ессен <b>4</b></li>
+    <li>Дуйсбург <b>4</b></li>
+    <li>Мюнхен <b>3</b></li>
+    <li>Лейпциг <b>3</b></li>
+    <li>Дортмунд <b>3</b></li>
+    <li>Гамбург <b>2</b></li>
+    <li>Бремен <b>2</b></li>
+    <li>Дрезден <b>2</b></li>
+    <li>Ганновер <b>2</b></li>
+    <li>Франкфурт-на-Майні <b>1</b></li>
+    <li>Штутгарт <b>1</b></li>
+    <li>Нюрнберг <b>1</b></li>
   </ul>
-  <p class="note" style="margin-top:18px">Рожевим позначені міста, де крім порталів
-  читаються ще й самі орендодавці: у Берліні це сім міських компаній, у Любеку — п’ять
-  житлових товариств з довідника самого міста, у Мюнхені — два житлові об’єднання.
-  Саме там з’являються квартири, які до порталів не доходять узагалі.</p>
+
+  <p class="note" style="margin-top:18px">У шістнадцяти містах, крім порталів, читаються й самі орендодавці — число на
+  кнопці каже, скільки їх. Дванадцять у Берліні: сім міських компаній, два кооперативи
+  і троє великих. Один у Нюрнберзі, Штутгарті й Франкфурті — Vonovia, яка здає у
+  шістдесяти чотирьох містах. Саме в орендодавців з’являються квартири, які до
+  порталів не доходять узагалі.</p>
 </section>
 
 <section id="sources-uk">
@@ -770,7 +824,8 @@
       <h3>Не обходить захист</h3>
       <p>Сайт, закритий від роботів, позначається недоступним із зазначенням причини.
       У коді це звичайний, передбачений вихід, а не виняток, який хтось колись
-      «обійшов тихцем».</p>
+      «обійшов тихцем». І до живого сайту бот не частить: до одного домену не частіше
+      разу на десять секунд, скільки б міст його не питали — лічильник один на всіх.</p>
     </li>
     <li>
       <h3>Не показує одне й те саме двічі</h3>
@@ -839,7 +894,7 @@
 
 <header class="hero">
   <div>
-    <p class="eyebrow"><span class="dot" aria-hidden="true"></span> In Betrieb · 16 deutsche Städte</p>
+    <p class="eyebrow"><span class="dot" aria-hidden="true"></span> In Betrieb · ganz Deutschland</p>
     <h1>Die Wohnung kommt <em>zu Ihnen</em></h1>
     <p class="lede">HomeHunter beobachtet die Wohnungsseiten Ihrer Stadt und schreibt Ihnen
     wenige Minuten, nachdem ein passendes Inserat erschienen ist.</p>
@@ -873,7 +928,7 @@
 </header>
 
 <div class="stats">
-  <div class="stat"><div class="val">16</div><div class="lbl">deutsche Städte</div></div>
+  <div class="stat"><div class="val">10 943</div><div class="lbl">deutsche Gemeinden zur Wahl</div></div>
   <div class="stat"><div class="val">39</div><div class="lbl">gelesene Wohnungsseiten</div></div>
   <div class="stat"><div class="val">1–30<small> Min</small></div><div class="lbl">zwischen zwei Durchläufen einer Seite</div></div>
   <div class="stat"><div class="val">0</div><div class="lbl">künstliche Intelligenz</div></div>
@@ -1052,24 +1107,50 @@
 
 <section id="cities-de">
   <div class="sec-head">
-    <p class="kicker">Städte</p>
-    <h2>Sechzehn Städte</h2>
-    <p>Eine Suche wird auf eine Stadt gerichtet oder auf mehrere, und jede wird einzeln
-    abgelaufen. Eine Seite, die für eine Stadt geschrieben wurde, arbeitet unverändert
-    weiter, und ein Vermieter, der nur in seiner Stadt vermietet, sagt das — statt nach
-    allen anderen gefragt zu werden.</p>
+    <p class="kicker">Wo gesucht wird</p>
+    <h2>Ganz Deutschland statt einer Liste von Städten</h2>
+    <p>Im amtlichen Verzeichnis von Destatis stehen 10 943 Gemeinden, und als Liste sind
+    sie nicht zu zeigen — das ist keine Liste, das ist eine Wand. „Wo suchen Sie?“ ist
+    deshalb ein Weg über vier Bildschirme mit höchstens acht Schaltflächen je Schritt:
+    das Bundesland, die großen Städte darin, „welche große Stadt liegt Ihnen am
+    nächsten“ und die Orte rundherum. Das eigene Bundesland weiß jeder — auch wer den
+    Namen der nächsten Stadt mit Bahnhof gerade nicht parat hat.</p>
   </div>
-  <ul class="chips">
-    <li class="lead">Berlin</li><li class="lead">München</li><li class="lead">Lübeck</li>
-    <li>Hamburg</li><li>Köln</li><li>Frankfurt am Main</li><li>Stuttgart</li>
-    <li>Düsseldorf</li><li>Leipzig</li><li>Dortmund</li><li>Essen</li><li>Bremen</li>
-    <li>Dresden</li><li>Hannover</li><li>Nürnberg</li><li>Duisburg</li>
+
+  <p class="note"><strong>Die Orte werden nach Entfernung gesucht, nicht nach Bundesland.</strong>
+  Alle einhunderteins Orte rund um Berlin liegen in Brandenburg, und eine nach
+  Bundesland gefilterte Liste bliebe für einen Berliner leer. Das Bundesland ist der
+  Weg ins Menü, nicht der Zaun um die Antwort; ein fremdes Bundesland steht deshalb
+  auf der Schaltfläche selbst.</p>
+
+  <p class="note" style="margin-top:12px">Der Kreis um die nächste große Stadt deckt <strong>7 912 von 10 669 Orten</strong>
+  ab — 45,6 der 56,7 Millionen Einwohner. Allen übrigen schreibt der Bot, dass hier
+  nichts zu suchen ist, statt so zu tun, als suche er.</p>
+
+  <ul class="chips" style="margin-top:22px">
+    <li>Berlin <b>12</b></li>
+    <li>Lübeck <b>6</b></li>
+    <li>Köln <b>4</b></li>
+    <li>Düsseldorf <b>4</b></li>
+    <li>Essen <b>4</b></li>
+    <li>Duisburg <b>4</b></li>
+    <li>München <b>3</b></li>
+    <li>Leipzig <b>3</b></li>
+    <li>Dortmund <b>3</b></li>
+    <li>Hamburg <b>2</b></li>
+    <li>Bremen <b>2</b></li>
+    <li>Dresden <b>2</b></li>
+    <li>Hannover <b>2</b></li>
+    <li>Frankfurt am Main <b>1</b></li>
+    <li>Stuttgart <b>1</b></li>
+    <li>Nürnberg <b>1</b></li>
   </ul>
-  <p class="note" style="margin-top:18px">In Rosa stehen die Städte, in denen neben
-  den Portalen auch die Vermieter selbst gelesen werden: in Berlin sieben städtische
-  Gesellschaften, in Lübeck fünf Wohnungsunternehmen aus dem Verzeichnis der Hansestadt,
-  in München zwei Wohnungsvereine. Dort erscheinen die Wohnungen, die es auf die Portale
-  gar nicht erst schaffen.</p>
+
+  <p class="note" style="margin-top:18px">In sechzehn Städten werden neben den Portalen auch die Vermieter selbst
+  gelesen — die Zahl auf der Schaltfläche sagt, wie viele. Zwölf in Berlin: sieben
+  städtische Gesellschaften, zwei Genossenschaften und drei große. Einer in Nürnberg,
+  Stuttgart und Frankfurt — Vonovia, die in vierundsechzig Städten vermietet. Bei den
+  Vermietern erscheinen die Wohnungen, die es auf die Portale gar nicht erst schaffen.</p>
 </section>
 
 <section id="sources-de">
@@ -1162,7 +1243,9 @@
       <h3>Er umgeht keinen Schutz</h3>
       <p>Eine Seite, die sich Robotern verschließt, wird als nicht verfügbar geführt, mit
       Grund. Im Quelltext ist das ein regulärer, vorgesehener Ausgang und keine
-      Ausnahme, die irgendwann jemand „still umgangen“ hat.</p>
+      Ausnahme, die irgendwann jemand „still umgangen“ hat. Und auch eine offene Seite
+      wird nicht bedrängt: höchstens eine Anfrage je zehn Sekunden an dieselbe Domain,
+      gleichgültig wie viele Städte nach ihr fragen — der Zähler ist einer für alle.</p>
     </li>
     <li>
       <h3>Er zeigt nichts zweimal</h3>
@@ -1233,7 +1316,7 @@
 
 <header class="hero">
   <div>
-    <p class="eyebrow"><span class="dot" aria-hidden="true"></span> Running · 16 German cities</p>
+    <p class="eyebrow"><span class="dot" aria-hidden="true"></span> Running · all of Germany</p>
     <h1>The flat comes <em>to you</em></h1>
     <p class="lede">HomeHunter watches the housing sites of your city and writes to you
     minutes after a matching advert appears.</p>
@@ -1267,7 +1350,7 @@
 </header>
 
 <div class="stats">
-  <div class="stat"><div class="val">16</div><div class="lbl">German cities</div></div>
+  <div class="stat"><div class="val">10,943</div><div class="lbl">German municipalities to choose from</div></div>
   <div class="stat"><div class="val">39</div><div class="lbl">housing sites read</div></div>
   <div class="stat"><div class="val">1–30<small> min</small></div><div class="lbl">between two sweeps of one site</div></div>
   <div class="stat"><div class="val">0</div><div class="lbl">artificial intelligence</div></div>
@@ -1444,22 +1527,49 @@
 
 <section id="cities-en">
   <div class="sec-head">
-    <p class="kicker">Cities</p>
-    <h2>Sixteen cities</h2>
-    <p>A search is pointed at one city or at several, and each is walked separately. A site
-    written for one city keeps working untouched, and a landlord who only lets in their
-    own city says so — instead of being asked about all the others.</p>
+    <p class="kicker">Where to search</p>
+    <h2>All of Germany, not a list of cities</h2>
+    <p>The official Destatis register holds 10,943 municipalities, and there is no showing
+    those as a list — that is not a list, it is a wall. So "where are you looking?" is a
+    path of four screens with no more than eight buttons each: the federal state, the
+    large cities in it, "which large city is nearest to you", and the towns around it.
+    Everybody knows their own state, even when the name of the nearest town with a
+    railway station escapes them.</p>
   </div>
-  <ul class="chips">
-    <li class="lead">Berlin</li><li class="lead">München</li><li class="lead">Lübeck</li>
-    <li>Hamburg</li><li>Köln</li><li>Frankfurt am Main</li><li>Stuttgart</li>
-    <li>Düsseldorf</li><li>Leipzig</li><li>Dortmund</li><li>Essen</li><li>Bremen</li>
-    <li>Dresden</li><li>Hannover</li><li>Nürnberg</li><li>Duisburg</li>
+
+  <p class="note"><strong>Towns are found by distance, not by federal state.</strong> All one
+  hundred and one towns around Berlin lie in Brandenburg, and a list bounded by the
+  state would come back empty for a Berliner. The state is the way into the menu, not
+  a fence around the answer; a different state is written on the button itself.</p>
+
+  <p class="note" style="margin-top:12px">The circle around the nearest large city covers <strong>7,912 towns of
+  10,669</strong> — 45.6 million people of 56.7. Everybody else is told there is nothing
+  to search with here, instead of being shown a search that pretends.</p>
+
+  <ul class="chips" style="margin-top:22px">
+    <li>Berlin <b>12</b></li>
+    <li>Lübeck <b>6</b></li>
+    <li>Köln <b>4</b></li>
+    <li>Düsseldorf <b>4</b></li>
+    <li>Essen <b>4</b></li>
+    <li>Duisburg <b>4</b></li>
+    <li>München <b>3</b></li>
+    <li>Leipzig <b>3</b></li>
+    <li>Dortmund <b>3</b></li>
+    <li>Hamburg <b>2</b></li>
+    <li>Bremen <b>2</b></li>
+    <li>Dresden <b>2</b></li>
+    <li>Hannover <b>2</b></li>
+    <li>Frankfurt am Main <b>1</b></li>
+    <li>Stuttgart <b>1</b></li>
+    <li>Nürnberg <b>1</b></li>
   </ul>
-  <p class="note" style="margin-top:18px">In pink: the cities where the landlords
-  themselves are read alongside the portals — seven municipal companies in Berlin, five
-  housing companies from the Hansestadt's own directory in Lübeck, two housing
-  associations in Munich. That is where the flats appear that never reach a portal at all.</p>
+
+  <p class="note" style="margin-top:18px">In sixteen cities the landlords themselves are read alongside the portals — the
+  number on the button says how many. Twelve in Berlin: seven municipal companies, two
+  co-operatives and three large ones. One in Nürnberg, Stuttgart and Frankfurt —
+  Vonovia, which lets in sixty-four cities. It is at the landlords that the flats
+  appear which never reach a portal at all.</p>
 </section>
 
 <section id="sources-en">
@@ -1549,7 +1659,9 @@
       <h3>It circumvents no protection</h3>
       <p>A site closed to robots is listed as unavailable, with the reason. In the source
       that is an ordinary, intended outcome — not an exception somebody once "quietly
-      worked around".</p>
+      worked around". Nor is an open site hammered: at most one request every ten
+      seconds to the same domain, however many cities are asking after it — the counter
+      is one for all of them.</p>
     </li>
     <li>
       <h3>It shows nothing twice</h3>

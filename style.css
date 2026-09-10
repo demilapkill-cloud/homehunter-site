@@ -604,6 +604,10 @@ section { padding-bottom: var(--gap); scroll-margin-top: 78px; }
   color: var(--half);
 }
 .chips li.lead { border-color: var(--rose-line); background: var(--rose-soft); color: var(--rose); }
+/* Число на кнопке города — сколько его арендодателей читаются напрямую. Цветом,
+   а не размером: город и число стоят в одной строке, и разный кегль рвал бы её
+   базовую линию. */
+.chips li b { font-weight: 700; color: var(--rose); }
 
 /* --- Источники ------------------------------------------------------------- */
 
