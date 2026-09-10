@@ -201,13 +201,26 @@ def alive(url: str) -> bool:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--db", required=True, help="путь к sqlite или строка подключения")
+    parser.add_argument("--db", help="путь к sqlite или строка подключения")
+    parser.add_argument(
+        "--json",
+        help="готовая выгрузка из журнала рассылки: список записей "
+        "{id, source, url, data}. Нужна там, где до боевой базы отсюда не "
+        "дотянуться, а один SELECT выполнить кто-то может: запрос лежит в "
+        "tools/delivered.sql",
+    )
     parser.add_argument("--out", required=True, help="куда положить JSON")
     parser.add_argument("--days", type=int, default=7, help="насколько свежие объявления брать")
     parser.add_argument("--keep", type=int, default=KEEP, help="сколько карточек оставить")
     args = parser.parse_args()
 
-    rows = rows_from(args.db, args.days)
+    if not args.db and not args.json:
+        raise SystemExit("нужен --db или --json")
+    if args.json:
+        rows = json.loads(Path(args.json).expanduser().read_text(encoding="utf-8"))
+        print(f"объявлений из выгрузки: {len(rows)}", file=sys.stderr)
+    else:
+        rows = rows_from(args.db, args.days)
     random.shuffle(rows)
 
     built: list[dict] = []
@@ -228,6 +241,38 @@ def main() -> int:
         if listing.price.warm_rent is None and listing.price.cold_rent is None:
             continue
         if listing.property.area_m2 is None:
+            continue
+        # Число комнат объявление обязано назвать. Не придирка к качеству: в
+        # выгрузке 10.09.2026 ровно так отсеялся «Praxisraum zu vermieten» с
+        # markt.de — нежилое помещение на 23 м², которое бот записал в `house`
+        # и кому-то отправил. Это ошибка отбора в самом боте, и она отдельно
+        # заведена; здесь же важно, что карточка без комнат — это либо не
+        # жильё, либо объявление, по которому всё равно ничего не решить.
+        if listing.property.rooms is None:
+            continue
+        # Район, начинающийся с предлога с маленькой буквы, — не район, а
+        # обломок разбора: у Spotahome из «Frankfurt am Main» в поле района
+        # попало «am Main», и карточка приехала человеку именно так. Немецкие
+        # названия районов пишутся с большой буквы, поэтому правило общее, а
+        # не заплатка под один сайт. Сама ошибка живёт в боте и заведена
+        # отдельно; здесь только не пускаем её на витрину.
+        district = display_district(listing.address.district, listing.address.postal_code)
+        if district and district.split()[0] in ("am", "an", "im", "in", "auf", "bei", "vor", "zu"):
+            continue
+        # Тёплая аренда не бывает меньше холодной: она её и включает. Одно
+        # такое объявление в выгрузке 10.09.2026 нашлось — immobilien.de,
+        # 1050 € warm при 1800 € kalt и отоплении в один евро, — и оно тоже
+        # уехало человеку. Ошибка разбора у источника, заведена отдельно.
+        cold, warm = listing.price.cold_rent, listing.price.warm_rent
+        if cold and warm and warm < cold:
+            continue
+        # Пять комнат на шестьдесят метров — почти наверняка сбой разбора, а
+        # не квартира. Исключение — комната в WG: там число комнат относится
+        # к чужой квартире целиком, а метры к самой комнате, и пятнадцать
+        # метров на комнату там не считаются. Берлиновский «Teterower Ring
+        # 20» в выгрузке 10.09.2026 приехал именно так: 5 комнат, 61,33 м².
+        rooms, area = listing.property.rooms, listing.property.area_m2
+        if listing.listing_type is not ListingType.ROOM and rooms and area / rooms < 15:
             continue
         # `origin_note` переводится, поэтому карточка собирается заново на
         # каждом языке, а не рисуется один раз и переводится потом.
