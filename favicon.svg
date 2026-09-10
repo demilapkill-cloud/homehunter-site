@@ -1,5 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <rect x="4" y="4" width="56" height="56" rx="14" ry="14" fill="#e8a54a"/>
-  <polygon points="32,14 52,32 12,32" fill="#07090c"/>
-  <rect x="18" y="32" width="28" height="18" fill="#07090c"/>
+  <!-- Значок в палитре рабочего окружения killu: тушь #1b1d1b, бумага #e7e3d9,
+       розовый мазок #cfa79a с обоев. Скругление 12 из 64 — те же пропорции,
+       что у rounding = 6 в Hyprland и border-radius: 6px в waybar.
+       Две заливки вместо одной: на 16 пикселях тонкая обводка исчезает, а
+       розовая крыша над бумажной стеной различима при любом размере. -->
+  <rect x="2" y="2" width="60" height="60" rx="12" ry="12" fill="#1b1d1b"/>
+  <rect x="2.5" y="2.5" width="59" height="59" rx="11.5" ry="11.5"
+        fill="none" stroke="#e7e3d9" stroke-opacity="0.14"/>
+  <polygon points="32,13 53,32 11,32" fill="#cfa79a"/>
+  <rect x="17" y="32" width="30" height="19" fill="#e7e3d9"/>
 </svg>

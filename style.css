@@ -1,47 +1,46 @@
 /* ==========================================================================
    HomeHunter — сайт бота
-   Ночь и янтарь. Ни одного внешнего адреса: шрифты лежат рядом, скриптов
-   со стороны нет, считать здесь некому и нечего.
 
-   Почему тёмная тема одна: страницу открывают по ссылке из Telegram, чаще
-   всего с телефона и чаще всего вечером — светлой версии, которая бы этим
-   людям пригодилась, в замерах не нашлось, а вторая палитра, которую никто
-   не проверяет, разъезжается с первой на третьем изменении.
+   Оформление снято с рабочего окружения killu (Hyprland + waybar + foot), а не
+   придумано заново. Числа и цвета взяты из его конфигов, чтобы страница
+   выглядела продолжением его стола, а не соседней вкладкой:
+
+     тушь          #1b1d1b   foot [colors-dark] background, waybar .modules-*
+     бумага        #e7e3d9   foot foreground, waybar window#waybar color
+     полутон       #8d9186   waybar #window, #cpu, #memory
+     тень          #6f736a   waybar #workspaces button (неактивный)
+     зелень        #a3ab93   waybar :hover
+     розовый мазок #cfa79a   waybar #custom-recall, foot bright1
+     рамка         rgba(231,227,217,0.10)   waybar .modules-* border
+     плашка        rgba(27,29,27,0.72)      waybar .modules-* background
+     скругление    6px / 4px                waybar + Hyprland rounding = 6
+     шрифт         GoMono Nerd Font         waybar и foot, оба
+
+   Обои те же самые (`~/Pictures/wallpapers/blossom-qrd9qd.jpg`), уменьшенные
+   и притушенные. Содержимое лежит на них полупрозрачными плашками — тот же
+   приём, что active_opacity = 0.96 в Hyprland: «терминалы поверх картины».
+
+   Ни одного внешнего адреса: шрифт и картинка лежат рядом.
    ========================================================================== */
 
-/* --- Шрифты, лежащие в репозитории --------------------------------------- */
+/* --- Шрифт ---------------------------------------------------------------- */
+/* Подмножество GoMono Nerd Font: латиница, кириллица, пунктуация. Значки
+   Nerd Font выброшены — на странице их нет, а они втрое тяжелее букв.
+   Лицензия шрифта: fonts/LICENSE-go-mono.txt */
 
 @font-face {
-  font-family: 'Onest';
+  font-family: 'Go Mono';
   font-style: normal;
+  font-weight: 400;
   font-display: swap;
-  font-weight: 100 900;
-  src: url('fonts/onest-latin-wght-normal.woff2') format('woff2-variations');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  src: url('fonts/go-mono-regular.woff2') format('woff2');
 }
 @font-face {
-  font-family: 'Onest';
+  font-family: 'Go Mono';
   font-style: normal;
+  font-weight: 700;
   font-display: swap;
-  font-weight: 100 900;
-  src: url('fonts/onest-cyrillic-wght-normal.woff2') format('woff2-variations');
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-}
-@font-face {
-  font-family: 'JetBrains Mono';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 100 800;
-  src: url('fonts/jetbrains-mono-latin-wght-normal.woff2') format('woff2-variations');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: 'JetBrains Mono';
-  font-style: normal;
-  font-display: swap;
-  font-weight: 100 800;
-  src: url('fonts/jetbrains-mono-cyrillic-wght-normal.woff2') format('woff2-variations');
-  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+  src: url('fonts/go-mono-bold.woff2') format('woff2');
 }
 
 /* --- Основа --------------------------------------------------------------- */
@@ -49,36 +48,43 @@
 :root {
   color-scheme: dark;
 
-  --night-0: #08090c;
-  --night-1: #0d1014;
-  --night-2: #12161c;
-  --night-3: #1a1f27;
+  --ink-0: #141614;
+  --ink-1: #1b1d1b;
+  --ink-2: #2a2c29;
+  --ink-3: #4a4d47;
 
-  --ink:   #eceae4;
-  --ink-2: rgba(236, 234, 228, 0.68);
-  --ink-3: rgba(236, 234, 228, 0.55);
+  --paper:   #e7e3d9;
+  --paper-2: #cfcabd;
+  --half:    #8d9186;
+  --dim:     #6f736a;
 
-  --line:        rgba(236, 234, 228, 0.10);
-  --line-strong: rgba(236, 234, 228, 0.20);
+  /* На полтона светлее зелени из waybar (#a3ab93). Причина не вкусовая: в
+     панели эта зелень лежит на непрозрачной туши, а здесь — прямо на картине,
+     и на самом светлом её месте #a3ab93 даёт 4,19 к 1 при норме 4,5. Полтона
+     поднимают до 4,70, а на глаз это тот же цвет. Обводки и заливки остались
+     исходными: к ним требование по контрасту другое. */
+  --sage:      #adb59c;
+  --sage-soft: rgba(163, 171, 147, 0.12);
+  --sage-line: rgba(163, 171, 147, 0.38);
 
-  --ember:        #e8a54a;
-  --ember-bright: #f6c579;
-  --ember-soft:   rgba(232, 165, 74, 0.14);
-  --ember-line:   rgba(232, 165, 74, 0.34);
+  --rose:      #cfa79a;
+  --rose-soft: rgba(207, 167, 154, 0.10);
+  --rose-line: rgba(207, 167, 154, 0.45);
 
-  --frost: #9fb4c7;
-  --ok:    #8fbf8a;
+  --line:        rgba(231, 227, 217, 0.10);
+  --line-strong: rgba(231, 227, 217, 0.20);
 
-  --font: 'Onest', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+  --panel:       rgba(27, 29, 27, 0.72);
+  --panel-solid: rgba(20, 22, 20, 0.90);
 
-  --r-s: 10px;
-  --r-m: 16px;
-  --r-l: 24px;
+  --font: 'Go Mono', 'GoMono Nerd Font', ui-monospace, 'JetBrains Mono', Menlo, monospace;
 
-  --pad: clamp(20px, 5vw, 40px);
-  --gap: clamp(56px, 9vw, 104px);
-  --measure: 68ch;
+  --r:  6px;
+  --r-s: 4px;
+
+  --pad: clamp(18px, 4vw, 34px);
+  --gap: clamp(48px, 7vw, 84px);
+  --measure: 76ch;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -97,69 +103,97 @@ html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 body {
   margin: 0;
   font-family: var(--font);
-  font-size: clamp(15px, 0.4vw + 14px, 17px);
-  line-height: 1.62;
-  color: var(--ink);
-  background: var(--night-0);
+  font-size: 14.5px;
+  line-height: 1.72;
+  color: var(--paper);
+  background: var(--ink-0);
   overflow-x: hidden;
 }
 
-/* Свет над горизонтом. Тот же янтарь, что в значке, только очень
-   разбавленный — фон, а не украшение: он не двигается, ничего не грузит и
-   на печати исчезает вместе со всем остальным фоном. */
+/* Картина под всем. Не `background-attachment: fixed` — на iOS он отваливается
+   и полотно начинает ползти рывками; отдельный неподвижный слой ведёт себя
+   одинаково везде. Яркость снята до трети: поверх лежит текст, а не подпись
+   под картиной. */
 body::before {
   content: '';
   position: fixed;
-  inset: -30vh 0 auto 0;
-  height: 90vh;
-  background:
-    radial-gradient(60% 55% at 50% 0%, rgba(232, 165, 74, 0.13), transparent 70%),
-    radial-gradient(70% 60% at 15% 10%, rgba(159, 180, 199, 0.07), transparent 70%);
-  pointer-events: none;
+  inset: 0;
   z-index: 0;
+  background-image: url('img/blossom-1000.webp');
+  background-size: cover;
+  background-position: 50% 22%;
+  filter: brightness(0.34) saturate(0.70) contrast(1.06);
+  pointer-events: none;
+}
+
+@media (min-width: 1001px) {
+  body::before { background-image: url('img/blossom-1920.webp'); }
+}
+
+/* Второй слой поверх картины: полог и зерно штукатурки.
+
+   Полог нужен потому, что картина светлая в левом верхнем углу — ровно там,
+   где стоит заголовок. Притушить её ещё сильнее фильтром значит потерять
+   цветение целиком; полог же сажает свет там, где лежит текст, и оставляет
+   картину живой ниже и правее.
+
+   Зерно даёт ту же шершавость, что у штукатурки на обоях, но нарисовано
+   фильтром, а не картинкой: восемь сотен байт вместо ста килобайт. Оно идёт
+   вторым в списке, то есть лежит под пологом. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(130% 95% at 18% 0%, rgba(20, 22, 20, 0.55), rgba(20, 22, 20, 0) 62%),
+    linear-gradient(180deg, rgba(20, 22, 20, 0.28), rgba(20, 22, 20, 0.70)),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.14'/%3E%3C/svg%3E");
 }
 
 .wrap {
   position: relative;
   z-index: 1;
-  width: min(1120px, 100%);
+  width: min(1060px, 100%);
   margin: 0 auto;
   padding: 0 var(--pad);
 }
 
 h1, h2, h3, h4 {
   margin: 0;
-  font-weight: 600;
-  letter-spacing: -0.022em;
-  line-height: 1.14;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
   text-wrap: balance;
 }
 
-h2 { font-size: clamp(27px, 3.4vw, 40px); }
-h3 { font-size: clamp(18px, 1.5vw, 21px); letter-spacing: -0.015em; line-height: 1.3; }
-h4 { font-size: 16px; letter-spacing: -0.01em; }
+h2 { font-size: clamp(20px, 2.4vw, 27px); }
+h3 { font-size: 15.5px; }
+h4 { font-size: 14.5px; }
 
 p { margin: 0 0 1em; max-width: var(--measure); }
 p:last-child { margin-bottom: 0; }
 
-a { color: var(--ember); text-decoration-color: var(--ember-line); text-underline-offset: 3px; }
-a:hover { color: var(--ember-bright); }
-
-code, .mono { font-family: var(--mono); font-size: 0.88em; }
+a { color: var(--sage); text-decoration-color: var(--sage-line); text-underline-offset: 3px; }
+a:hover { color: var(--paper); }
 
 code {
-  padding: 0.12em 0.38em;
-  border-radius: 5px;
-  background: rgba(236, 234, 228, 0.07);
-  color: var(--ink);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+  background: rgba(231, 227, 217, 0.07);
+  border: 1px solid var(--line);
+  color: var(--paper-2);
 }
 
-strong { font-weight: 600; }
+strong { font-weight: 700; color: var(--paper); }
+
+::selection { background: var(--rose); color: var(--ink-1); }
 
 :focus-visible {
-  outline: 2px solid var(--ember);
+  outline: 1px solid var(--rose);
   outline-offset: 3px;
-  border-radius: 4px;
+  border-radius: 2px;
 }
 
 .skip-link {
@@ -167,54 +201,74 @@ strong { font-weight: 600; }
   left: -9999px;
   top: 8px;
   z-index: 100;
-  padding: 10px 16px;
+  padding: 8px 14px;
+  border: 1px solid var(--line-strong);
   border-radius: var(--r-s);
-  background: var(--night-3);
-  color: var(--ink);
+  background: var(--ink-1);
+  color: var(--paper);
   text-decoration: none;
 }
 .skip-link:focus { left: 8px; }
 
-/* --- Шапка ---------------------------------------------------------------- */
+/* --- Шапка: та же waybar ---------------------------------------------------
+   Панель прозрачная, а плашками выглядят группы внутри неё — ровно так же
+   устроен `window#waybar { background: transparent }` с непрозрачными
+   `.modules-left/-center/-right`. */
 
+/* В waybar сама панель прозрачна, а плашками выглядят группы внутри неё —
+   там под панелью обои, и прятать нечего. Здесь под ней едет текст, и голая
+   прозрачность даёт наложение слов на слова. Поэтому у панели появляется то,
+   чего у waybar нет: растворяющаяся книзу полоса туши и размытие под ней.
+   Плашки при этом остаются плашками, и панель по-прежнему читается как ряд
+   модулей, а не как сплошная шапка. */
 .topbar {
   position: sticky;
   top: 0;
   z-index: 40;
-  background: rgba(8, 9, 12, 0.82);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg,
+              rgba(20, 22, 20, 0.96) 54%,
+              rgba(20, 22, 20, 0.86) 76%,
+              rgba(20, 22, 20, 0) 100%);
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+  padding-bottom: 18px;
 }
 
 .topbar-inner {
-  width: min(1120px, 100%);
+  width: min(1060px, 100%);
   margin: 0 auto;
-  padding: 10px var(--pad);
+  padding: 8px var(--pad);
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
+}
+
+.brand,
+.langs,
+.topbar-cta {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 9px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  color: var(--ink);
+  gap: 8px;
+  padding: 5px 11px 5px 8px;
+  font-weight: 700;
+  color: var(--paper);
   text-decoration: none;
   margin-right: auto;
 }
-.brand svg { display: block; border-radius: 7px; }
+.brand svg { display: block; border-radius: 3px; }
 
 .langs {
   display: inline-flex;
   padding: 3px;
   gap: 2px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: rgba(236, 234, 228, 0.04);
 }
 
 .langs button {
@@ -222,413 +276,456 @@ strong { font-weight: 600; }
   border: 0;
   background: none;
   cursor: pointer;
-  padding: 5px 11px;
-  border-radius: 999px;
-  font-family: var(--mono);
+  padding: 3px 9px;
+  border-radius: var(--r-s);
+  font-family: inherit;
   font-size: 12px;
-  letter-spacing: 0.04em;
-  color: var(--ink-3);
-  transition: color 0.15s, background 0.15s;
+  color: var(--half);
+  transition: color 0.12s, background 0.12s;
 }
-.langs button:hover { color: var(--ink); }
-.langs button[aria-pressed='true'] {
-  color: var(--night-0);
-  background: var(--ember);
-  font-weight: 600;
-}
+.langs button:hover { color: var(--sage); }
+.langs button[aria-pressed='true'] { color: var(--paper); background: rgba(231, 227, 217, 0.07); }
 
-/* --- Кнопки --------------------------------------------------------------- */
+/* --- Кнопки: та же #custom-recall ------------------------------------------
+   Розовый текст на десятипроцентной розовой заливке с обводкой, а по наведению
+   всё переворачивается в тушь на розовом. В панели этим отличают «сюда можно
+   нажать» от «здесь просто цифра» — на странице ровно та же задача. */
 
 .btn {
   display: inline-flex;
-  white-space: nowrap;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 12px 20px;
+  white-space: nowrap;
+  padding: 9px 16px;
   border: 1px solid var(--line-strong);
-  border-radius: 999px;
+  border-radius: var(--r-s);
   font: inherit;
-  font-weight: 500;
-  font-size: 15px;
-  color: var(--ink);
+  font-size: 14px;
+  color: var(--paper-2);
   text-decoration: none;
-  background: rgba(236, 234, 228, 0.05);
+  background: rgba(231, 227, 217, 0.05);
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s, transform 0.15s;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
 }
-.btn:hover { background: rgba(236, 234, 228, 0.10); border-color: var(--line-highlight, rgba(236,234,228,0.32)); color: var(--ink); }
-.btn:active { transform: translateY(1px); }
+.btn:hover { color: var(--paper); background: rgba(231, 227, 217, 0.10); border-color: var(--line-strong); }
 
 .btn.primary {
-  background: var(--ember);
-  border-color: var(--ember);
-  color: #140d02;
-  font-weight: 600;
+  color: var(--rose);
+  background: var(--rose-soft);
+  border-color: var(--rose-line);
 }
-.btn.primary:hover { background: var(--ember-bright); border-color: var(--ember-bright); color: #140d02; }
+.btn.primary:hover { color: var(--ink-1); background: var(--rose); border-color: var(--rose); }
 
 .btn svg { display: block; }
+.btn-sm { padding: 5px 11px; font-size: 13px; }
 
-.btn-sm { padding: 8px 15px; font-size: 14px; }
-
-/* Узкий телефон: у кнопки в шапке остаётся только значок. Подпись из трёх слов
-   ломается там на три строки и раздувает кнопку в круг во всю высоту шапки —
-   а значок самолётика рядом со словом HomeHunter понятен и без подписи
-   (у ссылки есть aria-label для тех, кто её не видит). */
-@media (max-width: 560px) {
-  /* Селектор длиннее, чем нужно, намеренно: у правила переключателя языка
-     (`span[data-lang-block].on`) ровно та же специфичность, и оно стоит ниже
-     по файлу — короткий селектор ему проиграл бы, а подпись осталась. */
-  .topbar .topbar-cta span[data-lang-block] { display: none; }
-  .topbar-cta { padding: 9px 11px; }
-  .langs button { padding: 5px 9px; }
-  .brand span { font-size: 15px; }
-}
+.topbar-cta { padding: 5px 11px; }
+.topbar-cta.primary { background: var(--rose-soft); border-color: var(--rose-line); }
 
 /* --- Первый экран --------------------------------------------------------- */
 
 .hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: clamp(36px, 6vw, 64px);
+  gap: clamp(28px, 5vw, 52px);
   align-items: center;
-  padding: clamp(48px, 9vw, 96px) 0 clamp(40px, 7vw, 72px);
+  padding: clamp(40px, 8vw, 84px) 0 clamp(36px, 6vw, 64px);
 }
 
 @media (min-width: 900px) {
-  .hero { grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.92fr); }
+  .hero { grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr); }
 }
 
 .eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 22px;
-  padding: 5px 12px 5px 9px;
-  border: 1px solid var(--ember-line);
-  border-radius: 999px;
-  background: var(--ember-soft);
-  font-family: var(--mono);
+  margin: 0 0 20px;
+  padding: 4px 11px 4px 9px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-s);
+  background: var(--panel);
   font-size: 12px;
-  letter-spacing: 0.02em;
-  color: var(--ember-bright);
+  color: var(--half);
 }
 
 .dot {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
-  background: var(--ember);
-  box-shadow: 0 0 0 0 var(--ember-line);
-  animation: pulse 2.6s ease-out infinite;
+  background: var(--sage);
+  animation: breathe 3.4s ease-in-out infinite;
 }
-@keyframes pulse {
-  0%   { box-shadow: 0 0 0 0 rgba(232, 165, 74, 0.45); }
-  70%  { box-shadow: 0 0 0 9px rgba(232, 165, 74, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(232, 165, 74, 0); }
+@keyframes breathe {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.35; }
 }
 
 .hero h1 {
-  font-size: clamp(38px, 7.2vw, 68px);
-  letter-spacing: -0.035em;
-  margin-bottom: 20px;
+  font-size: clamp(28px, 4.6vw, 44px);
+  line-height: 1.22;
+  letter-spacing: -0.02em;
+  margin-bottom: 18px;
 }
-.hero h1 em {
-  font-style: normal;
-  color: var(--ember);
-}
+.hero h1 em { font-style: normal; color: var(--rose); }
 
 .hero .lede {
-  font-size: clamp(17px, 1.5vw, 20px);
-  line-height: 1.5;
-  color: var(--ink-2);
-  max-width: 34ch;
-  margin-bottom: 28px;
+  font-size: 15px;
+  color: var(--paper-2);
+  max-width: 44ch;
+  margin-bottom: 24px;
 }
 
-.hero-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 
 .hero-note {
   margin-top: 20px;
-  font-size: 14px;
-  color: var(--ink-2);
-  max-width: 40ch;
+  font-size: 13px;
+  /* Не полутон: эта врезка лежит прямо на картине, без плашки под собой. */
+  color: var(--paper-2);
+  max-width: 48ch;
+  padding-left: 12px;
+  border-left: 1px solid var(--line-strong);
 }
 
-/* --- Телефон с карточкой -------------------------------------------------- */
+/* --- Сообщение бота -------------------------------------------------------- */
 
 .phone {
-  position: relative;
   margin: 0 auto;
-  width: min(360px, 100%);
-  padding: 12px;
-  border: 1px solid var(--line-strong);
-  border-radius: 30px;
-  background: linear-gradient(180deg, var(--night-2), var(--night-1));
-  box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(236, 234, 228, 0.06);
+  width: min(370px, 100%);
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--panel);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 18px 40px -22px rgba(15, 16, 15, 0.85);
 }
 
 .phone-bar {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 2px 6px 12px;
+  padding: 2px 4px 10px;
   border-bottom: 1px solid var(--line);
-  margin-bottom: 14px;
-  font-family: var(--mono);
+  margin-bottom: 12px;
   font-size: 12px;
-  color: var(--ink-3);
+  color: var(--half);
 }
 .phone-bar .bot-avatar {
-  width: 22px; height: 22px;
-  border-radius: 50%;
-  background: var(--ember);
+  width: 20px; height: 20px;
+  border-radius: var(--r-s);
+  background: var(--rose);
   display: grid; place-items: center;
-  color: #140d02; font-weight: 700; font-size: 11px;
-  font-family: var(--font);
+  color: var(--ink-1); font-weight: 700; font-size: 11px;
 }
 
 .bubble {
-  border-radius: 4px 16px 16px 16px;
-  background: var(--night-3);
+  border-radius: var(--r-s) var(--r) var(--r) var(--r);
+  background: rgba(42, 44, 41, 0.72);
   border: 1px solid var(--line);
-  padding: 14px 15px;
-  font-size: 14.5px;
-  line-height: 1.55;
+  padding: 12px 13px;
+  font-size: 13.5px;
+  line-height: 1.62;
+  color: var(--paper-2);
 }
-.bubble + .bubble { margin-top: 10px; }
-.bubble b { font-weight: 600; }
+.bubble b { font-weight: 700; color: var(--paper); }
 .bubble .row { display: block; }
-.bubble .row + .row { margin-top: 3px; }
-.bubble .title { font-size: 15.5px; line-height: 1.35; margin-bottom: 9px; display: block; }
-.bubble .rent b { color: var(--ember-bright); }
+.bubble .row + .row { margin-top: 2px; }
+.bubble .title { display: block; font-size: 14px; line-height: 1.4; margin-bottom: 8px; }
+.bubble .rent b { color: var(--rose); }
 
 .bubble-btn {
   display: block;
-  margin-top: 12px;
-  padding: 9px;
-  border-radius: 9px;
-  background: rgba(159, 180, 199, 0.12);
-  border: 1px solid rgba(159, 180, 199, 0.22);
-  color: var(--frost);
+  margin-top: 11px;
+  padding: 8px;
+  border-radius: var(--r-s);
+  background: var(--sage-soft);
+  border: 1px solid var(--sage-line);
+  color: var(--sage);
   text-align: center;
-  font-size: 14px;
-  text-decoration: none;
+  font-size: 13px;
 }
 
 .bubble-time {
   display: block;
-  margin-top: 8px;
+  margin-top: 7px;
   text-align: right;
-  font-family: var(--mono);
   font-size: 11px;
-  color: var(--ink-3);
+  color: var(--half);
 }
 
-/* --- Числа ---------------------------------------------------------------- */
+/* --- Строка показателей: нижний ряд waybar --------------------------------- */
 
 .stats {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1px;
+  gap: 6px;
   margin: 0 0 var(--gap);
-  border: 1px solid var(--line);
-  border-radius: var(--r-m);
-  background: var(--line);
-  overflow: hidden;
 }
 @media (min-width: 720px) { .stats { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 
-.stat { padding: 20px var(--pad); background: var(--night-1); }
+.stat {
+  padding: 13px 15px;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--panel);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
 .stat .val {
-  font-size: clamp(26px, 3vw, 34px);
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  color: var(--ember);
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--paper);
 }
-.stat .val small { font-size: 0.5em; font-weight: 500; letter-spacing: 0; }
-.stat .lbl { margin-top: 5px; font-size: 13.5px; color: var(--ink-2); line-height: 1.35; }
+.stat .val small { font-size: 0.62em; font-weight: 400; color: var(--half); }
+.stat .lbl { margin-top: 3px; font-size: 12px; color: var(--half); line-height: 1.4; }
 
-/* --- Секции --------------------------------------------------------------- */
+/* --- Разделы --------------------------------------------------------------- */
 
-section { padding-bottom: var(--gap); scroll-margin-top: 72px; }
+section { padding-bottom: var(--gap); scroll-margin-top: 78px; }
 
+/* Заголовок раздела начинается с линейки, как строка в выводе программы:
+   `── что приходит ────────────────`. Линейка рисуется псевдоэлементом, а не
+   набирается дефисами, иначе она попадёт в текст для чтения с экрана. */
 .kicker {
-  font-family: var(--mono);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 14px;
+  max-width: none;
   font-size: 12px;
-  letter-spacing: 0.09em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--ink-3);
-  margin-bottom: 12px;
+  color: var(--sage);
+}
+.kicker::before {
+  content: '';
+  width: 22px;
+  height: 1px;
+  background: var(--sage-line);
+  flex: none;
+}
+.kicker::after {
+  content: '';
+  height: 1px;
+  background: var(--line);
+  flex: 1;
 }
 
-.sec-head { margin-bottom: clamp(24px, 3.5vw, 40px); }
-.sec-head p { margin-top: 14px; color: var(--ink-2); }
+.sec-head { margin-bottom: clamp(20px, 3vw, 32px); }
+.sec-head p { margin-top: 12px; color: var(--paper-2); }
 
-/* --- Шаги ----------------------------------------------------------------- */
+/* --- Шаги ------------------------------------------------------------------ */
 
-.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--r-m); overflow: hidden; }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
 @media (min-width: 780px) { .steps { grid-template-columns: repeat(4, 1fr); } }
 
-.steps li { background: var(--night-1); padding: 22px; }
+.steps li {
+  padding: 16px 17px;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--panel);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
 .steps .num {
   display: block;
-  font-family: var(--mono);
   font-size: 12px;
-  color: var(--ember);
-  margin-bottom: 12px;
+  color: var(--rose);
+  margin-bottom: 10px;
 }
-.steps h3 { margin-bottom: 7px; }
-.steps p { font-size: 14.5px; color: var(--ink-2); }
+.steps h3 { margin-bottom: 6px; }
+.steps p { font-size: 13px; color: var(--half); }
 
-/* --- Карточки ------------------------------------------------------------- */
+/* --- Плашки ---------------------------------------------------------------- */
 
-.cards { display: grid; gap: 14px; }
+.cards { display: grid; gap: 6px; }
 @media (min-width: 720px) { .cards.two { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 880px) { .cards.three { grid-template-columns: repeat(3, 1fr); } }
 
 .card {
-  padding: 24px;
+  padding: 18px 19px;
   border: 1px solid var(--line);
-  border-radius: var(--r-m);
-  background: var(--night-1);
+  border-radius: var(--r);
+  background: var(--panel);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
-.card h3 { margin-bottom: 9px; }
-.card p { font-size: 14.5px; color: var(--ink-2); }
+.card h3 { margin-bottom: 8px; }
+.card p { font-size: 13px; color: var(--half); }
 .card .cmd {
   display: inline-block;
-  margin-bottom: 12px;
-  font-family: var(--mono);
+  margin-bottom: 10px;
   font-size: 12px;
-  color: var(--ember);
-  border: 1px solid var(--ember-line);
-  background: var(--ember-soft);
-  border-radius: 999px;
-  padding: 2px 10px;
+  color: var(--rose);
+  border: 1px solid var(--rose-line);
+  background: var(--rose-soft);
+  border-radius: var(--r-s);
+  padding: 1px 8px;
 }
 
-/* --- Разбор карточки ------------------------------------------------------ */
+/* --- Разбор сообщения ------------------------------------------------------ */
 
-.anatomy { display: grid; gap: clamp(24px, 4vw, 48px); align-items: start; }
-@media (min-width: 900px) { .anatomy { grid-template-columns: minmax(300px, 380px) minmax(0, 1fr); } }
+.anatomy { display: grid; gap: clamp(22px, 3.5vw, 40px); align-items: start; }
+@media (min-width: 900px) { .anatomy { grid-template-columns: minmax(290px, 370px) minmax(0, 1fr); } }
 
 .legend { list-style: none; margin: 0; padding: 0; }
 .legend li {
   display: grid;
-  grid-template-columns: 30px minmax(0, 1fr);
-  gap: 14px;
-  padding: 14px 0;
+  grid-template-columns: 26px minmax(0, 1fr);
+  gap: 12px;
+  padding: 12px 0;
   border-top: 1px solid var(--line);
 }
 .legend li:first-child { border-top: 0; padding-top: 0; }
-.legend .mark { font-size: 18px; line-height: 1.4; text-align: center; }
-.legend h4 { margin-bottom: 3px; }
-.legend p { font-size: 14.5px; color: var(--ink-2); }
+.legend .mark { font-size: 15px; line-height: 1.5; text-align: center; }
+.legend h4 { margin-bottom: 2px; }
+/* Как и врезка в первом экране, разбор лежит на картине без плашки. */
+.legend p { font-size: 13px; color: var(--paper-2); }
 
-/* --- Города --------------------------------------------------------------- */
+/* --- Города: кнопки рабочих столов ----------------------------------------- */
 
-.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.chips { display: flex; flex-wrap: wrap; gap: 5px; margin: 0; padding: 0; list-style: none; }
 .chips li {
-  padding: 7px 14px;
+  padding: 4px 11px;
   border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--night-1);
-  font-size: 14.5px;
+  border-radius: var(--r-s);
+  background: var(--panel);
+  font-size: 13px;
+  color: var(--half);
 }
-.chips li.lead { border-color: var(--ember-line); background: var(--ember-soft); color: var(--ember-bright); }
+.chips li.lead { border-color: var(--rose-line); background: var(--rose-soft); color: var(--rose); }
 
-/* --- Источники ------------------------------------------------------------ */
+/* --- Источники ------------------------------------------------------------- */
 
-.sources { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--r-m); overflow: hidden; }
+.sources { display: grid; gap: 6px; }
 @media (min-width: 700px) { .sources { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1000px) { .sources { grid-template-columns: repeat(3, 1fr); } }
 
-.src { background: var(--night-1); padding: 20px; }
-.src h4 { margin-bottom: 8px; }
-.src .names { font-size: 14px; color: var(--ink-2); line-height: 1.5; }
+.src {
+  padding: 16px 17px;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--panel);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.src h4 { margin-bottom: 7px; }
+.src .names { font-size: 12.5px; color: var(--half); line-height: 1.6; }
 .src .tag {
   display: inline-block;
-  margin-bottom: 10px;
-  font-family: var(--mono);
+  margin-bottom: 9px;
   font-size: 11px;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
-  color: var(--frost);
+  color: var(--sage);
 }
 
-/* --- Правила -------------------------------------------------------------- */
+/* --- Правила --------------------------------------------------------------- */
 
-.rules { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.rules { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
 @media (min-width: 780px) { .rules { grid-template-columns: repeat(2, 1fr); } }
 
 .rules li {
-  padding: 22px 24px;
+  padding: 18px 19px;
   border: 1px solid var(--line);
-  border-left: 2px solid var(--ember-line);
-  border-radius: 0 var(--r-m) var(--r-m) 0;
-  background: var(--night-1);
+  border-left: 1px solid var(--rose-line);
+  border-radius: var(--r);
+  background: var(--panel);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
-.rules h3 { margin-bottom: 8px; }
-.rules p { font-size: 14.5px; color: var(--ink-2); }
+.rules h3 { margin-bottom: 7px; }
+.rules p { font-size: 13px; color: var(--half); }
 
-/* --- Выноска -------------------------------------------------------------- */
+/* --- Выноска --------------------------------------------------------------- */
 
 .note {
-  padding: 20px 24px;
+  padding: 14px 17px;
   border: 1px solid var(--line);
-  border-radius: var(--r-m);
-  background: rgba(159, 180, 199, 0.05);
-  font-size: 14.5px;
-  color: var(--ink-2);
+  border-radius: var(--r);
+  background: rgba(20, 22, 20, 0.60);
+  font-size: 13px;
+  color: var(--half);
 }
 .note p { max-width: none; }
 
-/* --- Контакт -------------------------------------------------------------- */
+/* --- Связаться -------------------------------------------------------------- */
 
 .contact {
   display: grid;
   gap: 18px;
-  padding: clamp(26px, 4vw, 40px);
-  border: 1px solid var(--ember-line);
-  border-radius: var(--r-l);
-  background: linear-gradient(155deg, rgba(232, 165, 74, 0.10), rgba(232, 165, 74, 0.02) 60%), var(--night-1);
+  padding: clamp(22px, 3.5vw, 34px);
+  border: 1px solid var(--rose-line);
+  border-radius: var(--r);
+  background: var(--panel-solid);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
-.contact h2 { max-width: 22ch; }
-.contact .rows { display: grid; gap: 10px; }
-.contact .rows a { font-family: var(--mono); font-size: 15px; }
-.contact .lbl { color: var(--ink-3); font-size: 13px; display: block; margin-bottom: 1px; }
+.contact h2 { max-width: 26ch; }
+.contact .rows { display: grid; gap: 8px; }
+.contact .rows a { font-size: 14px; }
+.contact .lbl { color: var(--dim); font-size: 12px; display: block; }
 
-/* --- Подвал --------------------------------------------------------------- */
+/* --- Подвал ---------------------------------------------------------------- */
 
+/* Подвал — такая же плашка, как всё остальное, а не текст на картине.
+   Так он получает свой фон (мелкий шрифт на самом светлом месте картины
+   читается плохо) и заодно закрывает страницу тем же приёмом, каким она
+   набрана: ряд модулей панели. */
 footer {
-  border-top: 1px solid var(--line);
-  padding: clamp(32px, 5vw, 56px) 0 clamp(40px, 6vw, 64px);
-  font-size: 13.5px;
-  color: var(--ink-3);
+  position: relative;
+  z-index: 1;
+  margin-bottom: clamp(24px, 4vw, 44px);
+  padding: clamp(22px, 3.5vw, 32px);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--panel);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  font-size: 12.5px;
+  color: var(--half);
 }
-footer h3 { font-size: 14px; margin-bottom: 8px; color: var(--ink-2); }
-footer p { max-width: 62ch; margin-bottom: 0.85em; }
-footer a { color: var(--ink-2); }
-footer a:hover { color: var(--ember); }
+footer h3 { font-size: 13px; margin-bottom: 7px; color: var(--paper-2); }
+footer p { max-width: 70ch; margin-bottom: 0.8em; }
+footer a { color: var(--sage); }
+footer a:hover { color: var(--paper); }
 
-.legal { display: grid; gap: 26px; margin-top: 26px; }
-@media (min-width: 780px) { .legal { grid-template-columns: repeat(2, 1fr); gap: 40px; } }
+.legal { display: grid; gap: 22px; margin-top: 22px; }
+@media (min-width: 780px) { .legal { grid-template-columns: repeat(2, 1fr); gap: 34px; } }
 
-.footer-top { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: baseline; justify-content: space-between; }
+.footer-top { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: baseline; justify-content: space-between; }
 
-/* --- Переключатель языка -------------------------------------------------- */
+/* --- Переключатель языка ---------------------------------------------------- */
 
 [data-lang-block] { display: none; }
 [data-lang-block].on { display: block; }
 li[data-lang-block].on, span[data-lang-block].on { display: revert; }
 
-/* --- Печать --------------------------------------------------------------- */
+/* --- Узкий экран ------------------------------------------------------------ */
+
+@media (max-width: 560px) {
+  /* Селектор длиннее, чем нужно, намеренно: у правила переключателя языка
+     (`span[data-lang-block].on`) ровно та же специфичность, и оно стоит ниже
+     по файлу — короткий селектор ему проиграл бы, а подпись осталась. */
+  .topbar .topbar-cta span[data-lang-block] { display: none; }
+  .topbar-cta { padding: 5px 9px; }
+  .brand { padding: 5px 9px 5px 7px; font-size: 13.5px; }
+  .langs button { padding: 3px 7px; }
+}
+
+/* --- Печать ----------------------------------------------------------------- */
 
 @media print {
-  body::before, .topbar { display: none; }
-  body { background: #fff; color: #111; }
-  .card, .src, .stat, .rules li, .note, .contact, .phone { border-color: #ccc; background: #fff; }
-  a { color: #111; }
+  body::before, body::after, .topbar { display: none; }
+  body { background: #fff; color: #1b1d1b; }
+  .card, .src, .stat, .rules li, .note, .contact, .phone, .steps li, .chips li {
+    border-color: #bbb;
+    background: #fff;
+    backdrop-filter: none;
+  }
+  a { color: #1b1d1b; }
 }
