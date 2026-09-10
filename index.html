@@ -22,6 +22,7 @@
 <meta property="og:url" content="https://www.homehunter.store/">
 <meta property="og:site_name" content="HomeHunter">
 <meta property="og:locale" content="ru_RU">
+<meta property="og:locale:alternate" content="uk_UA">
 <meta property="og:locale:alternate" content="de_DE">
 <meta property="og:locale:alternate" content="en_GB">
 <meta property="og:title" content="HomeHunter — бот, который ищет квартиру">
@@ -49,6 +50,7 @@
 
     <div class="langs" role="group" aria-label="Язык / Sprache / Language">
       <button type="button" data-set-lang="ru" aria-pressed="true">RU</button>
+      <button type="button" data-set-lang="uk" aria-pressed="false">UK</button>
       <button type="button" data-set-lang="de" aria-pressed="false">DE</button>
       <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
     </div>
@@ -57,6 +59,7 @@
        aria-label="HomeHunter · Telegram">
       <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.7 19c-.2 1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6.3 12.7l-4.8-1.5c-1-.3-1-1 .2-1.5l18.8-7.2c.9-.3 1.6.2 1.4 1.8z"/></svg>
       <span data-lang-block="ru" class="on">Открыть бота</span>
+      <span data-lang-block="uk">Відкрити бота</span>
       <span data-lang-block="de">Bot öffnen</span>
       <span data-lang-block="en">Open the bot</span>
     </a>
@@ -90,14 +93,16 @@
       <span>HomeHunter</span>
     </div>
     <div class="bubble">
-      <span class="title">🏠 <b>Helle 2-Zimmer-Wohnung mit Balkon</b></span>
-      <span class="row">📍 Lichtenberg · 2 комн. · 58,5 м²</span>
-      <span class="row rent">💶 <b>838 € Warmmiete</b> · 612 € Kaltmiete</span>
-      <span class="row">🛋 балкон · лифт</span>
-      <span class="row">💰 Залог 1836 €</span>
-      <span class="row">📅 Заезд с 01.10.2026</span>
-      <span class="bubble-btn">Перейти на объявление (HOWOGE)</span>
-      <span class="bubble-time">9:03</span>
+      <div class="bubble-body">
+        <span class="title">🏠 <b>2-Zimmer-Wohnung in Altglienicke</b></span>
+        <span class="row">📍 Altglienicke · 2 комн. · 57 м²</span>
+        <span class="row">💶 <b>1014,6 € Warmmiete</b> · 815,1 € Kaltmiete</span>
+        <span class="row">🛋 балкон</span>
+        <span class="row">💰 Залог 2445,3 €</span>
+        <span class="row">📅 Заезд с 01.10.2026</span>
+      </div>
+      <a class="bubble-btn" href="https://www.howoge.de/immobiliensuche/wohnungssuche/detail/1770-27696-5.html"
+         target="_blank" rel="noopener nofollow ugc">Перейти на объявление (HOWOGE)</a>
     </div>
   </div>
 </header>
@@ -156,15 +161,17 @@
         <span>HomeHunter</span>
       </div>
       <div class="bubble">
-        <span class="title">🏠 <b>Helle 2-Zimmer-Wohnung mit Balkon</b></span>
-        <span class="row">📍 Lichtenberg · 2 комн. · 58,5 м²</span>
-        <span class="row rent">💶 <b>838 € Warmmiete</b> · 612 € Kaltmiete</span>
-        <span class="row">🛋 балкон · лифт</span>
-        <span class="row">💰 Залог 1836 €</span>
+      <div class="bubble-body">
+        <span class="title">🏠 <b>2-Zimmer-Wohnung in Altglienicke</b></span>
+        <span class="row">📍 Altglienicke · 2 комн. · 57 м²</span>
+        <span class="row">💶 <b>1014,6 € Warmmiete</b> · 815,1 € Kaltmiete</span>
+        <span class="row">🛋 балкон</span>
+        <span class="row">💰 Залог 2445,3 €</span>
         <span class="row">📅 Заезд с 01.10.2026</span>
-        <span class="bubble-btn">Перейти на объявление (HOWOGE)</span>
-        <span class="bubble-time">9:03</span>
       </div>
+      <a class="bubble-btn" href="https://www.howoge.de/immobiliensuche/wohnungssuche/detail/1770-27696-5.html"
+         target="_blank" rel="noopener nofollow ugc">Перейти на объявление (HOWOGE)</a>
+    </div>
     </div>
 
     <ul class="legend">
@@ -227,8 +234,8 @@
       <span class="cmd">/search</span>
       <h3>Ваш поиск</h3>
       <p>Город, районы, Warmmiete, Kaltmiete, комнаты, площадь, WBS, доход, кто платит
-      аренду. Настройка спрашивает три из них; остальные ничего не отсекают, пока
-      вы их не задали.</p>
+      аренду, и — если платит Jobcenter — расчёт по его таблицам. Настройка
+      спрашивает три из них; остальные ничего не отсекают, пока вы их не задали.</p>
     </div>
     <div class="card">
       <span class="cmd">/search</span>
@@ -245,10 +252,13 @@
     </div>
     <div class="card">
       <span class="cmd">Jobcenter</span>
-      <h3>Потолок аренды по таблицам</h3>
-      <p>Если аренду платит Jobcenter, бот считает Bruttokaltmiete по его собственным
-      таблицам — с учётом числа въезжающих и надбавок — и говорит, проходит квартира
-      или нет.</p>
+      <h3>Умный расчёт под Jobcenter</h3>
+      <p>Проверяются две суммы, и каждая против своего предела: Bruttokaltmiete против
+      Richtwert и Heizkosten против Grenzwert — по числу человек в Bedarfsgemeinschaft.
+      Härtefall поднимает предел на 10 %, угроза бездомности — на 20 %, у социального
+      жилья свой Richtwert. Объявление об этом не спрашивают: арендодатель этих таблиц
+      не знает, а молчание про Jobcenter — не отказ. Таблицы пока берлинские; в других
+      городах фильтр честно говорит, что не считает.</p>
     </div>
     <div class="card">
       <span class="cmd">/quiet</span>
@@ -430,6 +440,378 @@
 </main>
 
 <!-- ==================================================================== -->
+<!-- УКРАЇНСЬКА                                                           -->
+<!-- ==================================================================== -->
+<main id="main-uk" data-lang-block="uk">
+
+<header class="hero">
+  <div>
+    <p class="eyebrow"><span class="dot" aria-hidden="true"></span> Працює · 16 міст Німеччини</p>
+    <h1>Квартира приходить <em>вам у Telegram</em></h1>
+    <p class="lede">HomeHunter дивиться сайти житла у вашому місті й пише за лічені
+    хвилини після того, як з’явилося придатне оголошення.</p>
+    <div class="hero-actions">
+      <a class="btn primary" href="https://t.me/HomeHunterIncBot" rel="noopener">Відкрити бота</a>
+      <a class="btn" href="https://t.me/HomeHunterInc" rel="noopener">Канал з новинами</a>
+    </div>
+    <p class="hero-note">Чотири питання — і він працює. Жодних сайтів відкривати
+    більше не треба: він відкриває їх замість вас кожні п’ять хвилин, цілодобово.</p>
+  </div>
+
+  <div class="phone">
+    <div class="phone-bar">
+      <span class="bot-avatar">H</span>
+      <span>HomeHunter</span>
+    </div>
+    <div class="bubble">
+      <div class="bubble-body">
+        <span class="title">🏠 <b>2-Zimmer-Wohnung in Altglienicke</b></span>
+        <span class="row">📍 Altglienicke · 2 кімн. · 57 м²</span>
+        <span class="row">💶 <b>1014,6 € Warmmiete</b> · 815,1 € Kaltmiete</span>
+        <span class="row">🛋 балкон</span>
+        <span class="row">💰 Застава 2445,3 €</span>
+        <span class="row">📅 Заїзд з 01.10.2026</span>
+      </div>
+      <a class="bubble-btn" href="https://www.howoge.de/immobiliensuche/wohnungssuche/detail/1770-27696-5.html"
+         target="_blank" rel="noopener nofollow ugc">Перейти до оголошення (HOWOGE)</a>
+    </div>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="stat"><div class="val">16</div><div class="lbl">міст Німеччини</div></div>
+  <div class="stat"><div class="val">40<small>+</small></div><div class="lbl">сайтів житла у списку</div></div>
+  <div class="stat"><div class="val">5<small> хв</small></div><div class="lbl">коло по всіх джерелах</div></div>
+  <div class="stat"><div class="val">0</div><div class="lbl">штучного інтелекту</div></div>
+</div>
+
+<section id="start-uk">
+  <div class="sec-head">
+    <p class="kicker">Як почати</p>
+    <h2>Чотири питання, далі він сам</h2>
+    <p>Налаштування триває хвилину. Усе інше — райони, кімнати, WBS, хто платить
+    оренду — питається потім і лише якщо вам це потрібно.</p>
+  </div>
+  <ol class="steps">
+    <li>
+      <span class="num">01</span>
+      <h3>Натискаєте «Почати»</h3>
+      <p>Бот вітається й питає мову: українська, російська, німецька або англійська.</p>
+    </li>
+    <li>
+      <span class="num">02</span>
+      <h3>Називаєте місто</h3>
+      <p>Одне або кілька. Далі можна звузити до районів — списком, а не текстом.</p>
+    </li>
+    <li>
+      <span class="num">03</span>
+      <h3>Кажете ціну й метри</h3>
+      <p>Скільки готові платити за Warmmiete і скільки метрів потрібно. Обидві межі, а не одна.</p>
+    </li>
+    <li>
+      <span class="num">04</span>
+      <h3>Закриваєте Telegram</h3>
+      <p>Далі він пише сам — щоразу, коли знаходить квартиру під ваші умови.</p>
+    </li>
+  </ol>
+</section>
+
+<section id="card-uk">
+  <div class="sec-head">
+    <p class="kicker">Що приходить</p>
+    <h2>Одна квартира — одне повідомлення</h2>
+    <p>Не посилання і не «знайдено 12 варіантів», а ті факти, за якими вирішують,
+    їхати дивитися чи ні. Кожен факт друкується, лише якщо оголошення його назвало:
+    порожніх дужок і вигаданих рядків на картці не буває.</p>
+  </div>
+
+  <div class="anatomy">
+    <div class="phone">
+      <div class="phone-bar">
+        <span class="bot-avatar">H</span>
+        <span>HomeHunter</span>
+      </div>
+      <div class="bubble">
+      <div class="bubble-body">
+        <span class="title">🏠 <b>2-Zimmer-Wohnung in Altglienicke</b></span>
+        <span class="row">📍 Altglienicke · 2 кімн. · 57 м²</span>
+        <span class="row">💶 <b>1014,6 € Warmmiete</b> · 815,1 € Kaltmiete</span>
+        <span class="row">🛋 балкон</span>
+        <span class="row">💰 Застава 2445,3 €</span>
+        <span class="row">📅 Заїзд з 01.10.2026</span>
+      </div>
+      <a class="bubble-btn" href="https://www.howoge.de/immobiliensuche/wohnungssuche/detail/1770-27696-5.html"
+         target="_blank" rel="noopener nofollow ugc">Перейти до оголошення (HOWOGE)</a>
+    </div>
+    </div>
+
+    <ul class="legend">
+      <li>
+        <span class="mark" aria-hidden="true">📍</span>
+        <div><h4>Район, кімнати, площа</h4>
+        <p>Район — з адреси оголошення, а де орендодавець друкує лише індекс, він
+        виводиться з індексу. Тому «тільки Ліхтенберг» працює й там, де район не
+        написаний словами.</p></div>
+      </li>
+      <li>
+        <span class="mark" aria-hidden="true">💶</span>
+        <div><h4>Warmmiete і Kaltmiete</h4>
+        <p>Обидві, і німецькими словами будь-якою мовою: саме їх ви побачите в
+        оголошенні й вимовите на огляді. Поряд — комунальні та опалення, коли
+        оголошення їх розділило.</p></div>
+      </li>
+      <li>
+        <span class="mark" aria-hidden="true">🛋</span>
+        <div><h4>Меблі, балкон, ліфт, кухня</h4>
+        <p>Те, заради чого зазвичай лізуть у саме оголошення. «Балкона немає» не
+        пишеться: мовчання оголошення — це не факт, а мовчання.</p></div>
+      </li>
+      <li>
+        <span class="mark" aria-hidden="true">💰</span>
+        <div><h4>Застава й викуп обстановки</h4>
+        <p>Найбільша сума до отримання ключів — і Ablöse, яку просить мешканець, що
+        з’їжджає. Картка, що порівнює квартири за самою орендою, обидві ці суми ховає.</p></div>
+      </li>
+      <li>
+        <span class="mark" aria-hidden="true">📅</span>
+        <div><h4>З якого числа й до якого</h4>
+        <p>Заїзд, а для тимчасової здачі — дата, коли вона закінчується. Без неї про
+        Zwischenmiete на три місяці дізнаються вже на огляді.</p></div>
+      </li>
+      <li>
+        <span class="mark" aria-hidden="true">⚠️</span>
+        <div><h4>Схоже на шахрайство</h4>
+        <p>Завдаток до підписання договору, ключі поштою, власник «за кордоном» — це
+        єдиний рядок картки, який не можна вимкнути в налаштуваннях.</p></div>
+      </li>
+      <li>
+        <span class="mark" aria-hidden="true">🔎</span>
+        <div><h4>«Треба подивитися»</h4>
+        <p>Коли правила не змогли вирішити за самим текстом оголошення, квартира все
+        одно прийде — з позначкою і з переліком того, що саме перевірити. На цьому
+        ринку неперевірена квартира — це чужа квартира.</p></div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section id="can-uk">
+  <div class="sec-head">
+    <p class="kicker">Що він уміє</p>
+    <h2>Усе налаштовується кнопками, не текстом</h2>
+  </div>
+
+  <div class="cards three">
+    <div class="card">
+      <span class="cmd">/search</span>
+      <h3>Ваш пошук</h3>
+      <p>Місто, райони, Warmmiete, Kaltmiete, кімнати, площа, WBS, дохід, хто платить
+      оренду, і — якщо платить Jobcenter — розрахунок за його таблицями. Налаштування
+      питає три з них; решта нічого не відсікає, доки ви їх не задали.</p>
+    </div>
+    <div class="card">
+      <span class="cmd">/search</span>
+      <h3>Чого не показувати</h3>
+      <p>Кімнати у WG, будинки, піднайм, обмін, студентське й старече житло, тимчасова
+      здача, окремі сайти — кожне вмикається й вимикається саме по собі.</p>
+    </div>
+    <div class="card">
+      <span class="cmd">/letter</span>
+      <h3>Лист орендодавцю</h3>
+      <p>Завжди німецькою. Збирається з чотирьох відповідей про вас і фактів самого
+      оголошення; чого ви не сказали — того в листі немає. Приходить усередині
+      повідомлення з квартирою й копіюється одним дотиком. Надсилаєте ви самі.</p>
+    </div>
+    <div class="card">
+      <span class="cmd">Jobcenter</span>
+      <h3>Розумний розрахунок під Jobcenter</h3>
+      <p>Перевіряються дві суми, і кожна проти своєї межі: Bruttokaltmiete проти
+      Richtwert і Heizkosten проти Grenzwert — за кількістю людей у Bedarfsgemeinschaft.
+      Härtefall піднімає межу на 10 %, загроза бездомності — на 20 %, у соціального
+      житла свій Richtwert. Оголошення про це не питають: орендодавець цих таблиць не
+      знає, а мовчання про Jobcenter — не відмова. Таблиці поки берлінські; в інших
+      містах фільтр чесно каже, що не рахує.</p>
+    </div>
+    <div class="card">
+      <span class="cmd">/quiet</span>
+      <h3>Години тиші</h3>
+      <p>Притримати повідомлення до ранку або надсилати одразу, але без звуку. Нічого,
+      що знайшлося в тиші, не втрачається.</p>
+    </div>
+    <div class="card">
+      <span class="cmd">/news</span>
+      <h3>Канал з новинами</h3>
+      <p>Одна версія — один допис: нові міста, нові сайти, нові рядки на картці. Дописи
+      російською. <a href="https://t.me/HomeHunterInc" rel="noopener">@HomeHunterInc</a></p>
+    </div>
+  </div>
+
+  <p class="note" style="margin-top:14px">Ще команди: <code>/pause</code> і <code>/resume</code> —
+  замовкнути й заговорити, <code>/language</code> — мова, <code>/write</code> — лист
+  тим, хто робить бота, <code>/stop</code> — відписатися й стерти про себе все.</p>
+</section>
+
+<section id="cities-uk">
+  <div class="sec-head">
+    <p class="kicker">Міста</p>
+    <h2>Шістнадцять міст</h2>
+    <p>Пошук наводиться на одне місто або одразу на кілька, і кожне обходиться окремо.
+    Сайт, написаний для одного міста, працює далі без змін, а орендодавець, який здає
+    лише у своєму, так і каже — замість того щоб його питали про решту.</p>
+  </div>
+  <ul class="chips">
+    <li class="lead">Берлін</li><li class="lead">Мюнхен</li><li class="lead">Любек</li>
+    <li>Гамбург</li><li>Кельн</li><li>Франкфурт-на-Майні</li><li>Штутгарт</li>
+    <li>Дюссельдорф</li><li>Лейпциг</li><li>Дортмунд</li><li>Ессен</li><li>Бремен</li>
+    <li>Дрезден</li><li>Ганновер</li><li>Нюрнберг</li><li>Дуйсбург</li>
+  </ul>
+  <p class="note" style="margin-top:18px">Рожевим позначені міста, де крім порталів
+  читаються ще й самі орендодавці: у Берліні це сім міських компаній, у Любеку — п’ять
+  житлових товариств з довідника самого міста, у Мюнхені — два житлові об’єднання.
+  Саме там з’являються квартири, які до порталів не доходять узагалі.</p>
+</section>
+
+<section id="sources-uk">
+  <div class="sec-head">
+    <p class="kicker">Звідки квартири</p>
+    <h2>Портали — і ті, хто здає напряму</h2>
+    <p>Більше сорока сайтів у списку. У кожному місті обходяться ті з них, що це місто
+    обслуговують.</p>
+  </div>
+
+  <div class="sources">
+    <div class="src">
+      <span class="tag">Берлін · міські</span>
+      <h4>Міські житлові компанії</h4>
+      <p class="names">degewo · Gewobag · GESOBAU · HOWOGE · STADT UND LAND · WBM · Berlinovo</p>
+    </div>
+    <div class="src">
+      <span class="tag">Великі орендодавці</span>
+      <h4>Ті, у кого свій фонд</h4>
+      <p class="names">Vonovia (і фонд Deutsche Wohnen) · Covivio · LEG Wohnen · VIVAWEST ·
+      GAG Köln · BGL Leipzig · Gundlach · BREBAU</p>
+    </div>
+    <div class="src">
+      <span class="tag">Любек</span>
+      <h4>Житлові товариства Ганзи</h4>
+      <p class="names">TRAVE · Lübecker Bauverein · NEUE LÜBECKER · VBL · Semmelhaack</p>
+    </div>
+    <div class="src">
+      <span class="tag">Кооперативи</span>
+      <h4>Genossenschaften</h4>
+      <p class="names">DPF eG · Берлінське будівельне товариство 1892 · Berolina ·
+      VfV München · Beamtenwohnungsverein München</p>
+    </div>
+    <div class="src">
+      <span class="tag">Портали</span>
+      <h4>Великі майданчики</h4>
+      <p class="names">ImmoScout24 · Immowelt · WG-Gesucht · immobilien.de ·
+      Immobilie1 · ohne-makler</p>
+    </div>
+    <div class="src">
+      <span class="tag">Дошки й меблі</span>
+      <h4>Приватні та мебльовані</h4>
+      <p class="names">Kleinanzeigen · markt.de · Wunderflats · HousingAnywhere ·
+      Spotahome · Flatio · FARAWAYHOME · газетні оголошення</p>
+    </div>
+  </div>
+
+  <p class="note" style="margin-top:18px"><strong>Kleinanzeigen у нового підписника
+  вимкнений</strong> — єдиний з усіх. Поряд зі справжніми оголошеннями там ідуть
+  шахрайські, а людина на третьому питанні налаштування ще не відрізняє одне від
+  іншого. Вмикається кнопкою «Які сайти» — тими, хто відрізняє.</p>
+
+  <p class="note" style="margin-top:12px">Сайти, закриті від автоматичного читання,
+  числяться у списку з причиною, а не підробляються і не викидаються. meinestadt.de
+  відповідає відмовою на будь-яке звернення — так і написано; жоден захист не
+  обходиться.</p>
+</section>
+
+<section id="rules-uk">
+  <div class="sec-head">
+    <p class="kicker">Правила</p>
+    <h2>Чого бот не робить ніколи</h2>
+  </div>
+  <ul class="rules">
+    <li>
+      <h3>Не думає — рахує</h3>
+      <p>Усередині немає жодної нейромережі. Підходить квартира чи ні, вирішують
+      правила, які можна прочитати, і до кожного рішення названо причину. Помилитися
+      правило може; вигадати — ні.</p>
+    </li>
+    <li>
+      <h3>Не пише за вас</h3>
+      <p>Жодна форма на чужому сайті не заповнюється й не надсилається. Лист готується
+      і кладеться вам до рук; надсилає його людина. Що оборотне — робить машина,
+      що необоротне — лишається за вами.</p>
+    </li>
+    <li>
+      <h3>Не обходить захист</h3>
+      <p>Сайт, закритий від роботів, позначається недоступним із зазначенням причини.
+      У коді це звичайний, передбачений вихід, а не виняток, який хтось колись
+      «обійшов тихцем».</p>
+    </li>
+    <li>
+      <h3>Не показує одне й те саме двічі</h3>
+      <p>Та сама квартира на п’яти майданчиках — це одна картка, у якій збережено всі
+      п’ять посилань. І одну квартиру надсилає рівно один обхід.</p>
+    </li>
+  </ul>
+</section>
+
+<section id="privacy-uk">
+  <div class="sec-head">
+    <p class="kicker">Ваші дані</p>
+    <h2>Що бот про вас зберігає</h2>
+  </div>
+  <div class="cards two">
+    <div class="card">
+      <h3>Зберігає</h3>
+      <p>Ваші критерії пошуку, дохід — якщо ви його назвали, мову, і, якщо ви просили
+      листи, ім’я, скільки людей заїжджає та вашу ситуацію. Усе.</p>
+    </div>
+    <div class="card">
+      <h3>Не робить</h3>
+      <p>Нікому нічого не передає і не продає. Не пише в жоден чат, крім вашого.
+      <code>/stop</code> видаляє про вас усе разом — не вимикає, а видаляє.</p>
+    </div>
+  </div>
+</section>
+
+<section id="next-uk">
+  <div class="sec-head">
+    <p class="kicker">Що далі</p>
+    <h2>Телефон і настільна версія</h2>
+  </div>
+  <p>Telegram — сьогоднішня оболонка HomeHunter, а не його форма назавжди. Застосунок
+  для телефона робиться не як другий спосіб поговорити з ботом, а як те, що бота
+  колись замінить: передплата та сама, а телеграмний акаунт для неї не потрібен.
+  Поруч росте настільна програма.</p>
+  <p>У застосунках у квартири з’явиться оцінка — наскільки вона підходить, а не лише
+  «підходить чи ні». У боті її немає й не буде: у переписці з оцінки все одно нічого
+  не випливає, а рядок із причиною працює краще за число.</p>
+</section>
+
+<section id="contact-uk">
+  <div class="contact">
+    <div>
+      <p class="kicker">Зв’язатися</p>
+      <h2>За ботом стоїть людина, а не компанія</h2>
+      <p style="color:var(--paper-2)">Написати можна просто з бота — командою
+      <code>/write</code>: лист дійде і на нього відповідять. Або напряму:</p>
+    </div>
+    <div class="rows">
+      <div><span class="lbl">Telegram</span><a href="https://t.me/HomeHunterIncBot" rel="noopener">@HomeHunterIncBot</a></div>
+      <div><span class="lbl">Новини</span><a href="https://t.me/HomeHunterInc" rel="noopener">@HomeHunterInc</a></div>
+      <div><span class="lbl">Пошта</span><a href="mailto:demilapkill@gmail.com">demilapkill@gmail.com</a></div>
+      <div><span class="lbl">Автор</span><span class="mono">killu</span></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ==================================================================== -->
 <!-- DEUTSCH                                                              -->
 <!-- ==================================================================== -->
 <main id="main-de" data-lang-block="de">
@@ -454,14 +836,16 @@
       <span>HomeHunter</span>
     </div>
     <div class="bubble">
-      <span class="title">🏠 <b>Helle 2-Zimmer-Wohnung mit Balkon</b></span>
-      <span class="row">📍 Lichtenberg · 2 Zi. · 58,5 m²</span>
-      <span class="row rent">💶 <b>838 € Warmmiete</b> · 612 € Kaltmiete</span>
-      <span class="row">🛋 Balkon · Aufzug</span>
-      <span class="row">💰 Kaution 1836 €</span>
-      <span class="row">📅 Verfügbar ab 01.10.2026</span>
-      <span class="bubble-btn">Zum Inserat (HOWOGE)</span>
-      <span class="bubble-time">9:03</span>
+      <div class="bubble-body">
+        <span class="title">🏠 <b>2-Zimmer-Wohnung in Altglienicke</b></span>
+        <span class="row">📍 Altglienicke · 2 Zi. · 57 m²</span>
+        <span class="row">💶 <b>1014,6 € Warmmiete</b> · 815,1 € Kaltmiete</span>
+        <span class="row">🛋 Balkon</span>
+        <span class="row">💰 Kaution 2445,3 €</span>
+        <span class="row">📅 Verfügbar ab 01.10.2026</span>
+      </div>
+      <a class="bubble-btn" href="https://www.howoge.de/immobiliensuche/wohnungssuche/detail/1770-27696-5.html"
+         target="_blank" rel="noopener nofollow ugc">Zum Inserat (HOWOGE)</a>
     </div>
   </div>
 </header>
@@ -520,15 +904,17 @@
         <span>HomeHunter</span>
       </div>
       <div class="bubble">
-        <span class="title">🏠 <b>Helle 2-Zimmer-Wohnung mit Balkon</b></span>
-        <span class="row">📍 Lichtenberg · 2 Zi. · 58,5 m²</span>
-        <span class="row rent">💶 <b>838 € Warmmiete</b> · 612 € Kaltmiete</span>
-        <span class="row">🛋 Balkon · Aufzug</span>
-        <span class="row">💰 Kaution 1836 €</span>
+      <div class="bubble-body">
+        <span class="title">🏠 <b>2-Zimmer-Wohnung in Altglienicke</b></span>
+        <span class="row">📍 Altglienicke · 2 Zi. · 57 m²</span>
+        <span class="row">💶 <b>1014,6 € Warmmiete</b> · 815,1 € Kaltmiete</span>
+        <span class="row">🛋 Balkon</span>
+        <span class="row">💰 Kaution 2445,3 €</span>
         <span class="row">📅 Verfügbar ab 01.10.2026</span>
-        <span class="bubble-btn">Zum Inserat (HOWOGE)</span>
-        <span class="bubble-time">9:03</span>
       </div>
+      <a class="bubble-btn" href="https://www.howoge.de/immobiliensuche/wohnungssuche/detail/1770-27696-5.html"
+         target="_blank" rel="noopener nofollow ugc">Zum Inserat (HOWOGE)</a>
+    </div>
     </div>
 
     <ul class="legend">
@@ -593,8 +979,9 @@
       <span class="cmd">/search</span>
       <h3>Ihre Suche</h3>
       <p>Stadt, Ortsteile, Warmmiete, Kaltmiete, Zimmer, Fläche, WBS, Einkommen, wer die
-      Miete zahlt. Die Einrichtung fragt drei davon; die übrigen filtern nichts, solange
-      Sie sie nicht setzen.</p>
+      Miete zahlt — und, wenn das Jobcenter zahlt, die Prüfung nach dessen Tabellen. Die
+      Einrichtung fragt drei davon; die übrigen filtern nichts, solange Sie sie nicht
+      setzen.</p>
     </div>
     <div class="card">
       <span class="cmd">/search</span>
@@ -611,10 +998,14 @@
     </div>
     <div class="card">
       <span class="cmd">Jobcenter</span>
-      <h3>Mietobergrenze nach Tabelle</h3>
-      <p>Zahlt das Jobcenter die Miete, rechnet der Bot die Bruttokaltmiete nach dessen
-      eigenen Tabellen — mit Haushaltsgröße und Zuschlägen — und sagt, ob die Wohnung
-      darunter bleibt.</p>
+      <h3>Die Jobcenter-Prüfung</h3>
+      <p>Geprüft werden zwei Beträge, jeder gegen seine eigene Grenze: die Bruttokaltmiete
+      gegen den Richtwert und die Heizkosten gegen den Grenzwert — nach der Zahl der
+      Personen in der Bedarfsgemeinschaft. Ein Härtefall hebt die Grenze um 10 %,
+      drohende Wohnungslosigkeit um 20 %, der soziale Wohnungsbau hat seinen eigenen
+      Richtwert. Das Inserat wird dazu nicht befragt: ein Vermieter kennt diese Tabellen
+      nicht, und Schweigen zum Jobcenter ist keine Absage. Die Tabellen sind vorerst die
+      Berliner; in anderen Städten sagt der Filter offen, dass er nicht rechnet.</p>
     </div>
     <div class="card">
       <span class="cmd">/quiet</span>
@@ -828,14 +1219,16 @@
       <span>HomeHunter</span>
     </div>
     <div class="bubble">
-      <span class="title">🏠 <b>Helle 2-Zimmer-Wohnung mit Balkon</b></span>
-      <span class="row">📍 Lichtenberg · 2 rooms · 58.5 m²</span>
-      <span class="row rent">💶 <b>838 € Warmmiete</b> · 612 € Kaltmiete</span>
-      <span class="row">🛋 balcony · lift</span>
-      <span class="row">💰 Deposit 1836 €</span>
-      <span class="row">📅 Available from 01.10.2026</span>
-      <span class="bubble-btn">Go to listing (HOWOGE)</span>
-      <span class="bubble-time">9:03</span>
+      <div class="bubble-body">
+        <span class="title">🏠 <b>2-Zimmer-Wohnung in Altglienicke</b></span>
+        <span class="row">📍 Altglienicke · 2 room(s) · 57 m²</span>
+        <span class="row">💶 <b>1014.6 € Warmmiete</b> · 815.1 € Kaltmiete</span>
+        <span class="row">🛋 balcony</span>
+        <span class="row">💰 Deposit 2445.3 €</span>
+        <span class="row">📅 Available from 01.10.2026</span>
+      </div>
+      <a class="bubble-btn" href="https://www.howoge.de/immobiliensuche/wohnungssuche/detail/1770-27696-5.html"
+         target="_blank" rel="noopener nofollow ugc">Go to listing (HOWOGE)</a>
     </div>
   </div>
 </header>
@@ -894,15 +1287,17 @@
         <span>HomeHunter</span>
       </div>
       <div class="bubble">
-        <span class="title">🏠 <b>Helle 2-Zimmer-Wohnung mit Balkon</b></span>
-        <span class="row">📍 Lichtenberg · 2 rooms · 58.5 m²</span>
-        <span class="row rent">💶 <b>838 € Warmmiete</b> · 612 € Kaltmiete</span>
-        <span class="row">🛋 balcony · lift</span>
-        <span class="row">💰 Deposit 1836 €</span>
+      <div class="bubble-body">
+        <span class="title">🏠 <b>2-Zimmer-Wohnung in Altglienicke</b></span>
+        <span class="row">📍 Altglienicke · 2 room(s) · 57 m²</span>
+        <span class="row">💶 <b>1014.6 € Warmmiete</b> · 815.1 € Kaltmiete</span>
+        <span class="row">🛋 balcony</span>
+        <span class="row">💰 Deposit 2445.3 €</span>
         <span class="row">📅 Available from 01.10.2026</span>
-        <span class="bubble-btn">Go to listing (HOWOGE)</span>
-        <span class="bubble-time">9:03</span>
       </div>
+      <a class="bubble-btn" href="https://www.howoge.de/immobiliensuche/wohnungssuche/detail/1770-27696-5.html"
+         target="_blank" rel="noopener nofollow ugc">Go to listing (HOWOGE)</a>
+    </div>
     </div>
 
     <ul class="legend">
@@ -967,7 +1362,8 @@
       <span class="cmd">/search</span>
       <h3>Your search</h3>
       <p>City, districts, Warmmiete, Kaltmiete, rooms, floor space, WBS, income, who pays
-      the rent. The setup asks three of them; the rest filter nothing until you set them.</p>
+      the rent — and, when the Jobcenter pays it, the check against its tables. The setup
+      asks three of them; the rest filter nothing until you set them.</p>
     </div>
     <div class="card">
       <span class="cmd">/search</span>
@@ -984,10 +1380,14 @@
     </div>
     <div class="card">
       <span class="cmd">Jobcenter</span>
-      <h3>The rent ceiling by table</h3>
-      <p>If the Jobcenter pays the rent, the bot works the Bruttokaltmiete out against its
-      own tables — household size and supplements included — and says whether the flat
-      stays under it.</p>
+      <h3>The Jobcenter check</h3>
+      <p>Two figures are checked, each against its own limit: the Bruttokaltmiete against
+      the Richtwert and the Heizkosten against the Grenzwert — by the number of people in
+      the Bedarfsgemeinschaft. A Härtefall raises the limit by 10 %, threatened
+      homelessness by 20 %, and social housing has a higher Richtwert of its own. The
+      advert is not asked: a landlord does not know those tables, and saying nothing
+      about the Jobcenter is not a refusal. The tables are Berlin's for now; elsewhere
+      the filter says openly that it does not calculate.</p>
     </div>
     <div class="card">
       <span class="cmd">/quiet</span>
@@ -1250,17 +1650,21 @@
 
 </div><!-- /wrap -->
 
+<script type="application/json" id="hh-cards">
+{"labels":{"ru":"Перейти на объявление","uk":"Перейти до оголошення","de":"Zum Inserat","en":"Go to listing"},"cards":[{"url":"https://www.howoge.de/immobiliensuche/wohnungssuche/detail/1770-27696-5.html","source":"HOWOGE","cards":{"ru":["🏠 <b>2-Zimmer-Wohnung in Altglienicke</b>","📍 Altglienicke · 2 комн. · 57 м²","💶 <b>1014,6 € Warmmiete</b> · 815,1 € Kaltmiete","🛋 балкон","💰 Залог 2445,3 €","📅 Заезд с 01.10.2026"],"uk":["🏠 <b>2-Zimmer-Wohnung in Altglienicke</b>","📍 Altglienicke · 2 кімн. · 57 м²","💶 <b>1014,6 € Warmmiete</b> · 815,1 € Kaltmiete","🛋 балкон","💰 Застава 2445,3 €","📅 Заїзд з 01.10.2026"],"de":["🏠 <b>2-Zimmer-Wohnung in Altglienicke</b>","📍 Altglienicke · 2 Zi. · 57 m²","💶 <b>1014,6 € Warmmiete</b> · 815,1 € Kaltmiete","🛋 Balkon","💰 Kaution 2445,3 €","📅 Verfügbar ab 01.10.2026"],"en":["🏠 <b>2-Zimmer-Wohnung in Altglienicke</b>","📍 Altglienicke · 2 room(s) · 57 m²","💶 <b>1014.6 € Warmmiete</b> · 815.1 € Kaltmiete","🛋 balcony","💰 Deposit 2445.3 €","📅 Available from 01.10.2026"]}},{"url":"https://www.gewobag.de/fuer-mietinteressentinnen/mietangebote/6011-31046-0408-0362/","source":"Gewobag","cards":{"ru":["🏠 <b>Neubauwohnung mit Fußbodenheizung und Balkon im Erstbezug / WBS 160/180/220 erforderlich</b>","📍 Spandau · 4 комн. · 89,55 м²","💶 <b>1365,38 € Warmmiete</b> · 1029,83 € Kaltmiete","🛋 балкон · лифт","💰 Залог 3089,49 €","📅 Заезд с 01.09.2026"],"uk":["🏠 <b>Neubauwohnung mit Fußbodenheizung und Balkon im Erstbezug / WBS 160/180/220 erforderlich</b>","📍 Spandau · 4 кімн. · 89,55 м²","💶 <b>1365,38 € Warmmiete</b> · 1029,83 € Kaltmiete","🛋 балкон · ліфт","💰 Застава 3089,49 €","📅 Заїзд з 01.09.2026"],"de":["🏠 <b>Neubauwohnung mit Fußbodenheizung und Balkon im Erstbezug / WBS 160/180/220 erforderlich</b>","📍 Spandau · 4 Zi. · 89,55 m²","💶 <b>1365,38 € Warmmiete</b> · 1029,83 € Kaltmiete","🛋 Balkon · Aufzug","💰 Kaution 3089,49 €","📅 Verfügbar ab 01.09.2026"],"en":["🏠 <b>Neubauwohnung mit Fußbodenheizung und Balkon im Erstbezug / WBS 160/180/220 erforderlich</b>","📍 Spandau · 4 room(s) · 89.55 m²","💶 <b>1365.38 € Warmmiete</b> · 1029.83 € Kaltmiete","🛋 balcony · lift","💰 Deposit 3089.49 €","📅 Available from 01.09.2026"]}},{"url":"https://www.wg-gesucht.de/wohnungen-in-Berlin-Lichtenberg.13885193.html","source":"WG-Gesucht","cards":{"ru":["🏠 <b>1,5 Zimmer Wohnung in ruhiger Lage mit Top Anbindung</b>","📍 Lichtenberg · 1,5 комн. · 38 м²","💶 <b>900 € Warmmiete</b> · 750 € Kaltmiete","🛋 меблированная","💰 Залог 1500 €","📅 Заезд с 27.08.2026"],"uk":["🏠 <b>1,5 Zimmer Wohnung in ruhiger Lage mit Top Anbindung</b>","📍 Lichtenberg · 1,5 кімн. · 38 м²","💶 <b>900 € Warmmiete</b> · 750 € Kaltmiete","🛋 мебльована","💰 Застава 1500 €","📅 Заїзд з 27.08.2026"],"de":["🏠 <b>1,5 Zimmer Wohnung in ruhiger Lage mit Top Anbindung</b>","📍 Lichtenberg · 1,5 Zi. · 38 m²","💶 <b>900 € Warmmiete</b> · 750 € Kaltmiete","🛋 möbliert","💰 Kaution 1500 €","📅 Verfügbar ab 27.08.2026"],"en":["🏠 <b>1,5 Zimmer Wohnung in ruhiger Lage mit Top Anbindung</b>","📍 Lichtenberg · 1.5 room(s) · 38 m²","💶 <b>900 € Warmmiete</b> · 750 € Kaltmiete","🛋 furnished","💰 Deposit 1500 €","📅 Available from 27.08.2026"]}},{"url":"https://wunderflats.com/de/moebliertes-apartment/neue-and-charmante-wohnung-im-herzen-von-wedding/65fc2c5c3bdc806a62c9754f","source":"Wunderflats","cards":{"ru":["🏠 <b>Neue &amp; charmante Wohnung im Herzen von Wedding</b>","📍 Wedding · 3 комн. · 66 м²","💶 <b>1990 € Warmmiete</b>","🛋 балкон","📅 Заезд с 03.10.2026","🧳 платформа бронирования"],"uk":["🏠 <b>Neue &amp; charmante Wohnung im Herzen von Wedding</b>","📍 Wedding · 3 кімн. · 66 м²","💶 <b>1990 € Warmmiete</b>","🛋 балкон","📅 Заїзд з 03.10.2026","🧳 платформа бронювання"],"de":["🏠 <b>Neue &amp; charmante Wohnung im Herzen von Wedding</b>","📍 Wedding · 3 Zi. · 66 m²","💶 <b>1990 € Warmmiete</b>","🛋 Balkon","📅 Verfügbar ab 03.10.2026","🧳 Buchungsplattform"],"en":["🏠 <b>Neue &amp; charmante Wohnung im Herzen von Wedding</b>","📍 Wedding · 3 room(s) · 66 m²","💶 <b>1990 € Warmmiete</b>","🛋 balcony","📅 Available from 03.10.2026","🧳 booking platform"]}},{"url":"https://www.gesobau.de/mieten/wohnungssuche/detailseite/hellersdorfer-strasse-10-03209-00002-1023-42c830ee-220b-4621-902d-75a9e2f78fb7/","source":"GESOBAU","cards":{"ru":["🏠 <b>Mit WBS 220 in Top-Lage – Zweisamkeit genießen</b>","📍 Hellersdorf · 2 комн. · 51,8 м²","💶 <b>802,14 € Warmmiete</b> · 595,7 € Kaltmiete","🛋 балкон · лифт","💰 Залог 1787,1 €","📅 Заезд с 01.11.2026"],"uk":["🏠 <b>Mit WBS 220 in Top-Lage – Zweisamkeit genießen</b>","📍 Hellersdorf · 2 кімн. · 51,8 м²","💶 <b>802,14 € Warmmiete</b> · 595,7 € Kaltmiete","🛋 балкон · ліфт","💰 Застава 1787,1 €","📅 Заїзд з 01.11.2026"],"de":["🏠 <b>Mit WBS 220 in Top-Lage – Zweisamkeit genießen</b>","📍 Hellersdorf · 2 Zi. · 51,8 m²","💶 <b>802,14 € Warmmiete</b> · 595,7 € Kaltmiete","🛋 Balkon · Aufzug","💰 Kaution 1787,1 €","📅 Verfügbar ab 01.11.2026"],"en":["🏠 <b>Mit WBS 220 in Top-Lage – Zweisamkeit genießen</b>","📍 Hellersdorf · 2 room(s) · 51.8 m²","💶 <b>802.14 € Warmmiete</b> · 595.7 € Kaltmiete","🛋 balcony · lift","💰 Deposit 1787.1 €","📅 Available from 01.11.2026"]}},{"url":"https://www.spotahome.com/de/berlin/for-rent:rooms/1318073","source":"Spotahome","cards":{"ru":["🏠 <b>Zimmer in einer 4-Zimmer-WG in Berlin zu vermieten, alle Rechnungen inklusive</b>","📍 Friedrichshain · комната в квартире · 120 м²","💶 <b>999 € Warmmiete</b>","🛋 меблированная · балкон","💰 Без залога","🧳 платформа бронирования"],"uk":["🏠 <b>Zimmer in einer 4-Zimmer-WG in Berlin zu vermieten, alle Rechnungen inklusive</b>","📍 Friedrichshain · кімната у квартирі · 120 м²","💶 <b>999 € Warmmiete</b>","🛋 мебльована · балкон","💰 Без застави","🧳 платформа бронювання"],"de":["🏠 <b>Zimmer in einer 4-Zimmer-WG in Berlin zu vermieten, alle Rechnungen inklusive</b>","📍 Friedrichshain · Zimmer in einer WG · 120 m²","💶 <b>999 € Warmmiete</b>","🛋 möbliert · Balkon","💰 Keine Kaution","🧳 Buchungsplattform"],"en":["🏠 <b>Zimmer in einer 4-Zimmer-WG in Berlin zu vermieten, alle Rechnungen inklusive</b>","📍 Friedrichshain · Room in a shared flat · 120 m²","💶 <b>999 € Warmmiete</b>","🛋 furnished · balcony","💰 No deposit","🧳 booking platform"]}},{"url":"https://housinganywhere.com/room/ut748552/de/Berlin/stralsunder-stra-e","source":"HousingAnywhere","cards":{"ru":["🏠 <b>Studio for rent in Berlin, Stralsunder Straße</b>","📍 Wedding · 1 комн. · 18 м²","💶 <b>960 € Warmmiete</b>","🛋 меблированная","💰 Залог 235 €","🧳 платформа бронирования"],"uk":["🏠 <b>Studio for rent in Berlin, Stralsunder Straße</b>","📍 Wedding · 1 кімн. · 18 м²","💶 <b>960 € Warmmiete</b>","🛋 мебльована","💰 Застава 235 €","🧳 платформа бронювання"],"de":["🏠 <b>Studio for rent in Berlin, Stralsunder Straße</b>","📍 Wedding · 1 Zi. · 18 m²","💶 <b>960 € Warmmiete</b>","🛋 möbliert","💰 Kaution 235 €","🧳 Buchungsplattform"],"en":["🏠 <b>Studio for rent in Berlin, Stralsunder Straße</b>","📍 Wedding · 1 room(s) · 18 m²","💶 <b>960 € Warmmiete</b>","🛋 furnished","💰 Deposit 235 €","🧳 booking platform"]}},{"url":"https://www.degewo.de/immosuche/details/2-zimmerwohnung-nahe-daemeritzsee-sucht-nachmieter","source":"degewo","cards":{"ru":["🏠 <b>2 Zimmerwohnung nahe Dämeritzsee sucht Nachmieter!</b>","📍 Friedrichshagen · 2 комн. · 56,08 м²","💶 <b>1178,79 € Warmmiete</b> · 869,24 € Kaltmiete","🛋 балкон","📅 Заезд с 01.11.2026"],"uk":["🏠 <b>2 Zimmerwohnung nahe Dämeritzsee sucht Nachmieter!</b>","📍 Friedrichshagen · 2 кімн. · 56,08 м²","💶 <b>1178,79 € Warmmiete</b> · 869,24 € Kaltmiete","🛋 балкон","📅 Заїзд з 01.11.2026"],"de":["🏠 <b>2 Zimmerwohnung nahe Dämeritzsee sucht Nachmieter!</b>","📍 Friedrichshagen · 2 Zi. · 56,08 m²","💶 <b>1178,79 € Warmmiete</b> · 869,24 € Kaltmiete","🛋 Balkon","📅 Verfügbar ab 01.11.2026"],"en":["🏠 <b>2 Zimmerwohnung nahe Dämeritzsee sucht Nachmieter!</b>","📍 Friedrichshagen · 2 room(s) · 56.08 m²","💶 <b>1178.79 € Warmmiete</b> · 869.24 € Kaltmiete","🛋 balcony","📅 Available from 01.11.2026"]}},{"url":"http://www.berlinovo.de/de/wohnung-id/1230-2389-2118","source":"Berlinovo","cards":{"ru":["🏠 <b>Für heute gebaut. Für morgen gedacht. Barrierearmes Wohnen.</b>","📍 Hellersdorf · 2 комн. · 37,81 м²","💶 <b>833,19 € Warmmiete</b> · 569,15 € Kaltmiete","🛋 балкон · лифт","📅 Заезд с 01.03.2026"],"uk":["🏠 <b>Für heute gebaut. Für morgen gedacht. Barrierearmes Wohnen.</b>","📍 Hellersdorf · 2 кімн. · 37,81 м²","💶 <b>833,19 € Warmmiete</b> · 569,15 € Kaltmiete","🛋 балкон · ліфт","📅 Заїзд з 01.03.2026"],"de":["🏠 <b>Für heute gebaut. Für morgen gedacht. Barrierearmes Wohnen.</b>","📍 Hellersdorf · 2 Zi. · 37,81 m²","💶 <b>833,19 € Warmmiete</b> · 569,15 € Kaltmiete","🛋 Balkon · Aufzug","📅 Verfügbar ab 01.03.2026"],"en":["🏠 <b>Für heute gebaut. Für morgen gedacht. Barrierearmes Wohnen.</b>","📍 Hellersdorf · 2 room(s) · 37.81 m²","💶 <b>833.19 € Warmmiete</b> · 569.15 € Kaltmiete","🛋 balcony · lift","📅 Available from 01.03.2026"]}},{"url":"https://www.markt.de/moebliertes-studio-25-min-nur-von-friedrichshain-entfernt-in-der-naehe-der-htw-universitaet/a/d7a33ef4/?geoUrlId=berlin","source":"markt.de","cards":{"ru":["🏠 <b>Möbliertes Studio -25 Min. nur von Friedrichshain entfernt-In der Nähe der HTW Universität</b>","📍 Oberschöneweide · 1 комн. · 16,9 м²","💶 <b>752,4 € Kaltmiete</b> · Warmmiete неизвестна","🛋 меблированная · балкон · лифт"],"uk":["🏠 <b>Möbliertes Studio -25 Min. nur von Friedrichshain entfernt-In der Nähe der HTW Universität</b>","📍 Oberschöneweide · 1 кімн. · 16,9 м²","💶 <b>752,4 € Kaltmiete</b> · Warmmiete невідома","🛋 мебльована · балкон · ліфт"],"de":["🏠 <b>Möbliertes Studio -25 Min. nur von Friedrichshain entfernt-In der Nähe der HTW Universität</b>","📍 Oberschöneweide · 1 Zi. · 16,9 m²","💶 <b>752,4 € Kaltmiete</b> · Warmmiete unbekannt","🛋 möbliert · Balkon · Aufzug"],"en":["🏠 <b>Möbliertes Studio -25 Min. nur von Friedrichshain entfernt-In der Nähe der HTW Universität</b>","📍 Oberschöneweide · 1 room(s) · 16.9 m²","💶 <b>752.4 € Kaltmiete</b> · Warmmiete unknown","🛋 furnished · balcony · lift"]}},{"url":"https://www.wbm.de/wohnungen-berlin/angebote/details/exklusive-4-zimmer-wohnungen-mit-terrasse-in-mitte/","source":"WBM","cards":{"ru":["🏠 <b>Exklusive 4 Zimmer Wohnungen mit Terrasse in Mitte</b>","📍 Mitte · 4 комн. · 105,87 м²","💶 <b>2456,19 € Warmmiete</b> · 2011,53 € Kaltmiete","🛋 лифт"],"uk":["🏠 <b>Exklusive 4 Zimmer Wohnungen mit Terrasse in Mitte</b>","📍 Mitte · 4 кімн. · 105,87 м²","💶 <b>2456,19 € Warmmiete</b> · 2011,53 € Kaltmiete","🛋 ліфт"],"de":["🏠 <b>Exklusive 4 Zimmer Wohnungen mit Terrasse in Mitte</b>","📍 Mitte · 4 Zi. · 105,87 m²","💶 <b>2456,19 € Warmmiete</b> · 2011,53 € Kaltmiete","🛋 Aufzug"],"en":["🏠 <b>Exklusive 4 Zimmer Wohnungen mit Terrasse in Mitte</b>","📍 Mitte · 4 room(s) · 105.87 m²","💶 <b>2456.19 € Warmmiete</b> · 2011.53 € Kaltmiete","🛋 lift"]}},{"url":"https://www.ohne-makler.net/immobilie/410718/","source":"Ohne-Makler","cards":{"ru":["🏠 <b>Modernes Wohnen mit Bonus: 1 Mon. mietfrei &amp; Platz für Ihre Traumküche! 2-Zi Neubauwg. - Wohnung</b>","📍 Köpenick · 2 комн. · 94 м²","💶 <b>1499 € Kaltmiete</b> · Warmmiete неизвестна","🛋 балкон · лифт"],"uk":["🏠 <b>Modernes Wohnen mit Bonus: 1 Mon. mietfrei &amp; Platz für Ihre Traumküche! 2-Zi Neubauwg. - Wohnung</b>","📍 Köpenick · 2 кімн. · 94 м²","💶 <b>1499 € Kaltmiete</b> · Warmmiete невідома","🛋 балкон · ліфт"],"de":["🏠 <b>Modernes Wohnen mit Bonus: 1 Mon. mietfrei &amp; Platz für Ihre Traumküche! 2-Zi Neubauwg. - Wohnung</b>","📍 Köpenick · 2 Zi. · 94 m²","💶 <b>1499 € Kaltmiete</b> · Warmmiete unbekannt","🛋 Balkon · Aufzug"],"en":["🏠 <b>Modernes Wohnen mit Bonus: 1 Mon. mietfrei &amp; Platz für Ihre Traumküche! 2-Zi Neubauwg. - Wohnung</b>","📍 Köpenick · 2 room(s) · 94 m²","💶 <b>1499 € Kaltmiete</b> · Warmmiete unknown","🛋 balcony · lift"]}}]}
+</script>
 <script>
 /* Переключатель языка.
    Языков три, и по умолчанию берётся тот, на котором говорит браузер: страницу
    присылают в чате человеку, который ищет квартиру, а не выбирает язык. Выбор
    руками переживает перезагрузку, но дальше устройства не уходит. */
 (function () {
-  var LANGS = ['ru', 'de', 'en'];
+  var LANGS = ['ru', 'uk', 'de', 'en'];
   var KEY = 'hh-lang';
 
   var TITLES = {
     ru: 'HomeHunter — бот, который ищет квартиру',
+    uk: 'HomeHunter — бот, який шукає квартиру',
     de: 'HomeHunter — der Bot, der die Wohnung findet',
     en: 'HomeHunter — the bot that finds the flat'
   };
@@ -1279,17 +1683,68 @@
     var list = navigator.languages || [navigator.language || ''];
     for (var i = 0; i < list.length; i++) {
       var code = String(list[i]).slice(0, 2).toLowerCase();
-      /* Украинский и белорусский ведут на русскую версию: украинской страницы
-         пока нет, а бот на украинском говорит. Английская — общий запасной. */
-      if (code === 'uk' || code === 'be' || code === 'ru') return 'ru';
+      /* Белорусский ведёт на русскую версию: белорусской страницы нет, а из
+         четырёх имеющихся русская ближе всех. Английская — общий запасной. */
+      if (code === 'be') return 'ru';
       if (code === 'de') return 'de';
       if (LANGS.indexOf(code) >= 0) return code;
     }
     return 'en';
   }
 
+  /* Набор настоящих карточек, разосланных ботом, лежит в документе — его
+     кладёт туда tools/apply_cards.py. Одна из них выбирается случайно при
+     загрузке и остаётся выбранной при смене языка: человек переключил язык,
+     а не квартиру. Если скрипты выключены или набора нет, в разметке уже
+     стоит первая карточка набора — тоже настоящая и тоже со ссылкой. */
+  var pool = null;
+  var picked = -1;
+
+  function cards() {
+    if (pool !== null) return pool;
+    var node = document.getElementById('hh-cards');
+    try {
+      pool = node ? JSON.parse(node.textContent) : false;
+    } catch (e) {
+      pool = false;
+    }
+    if (pool && pool.cards && pool.cards.length) {
+      picked = Math.floor(Math.random() * pool.cards.length);
+    } else {
+      pool = false;
+    }
+    return pool;
+  }
+
+  function renderCards(lang) {
+    var data = cards();
+    if (!data) return;
+    var card = data.cards[picked];
+    var lines = card.cards[lang];
+    if (!lines || !lines.length) return;
+
+    var body = '<span class="title">' + lines[0] + '</span>';
+    for (var i = 1; i < lines.length; i++) {
+      body += '<span class="row">' + lines[i] + '</span>';
+    }
+    var label = (data.labels[lang] || 'Go to listing') + ' (' + card.source + ')';
+
+    var bubbles = document.querySelectorAll('.bubble');
+    for (var b = 0; b < bubbles.length; b++) {
+      var slot = bubbles[b].querySelector('.bubble-body');
+      var link = bubbles[b].querySelector('.bubble-btn');
+      if (slot) slot.innerHTML = body;
+      if (link) {
+        link.setAttribute('href', card.url);
+        link.textContent = label;
+      }
+    }
+  }
+
   function apply(lang, remember) {
     if (LANGS.indexOf(lang) < 0) lang = 'en';
+
+    renderCards(lang);
 
     var blocks = document.querySelectorAll('[data-lang-block]');
     for (var i = 0; i < blocks.length; i++) {
@@ -1325,6 +1780,7 @@
   apply(stored() || fromBrowser(), false);
 })();
 </script>
+
 
 </body>
 </html>

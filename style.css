@@ -431,11 +431,19 @@ strong { font-weight: 700; color: var(--paper); }
   color: var(--paper-2);
 }
 .bubble b { font-weight: 700; color: var(--paper); }
-.bubble .row { display: block; }
+/* Заголовки чужих объявлений — не наш текст: там встречаются немецкие
+   составные слова длиной в полстроки и склеенные адреса без пробелов. Пусть
+   рвутся где угодно, иначе на узком экране такое слово выталкивает пузырь за
+   край страницы. */
+.bubble .row, .bubble .title { display: block; overflow-wrap: anywhere; }
 .bubble .row + .row { margin-top: 2px; }
-.bubble .title { display: block; font-size: 14px; line-height: 1.4; margin-bottom: 8px; }
+.bubble .title { font-size: 14px; line-height: 1.4; margin-bottom: 8px; }
 .bubble .rent b { color: var(--rose); }
 
+/* Кнопка карточки — настоящая ссылка на настоящее объявление, поэтому у неё
+   есть наведение и нажатие; раньше здесь стоял <span>, и нажать было не на
+   что. Подчёркивания нет: в Telegram эта строка тоже кнопка, а не ссылка
+   в тексте. */
 .bubble-btn {
   display: block;
   margin-top: 11px;
@@ -446,14 +454,12 @@ strong { font-weight: 700; color: var(--paper); }
   color: var(--sage);
   text-align: center;
   font-size: 13px;
+  text-decoration: none;
+  transition: background 0.12s, color 0.12s;
 }
-
-.bubble-time {
-  display: block;
-  margin-top: 7px;
-  text-align: right;
-  font-size: 11px;
-  color: var(--half);
+a.bubble-btn:hover {
+  background: var(--sage);
+  color: var(--ink-1);
 }
 
 /* --- Строка показателей: нижний ряд waybar --------------------------------- */
@@ -715,6 +721,16 @@ li[data-lang-block].on, span[data-lang-block].on { display: revert; }
   .topbar-cta { padding: 5px 9px; }
   .brand { padding: 5px 9px 5px 7px; font-size: 13.5px; }
   .langs button { padding: 3px 7px; }
+}
+
+/* Самые узкие телефоны (320 CSS-пикселей — iPhone SE первого поколения и
+   режим увеличенного шрифта): четыре языка, название и кнопка перестают
+   помещаться в строку буквально на пиксель, и страница получает
+   горизонтальную прокрутку. */
+@media (max-width: 360px) {
+  .topbar-inner { gap: 5px; }
+  .topbar-cta { padding: 5px 7px; }
+  .langs button { padding: 3px 6px; font-size: 11px; }
 }
 
 /* --- Печать ----------------------------------------------------------------- */
