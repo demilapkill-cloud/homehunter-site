@@ -1,102 +1,70 @@
-# HomeHunter — Produktseite
+# HomeHunter — сайт бота
 
-Statische Einzelseite für Daten- und Schnittstellenpartner. Ein HTML, ein CSS,
-ein kurzes Skript für den Sprachumschalter. Kein Build, keine Abhängigkeiten,
-keine externen Adressen.
+Одна статическая страница о телеграм-боте [@HomeHunterIncBot](https://t.me/HomeHunterIncBot):
+что он делает, как его настроить, откуда берёт квартиры и чего не делает никогда.
+Один HTML, один CSS, один короткий скрипт для переключателя языка. Ни сборки, ни
+зависимостей, ни одного внешнего адреса.
 
-    index.html          Seite, Deutsch und Englisch im selben Dokument
-    style.css           Gesamtes Layout, einschließlich Druckfassung (A4)
-    homehunter-de.pdf   Druckfertiges Dokument der Produktseite (Deutsch, 5 Seiten A4)
-    homehunter-en.pdf   Druckfertiges Dokument der Produktseite (Englisch, 5 Seiten A4)
-    favicon.svg         Symbol der Anwendung, aus HomeHunter/assets/homehunter.svg
-    img/                fünf Bildschirmfotos aus der Anwendung
-    tools/              Skript, das die Bildschirmfotos erzeugt
-    .nojekyll           GitHub Pages soll nichts verarbeiten
-    CNAME               www.homehunter.store
-
-Die Seite steht auf `noindex, nofollow`: sie wird gezielt weitergegeben und
-soll nicht über eine Suchmaschine zu finden sein. Ein `robots.txt` liegt
-bewusst nicht daneben — eine dort gesperrte Datei liest kein Crawler, und
-dann bliebe auch die `noindex`-Zeile ungelesen.
+    index.html   страница; русская, немецкая и английская версии в одном документе
+    style.css    всё оформление, включая печать
+    favicon.svg  значок приложения, из HomeHunter/assets/homehunter.svg
+    fonts/       Onest и JetBrains Mono, латиница и кириллица
+    img/         снимки экрана настольного приложения (сейчас страницей не используются)
+    tools/       скрипт, который эти снимки делает
+    CNAME        www.homehunter.store
 
 ## Ansehen
 
     python3 -m http.server -d . 8000    # http://localhost:8000
 
-Die Datei lässt sich auch direkt im Browser öffnen; ein Server wird nicht
-gebraucht. Gedruckt ergibt die Seite fünf Blatt A4; das letzte trägt
-Impressum und Datenschutzerklärung.
+Файл открывается и прямо из браузера, сервер для этого не нужен.
 
-## Bildschirmfotos neu erzeugen
+## Три языка
 
-    cd ~/Projects/HomeHunter
-    uv run python ~/Projects/homehunter-site/tools/make_screenshots.py
+Русский, немецкий и английский лежат в одном документе тремя блоками
+`<main data-lang-block="…">`; видим ровно один. Язык по умолчанию берётся из
+браузера, выбранный руками запоминается в `localStorage` под ключом `hh-lang`.
+Украинского блока пока нет, хотя бот на украинском говорит: украинский браузер
+до поры показывает русскую версию.
 
-Das Skript kopiert die Datenbank in ein Wegwerf-Verzeichnis, ersetzt dort das
-Bewerberprofil durch ein neutrales Beispielprofil, bewertet einmal neu und
-nimmt die fünf Ansichten offscreen auf. Es öffnet kein Fenster, es sendet
-nichts, und die Daten der laufenden Anwendung bleiben unberührt.
+Правка текста — это правка трёх мест. Так сделано намеренно: система ключей и
+словарей на странице такого размера стоит дороже, чем экономит, а три блока
+подряд читаются глазами и не расходятся молча.
 
-Wichtig: alles, was auf den Bildern über den *Nutzer* zu sehen ist, stammt aus
-dem Beispielprofil im Skript, nicht aus dem echten. Das echte Profil enthält
-Telefonnummer, Nettoeinkommen und den Kostenträger der Miete — nichts davon
-gehört auf eine Seite, die aus dem Haus geht. Wer die Bilder von Hand
-austauscht, muss darauf selbst achten.
+## Чего на этой странице не должно быть
 
-Echt sind allein die Wohnungsanzeigen: öffentlich ausgeschriebene Angebote aus
-einer Kopie der Datenbank. Auf `01-liste.png` stehen deshalb Überschriften
-fremder Inserate.
+**Настоящего имени автора и его почтового адреса.** Страница подписана
+псевдонимом `killu`. Impressum по § 5 TMG здесь намеренно отсутствует — это
+решение владельца, принятое с пониманием того, что немецкое право для
+коммерческой страницы его требует.
 
-## Noch zu ergänzen
+**Личных данных из приложения.** Если сюда однажды вернутся снимки экрана, всё
+видимое на них про *пользователя* должно приходить из примерного профиля в
+`tools/make_screenshots.py`, а не из настоящего: в настоящем лежат телефон,
+чистый доход и то, кто платит аренду.
 
-**Sichtbarkeit des Repositorys.** Dieses Repository ist öffentlich, und das
-bleibt es. Die `noindex`-Zeile hält die Seite aus den Suchmaschinen heraus,
-nicht aber aus GitHub: wer das Repository findet, findet die Adresse. Alles,
-was hier steht — auch diese Datei —, ist damit öffentlich; interne Notizen
-gehören entsprechend nicht hinein.
+**Внутренних заметок.** Репозиторий открытый, и `noindex` прячет страницу от
+поисковиков, но не от того, кто нашёл репозиторий.
 
-**Postadresse auf der eigenen Domäne.** Solange es kein Postfach auf
-`homehunter.store` gibt, steht die Gmail-Adresse auf der Seite: eine Adresse,
-die niemand liest, ist schlechter als eine, die schwächer aussieht. Sobald das
-Postfach läuft, sind es drei Stellen je Sprachfassung — Kopf, Abschnitt
-„Status und Kontakt“, Impressum.
+## Что должно оставаться правдой
 
-## Veröffentlichen
+Цифры на странице — шестнадцать городов, больше сорока сайтов, круг за пять
+минут, имена источников — взяты из самого HomeHunter
+(`src/homehunter/domain/cities.py`, `src/homehunter/discovery/registry.py`,
+`docs/source_coverage_status.md`). Карточка квартиры на странице — не выдумка
+верстальщика: это вывод настоящего `match_alert_html` на примерном объявлении.
+Когда бот меняется, эти места на странице меняются вместе с ним.
 
-Die Domäne ist `homehunter.store` (Squarespace, registriert am 29.08.2026).
-`CNAME` in diesem Verzeichnis enthält sie bereits, GitHub Pages liest die Datei
-beim Ausrollen.
+Страница стоит на `noindex, nofollow`: её раздают ссылкой. Отдельного
+`robots.txt` рядом нет намеренно — запрещённый в нём файл ни один обходчик не
+прочтёт, и тогда останется непрочитанной как раз строка `noindex`.
 
-### DNS bei Squarespace
+## Выкладка
 
-Die vorhandenen A-Einträge zeigen auf die Parkseite von Squarespace
-(198.49.23.144/145, 198.185.159.144/145) und müssen weg. Stattdessen:
+`master` уезжает на сервер сам: `.github/workflows/deploy.yml` упаковывает
+каталог и отдаёт его по SSH, ключ на той стороне прибит к одной команде
+(`vps-infra`, `scripts/ci-deploy.sh`). Значит, пуш в `master` — это публикация;
+работа ведётся в ветке и вливается, когда страницу посмотрели.
 
-| Typ | Host | Wert |
-|---|---|---|
-| A | @ | 185.199.108.153 |
-| A | @ | 185.199.109.153 |
-| A | @ | 185.199.110.153 |
-| A | @ | 185.199.111.153 |
-| AAAA | @ | 2606:50c0:8000::153 |
-| AAAA | @ | 2606:50c0:8001::153 |
-| AAAA | @ | 2606:50c0:8002::153 |
-| AAAA | @ | 2606:50c0:8003::153 |
-| CNAME | www | `<konto>.github.io.` |
-
-Danach im Repository unter Settings → Pages die Domäne eintragen und
-„Enforce HTTPS“ setzen, sobald das Zertifikat ausgestellt ist (dauert nach der
-DNS-Umstellung meist einige Minuten bis zu einer Stunde).
-
-Prüfen lässt sich das so:
-
-    dig +short A homehunter.store        # die vier 185.199.x.153
-    curl -sI https://homehunter.store/ | head -1
-
-### ICANN-Bestätigung
-
-Squarespace zeigt „Action Required“. Bei einer Domäne, die gerade erst
-registriert wurde, ist das fast immer die ICANN-Bestätigung der
-Registranten-E-Mail: Es kommt eine Mail mit einem Bestätigungslink, und wird
-er nicht innerhalb von 15 Tagen angeklickt, sperrt die Registrierungsstelle
-die Domäne. Das kann nur der Inhaber selbst erledigen.
+Домен `homehunter.store` смотрит на тот же сервер, страницу отдаёт Caddy.
+`CNAME` в каталоге остался со времён GitHub Pages и вреда не приносит.
