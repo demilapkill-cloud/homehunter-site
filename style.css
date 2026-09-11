@@ -562,37 +562,7 @@ section { padding-bottom: var(--gap); scroll-margin-top: 78px; }
 }
 .card h3 { margin-bottom: 8px; }
 .card p { font-size: 13px; color: var(--half); }
-.card .cmd {
-  display: inline-block;
-  margin-bottom: 10px;
-  font-size: 12px;
-  color: var(--rose);
-  border: 1px solid var(--rose-line);
-  background: var(--rose-soft);
-  border-radius: var(--r-s);
-  padding: 1px 8px;
-}
-
-/* --- Разбор сообщения ------------------------------------------------------ */
-
-.anatomy { display: grid; gap: clamp(22px, 3.5vw, 40px); align-items: start; }
-@media (min-width: 900px) { .anatomy { grid-template-columns: minmax(290px, 370px) minmax(0, 1fr); } }
-
-.legend { list-style: none; margin: 0; padding: 0; }
-.legend li {
-  display: grid;
-  grid-template-columns: 26px minmax(0, 1fr);
-  gap: 12px;
-  padding: 12px 0;
-  border-top: 1px solid var(--line);
-}
-.legend li:first-child { border-top: 0; padding-top: 0; }
-.legend .mark { font-size: 15px; line-height: 1.5; text-align: center; }
-.legend h4 { margin-bottom: 2px; }
-/* Как и врезка в первом экране, разбор лежит на картине без плашки. */
-.legend p { font-size: 13px; color: var(--paper-2); }
-
-/* --- Города: кнопки рабочих столов ----------------------------------------- */
+/* --- Плашки источников: кнопки рабочих столов ------------------------------- */
 
 .chips { display: flex; flex-wrap: wrap; gap: 5px; margin: 0; padding: 0; list-style: none; }
 .chips li {
@@ -608,31 +578,6 @@ section { padding-bottom: var(--gap); scroll-margin-top: 78px; }
    а не размером: город и число стоят в одной строке, и разный кегль рвал бы её
    базовую линию. */
 .chips li b { font-weight: 700; color: var(--rose); }
-
-/* --- Источники ------------------------------------------------------------- */
-
-.sources { display: grid; gap: 6px; }
-@media (min-width: 700px) { .sources { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 1000px) { .sources { grid-template-columns: repeat(3, 1fr); } }
-
-.src {
-  padding: 16px 17px;
-  border: 1px solid var(--line);
-  border-radius: var(--r);
-  background: var(--panel);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-}
-.src h4 { margin-bottom: 7px; }
-.src .names { font-size: 12.5px; color: var(--half); line-height: 1.6; }
-.src .tag {
-  display: inline-block;
-  margin-bottom: 9px;
-  font-size: 11px;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--sage);
-}
 
 /* --- Правила --------------------------------------------------------------- */
 
@@ -650,18 +595,6 @@ section { padding-bottom: var(--gap); scroll-margin-top: 78px; }
 }
 .rules h3 { margin-bottom: 7px; }
 .rules p { font-size: 13px; color: var(--half); }
-
-/* --- Выноска --------------------------------------------------------------- */
-
-.note {
-  padding: 14px 17px;
-  border: 1px solid var(--line);
-  border-radius: var(--r);
-  background: rgba(20, 22, 20, 0.60);
-  font-size: 13px;
-  color: var(--half);
-}
-.note p { max-width: none; }
 
 /* --- Связаться -------------------------------------------------------------- */
 
@@ -742,7 +675,7 @@ li[data-lang-block].on, span[data-lang-block].on { display: revert; }
 @media print {
   body::before, body::after, .topbar { display: none; }
   body { background: #fff; color: #1b1d1b; }
-  .card, .src, .stat, .rules li, .note, .contact, .phone, .steps li, .chips li {
+  .card, .stat, .rules li, .contact, .phone, .steps li, .chips li {
     border-color: #bbb;
     background: #fff;
     backdrop-filter: none;
